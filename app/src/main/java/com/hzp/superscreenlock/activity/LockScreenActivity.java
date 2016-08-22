@@ -5,9 +5,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.hzp.superscreenlock.AppConstant;
 import com.hzp.superscreenlock.R;
@@ -17,6 +20,7 @@ public class LockScreenActivity extends AppCompatActivity {
     public static final String TAG = "LockScreenActivity";
 
     private View moveView, underView;
+    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +36,13 @@ public class LockScreenActivity extends AppCompatActivity {
     private void initViews() {
         moveView = findViewById(R.id.layout_move);
         underView = findViewById(R.id.layout_under);
+        button = (Button) findViewById(R.id.button);
     }
 
     private void setupViews() {
         setupSystemViews();
 
-        findViewById(R.id.layout_move).setOnClickListener(new View.OnClickListener() {
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
@@ -103,5 +108,6 @@ public class LockScreenActivity extends AppCompatActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
 
 }
