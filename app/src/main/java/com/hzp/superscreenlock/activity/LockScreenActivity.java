@@ -8,7 +8,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 
 import com.hzp.superscreenlock.AppConstant;
 import com.hzp.superscreenlock.R;
@@ -16,7 +15,8 @@ import com.hzp.superscreenlock.R;
 
 public class LockScreenActivity extends AppCompatActivity {
     public static final String TAG = "LockScreenActivity";
-    private Button buttonTest;
+
+    private View moveView, underView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,18 +25,19 @@ public class LockScreenActivity extends AppCompatActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
 
-        setupSystemViews();
-
         initViews();
         setupViews();
     }
 
     private void initViews() {
-        buttonTest = (Button) findViewById(R.id.button_test);
+        moveView = findViewById(R.id.layout_move);
+        underView = findViewById(R.id.layout_under);
     }
 
     private void setupViews() {
-        buttonTest.setOnClickListener(new View.OnClickListener() {
+        setupSystemViews();
+
+        findViewById(R.id.layout_move).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
@@ -44,14 +45,14 @@ public class LockScreenActivity extends AppCompatActivity {
         });
     }
 
-    private void setupSystemViews(){
+    private void setupSystemViews() {
         setupTranslucentStatusBar();
     }
 
     /**
      * 设置沉浸模式
      */
-    private void setupImmersiveMode(){
+    private void setupImmersiveMode() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             getWindow().getDecorView().setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -66,7 +67,7 @@ public class LockScreenActivity extends AppCompatActivity {
     /**
      * 设置透明栏
      */
-    private void setupTranslucentStatusBar(){
+    private void setupTranslucentStatusBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -75,7 +76,7 @@ public class LockScreenActivity extends AppCompatActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(0);
         }
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
@@ -84,7 +85,7 @@ public class LockScreenActivity extends AppCompatActivity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if(hasFocus){
+        if (hasFocus) {
             setupImmersiveMode();
         }
     }
@@ -95,11 +96,12 @@ public class LockScreenActivity extends AppCompatActivity {
         switch (key) {
             case KeyEvent.KEYCODE_BACK: {
                 if (AppConstant.env.isLogEnable()) {
-                    Log.i(TAG,"key KEYCODE_BACK disabled");
+                    Log.i(TAG, "key KEYCODE_BACK disabled");
                 }
                 return true;
             }
         }
         return super.onKeyDown(keyCode, event);
     }
+
 }
