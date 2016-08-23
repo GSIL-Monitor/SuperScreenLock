@@ -3,24 +3,28 @@ package com.hzp.superscreenlock.activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.hzp.superscreenlock.AppConstant;
 import com.hzp.superscreenlock.R;
+
+import java.util.ArrayList;
 
 
 public class LockScreenActivity extends AppCompatActivity {
     public static final String TAG = "LockScreenActivity";
 
-    private View moveView, underView;
-    private Button button;
+    private Button buttonTemp;
+
+    private RecyclerView mainRecyclerView;
+    private AppInfoAdapter appInfoAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,19 +34,15 @@ public class LockScreenActivity extends AppCompatActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
 
         initViews();
-        setupViews();
     }
 
     private void initViews() {
-        moveView = findViewById(R.id.layout_move);
-        underView = findViewById(R.id.layout_under);
-        button = (Button) findViewById(R.id.button);
-    }
+        buttonTemp = (Button) findViewById(R.id.button);
+        mainRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_main);
 
-    private void setupViews() {
         setupSystemViews();
 
-        button.setOnClickListener(new View.OnClickListener() {
+        buttonTemp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
@@ -85,6 +85,12 @@ public class LockScreenActivity extends AppCompatActivity {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
+    }
+
+    private void setupMainRecyclerView(){
+        GridLayoutManager layoutManager = new GridLayoutManager(this,4);
+        mainRecyclerView.setLayoutManager(layoutManager);
+
     }
 
     @Override

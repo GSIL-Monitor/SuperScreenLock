@@ -17,25 +17,36 @@ public class AppInfo {
     public String getAppLabel() {
         return appLabel;
     }
-    public void setAppLabel(String appName) {
-        this.appLabel = appName;
+
+    public AppInfo setAppLabel(String appLabel) {
+        this.appLabel = appLabel;
+        return this;
     }
+
     public Drawable getAppIcon() {
         return appIcon;
     }
-    public void setAppIcon(Drawable appIcon) {
+
+    public AppInfo setAppIcon(Drawable appIcon) {
         this.appIcon = appIcon;
+        return this;
     }
+
     public Intent getIntent() {
         return intent;
     }
-    public void setIntent(Intent intent) {
+
+    public AppInfo setIntent(Intent intent) {
         this.intent = intent;
+        return this;
     }
-    public String getPkgName(){
-        return pkgName ;
+
+    public String getPkgName() {
+        return pkgName;
     }
-    public void setPkgName(String pkgName){
-        this.pkgName=pkgName ;
+
+    public AppInfo setPkgName(String pkgName) {
+        this.pkgName = pkgName;
+        return this;
     }
 }

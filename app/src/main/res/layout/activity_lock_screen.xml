@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_under"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.LockScreenActivity"
-    android:id="@+id/layout_under"
-    android:background="@android:color/transparent">
+    android:background="@android:color/holo_green_light"
+    tools:context=".activity.LockScreenActivity">
 
-    <com.hzp.superscreenlock.view.NewRelativeLayout
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Button"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/holo_green_dark"
-        android:id="@+id/layout_move">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/button"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
-    </com.hzp.superscreenlock.view.NewRelativeLayout>
+        android:id="@+id/recycler_view_main"
+        android:layout_below="@+id/button"/>
 
 </RelativeLayout>
