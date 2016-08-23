@@ -2,6 +2,11 @@ package com.hzp.superscreenlock.service;
 
 import android.content.Context;
 
+import com.hzp.superscreenlock.entity.AppInfo;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by hezhipeng on 2016/8/23.
  * 应用信息管理类
@@ -26,5 +31,18 @@ public class AppInfoManager {
 
     public void init(Context context){
         this.context = context;
+    }
+
+    /**
+     * 获得需要显示在主页面列表上的图标
+     * @return
+     */
+    public List<AppInfo> getAppInfoDisplayOnMain(){
+        List<AppInfo> list = new ArrayList<>();
+        //// TODO: 2016/8/23 temp test
+        for (int i = 0; i < 4; i++) {
+            list.add(new AppInfo());
+        }
+        return list;
     }
 }
