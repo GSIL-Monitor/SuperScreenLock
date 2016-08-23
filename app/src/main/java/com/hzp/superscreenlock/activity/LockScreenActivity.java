@@ -90,6 +90,8 @@ public class LockScreenActivity extends AppCompatActivity {
     private void setupMainRecyclerView(){
         GridLayoutManager layoutManager = new GridLayoutManager(this,4);
         mainRecyclerView.setLayoutManager(layoutManager);
+        appInfoAdapter = new AppInfoAdapter();
+        mainRecyclerView.setAdapter(appInfoAdapter);
 
     }
 

@@ -22,12 +22,25 @@ public class AppInfoAdapter extends RecyclerView.Adapter<AppInfoAdapter.AppInfoH
 
     List<AppInfo> list;
 
+    public AppInfoAdapter(){
+        this(null);
+    }
+
     public AppInfoAdapter(List<AppInfo> list) {
         if (list != null) {
             this.list = list;
         } else {
             this.list = new ArrayList<>();
         }
+    }
+
+    public void addItem(AppInfo item){
+        if(item==null){
+            return;
+        }
+        int position = getItemCount();
+        list.add(item);
+        notifyItemInserted(position);
     }
 
     @Override
