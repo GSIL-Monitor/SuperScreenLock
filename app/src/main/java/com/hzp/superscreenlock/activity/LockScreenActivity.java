@@ -21,6 +21,7 @@ import java.util.List;
 
 public class LockScreenActivity extends AppCompatActivity {
     public static final String TAG = "LockScreenActivity";
+    private final boolean logEnable = AppConstant.env.isLogEnable();
 
 
     private ViewPager viewPager;
@@ -95,7 +96,7 @@ public class LockScreenActivity extends AppCompatActivity {
         int key = event.getKeyCode();
         switch (key) {
             case KeyEvent.KEYCODE_BACK: {
-                if (AppConstant.env.isLogEnable()) {
+                if (logEnable) {
                     Log.i(TAG, "key KEYCODE_BACK disabled");
                 }
                 return true;

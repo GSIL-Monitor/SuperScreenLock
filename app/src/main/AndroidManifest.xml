@@ -3,6 +3,12 @@
     package="com.hzp.superscreenlock">
 
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <!--网络权限-->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <!--模糊定位权限：一般用于网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <!--精确定位权限：一般用于gps定位-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
         android:name=".MyApplication"
@@ -40,7 +46,8 @@
         <service
             android:name=".service.BaseService"
             android:enabled="true"
-            android:exported="false"></service>
+            android:exported="false" />
+
     </application>
 
 </manifest>
