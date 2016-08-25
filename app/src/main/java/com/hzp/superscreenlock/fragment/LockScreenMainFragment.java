@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.hzp.superscreenlock.R;
-import com.hzp.superscreenlock.activity.AppInfoAdapter;
 import com.hzp.superscreenlock.entity.AppInfoManager;
 
 

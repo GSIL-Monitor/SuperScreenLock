@@ -2,8 +2,9 @@ package com.hzp.superscreenlock.activity;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -15,17 +16,13 @@ import com.hzp.superscreenlock.AppConstant;
 import com.hzp.superscreenlock.R;
 import com.hzp.superscreenlock.fragment.LockScreenMainFragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
 
 public class LockScreenActivity extends AppCompatActivity {
     public static final String TAG = "LockScreenActivity";
     private final boolean logEnable = AppConstant.env.isLogEnable();
 
-
-    private ViewPager viewPager;
     private LockScreenMainFragment mainFragment;
+    private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +44,8 @@ public class LockScreenActivity extends AppCompatActivity {
     private void setupSystemViews() {
         setupImmersiveMode();
         setupTranslucentStatusBar();
+
+        setupFragments();
     }
 
     /**
@@ -84,6 +83,21 @@ public class LockScreenActivity extends AppCompatActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             return;
         }
+    }
+
+    private void setupFragments(){
+
+        if(mainFragment == null){
+            mainFragment= LockScreenMainFragment.newInstance();
+        }
+
+        FragmentManager manager = getSupportFragmentManager();
+        if(manager!=null){
+            FragmentTransaction transaction = manager.beginTransaction();
+            transaction.replace(R.id.lock_screen_frameLayout,mainFragment);
+            transaction.commit();
+        }
+
     }
 
     @Override

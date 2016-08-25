@@ -1,14 +1,12 @@
-package com.hzp.superscreenlock.activity;
+package com.hzp.superscreenlock.fragment;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.hzp.superscreenlock.AppConstant;
 import com.hzp.superscreenlock.R;
 import com.hzp.superscreenlock.entity.AppInfo;
 
