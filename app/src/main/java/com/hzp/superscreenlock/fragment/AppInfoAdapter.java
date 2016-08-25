@@ -20,7 +20,7 @@ public class AppInfoAdapter extends RecyclerView.Adapter<AppInfoAdapter.AppInfoH
 
     List<AppInfo> list;
 
-    public AppInfoAdapter(){
+    public AppInfoAdapter() {
         this(null);
     }
 
@@ -32,8 +32,8 @@ public class AppInfoAdapter extends RecyclerView.Adapter<AppInfoAdapter.AppInfoH
         }
     }
 
-    public void addItem(AppInfo item){
-        if(item==null){
+    public void addItem(AppInfo item) {
+        if (item == null) {
             return;
         }
         int position = getItemCount();

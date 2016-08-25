@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
-import android.support.v4.text.TextUtilsCompat;
 import android.text.TextUtils;
 
 import com.hzp.superscreenlock.entity.AppInfo;
@@ -15,7 +14,7 @@ import com.hzp.superscreenlock.entity.AppInfo;
  * Created by hezhipeng on 2016/8/23.
  * //todo 异步处理
  */
-public class AppInfoDAO extends BaseDAO{
+public class AppInfoDAO extends BaseDAO {
 
     private SQLiteDatabase db;
     private boolean DbReady = false;
@@ -23,7 +22,7 @@ public class AppInfoDAO extends BaseDAO{
     public AppInfoDAO(Context context) {
         InfoDbHelper dbHelper = new InfoDbHelper(context);
         db = dbHelper.getWritableDatabase();
-        if(db!=null){
+        if (db != null) {
             DbReady = true;
         }
     }
@@ -34,7 +33,6 @@ public class AppInfoDAO extends BaseDAO{
 
     /**
      * 插入一条数据
-     *
      */
     public void insertItem(AppInfo info) {
         if (info == null || info.isEmpty()) {
@@ -49,6 +47,7 @@ public class AppInfoDAO extends BaseDAO{
 
     /**
      * 删除一条数据
+     *
      * @param packageName
      */
     public void removeItem(@NonNull String packageName) {
@@ -59,16 +58,15 @@ public class AppInfoDAO extends BaseDAO{
 
     /**
      * 更新一条数据
-     *
      */
     public void updateItem(AppInfo info) {
-        if(info==null || TextUtils.isEmpty(info.getPkgName())){
+        if (info == null || TextUtils.isEmpty(info.getPkgName())) {
             return;
         }
 
         ContentValues values = new ContentValues();
-        if(info.getAppLabel()!=null){
-            values.put(DbTables.AppInfo.Entry.COLUMN_NAME_APP_LABEL,info.getAppLabel());
+        if (info.getAppLabel() != null) {
+            values.put(DbTables.AppInfo.Entry.COLUMN_NAME_APP_LABEL, info.getAppLabel());
         }
 
         String selection = DbTables.AppInfo.Entry.COLUMN_NAME_PACKAGE + " = ?";
@@ -81,9 +79,9 @@ public class AppInfoDAO extends BaseDAO{
                 selectionArgs);
     }
 
-    public AppInfo queryItem(@NonNull String packageName){
+    public AppInfo queryItem(@NonNull String packageName) {
 
-        String selection = DbTables.AppInfo.Entry.COLUMN_NAME_PACKAGE+" = ?";
+        String selection = DbTables.AppInfo.Entry.COLUMN_NAME_PACKAGE + " = ?";
         String[] selectionArgs = {packageName};
 
         Cursor c = db.query(
@@ -96,19 +94,18 @@ public class AppInfoDAO extends BaseDAO{
                 null                                 // The sort order
         );
 
-        try{
-            if(c.moveToFirst()){//只有一条查询数据
+        try {
+            if (c.moveToFirst()) {//只有一条查询数据
                 AppInfo result = new AppInfo();
-                result.setPkgName(getString(c,DbTables.AppInfo.Entry.COLUMN_NAME_PACKAGE));
-                result.setAppLabel(getString(c,DbTables.AppInfo.Entry.COLUMN_NAME_APP_LABEL));
+                result.setPkgName(getString(c, DbTables.AppInfo.Entry.COLUMN_NAME_PACKAGE));
+                result.setAppLabel(getString(c, DbTables.AppInfo.Entry.COLUMN_NAME_APP_LABEL));
                 c.close();
                 return result;
 
-            }else{
+            } else {
                 return null;
             }
-        }
-         finally{
+        } finally {
             c.close();
         }
 

@@ -6,20 +6,18 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.hzp.superscreenlock.AppConstant;
 import com.hzp.superscreenlock.R;
 import com.hzp.superscreenlock.fragment.LockScreenMainFragment;
+import com.hzp.superscreenlock.utils.LogUtil;
 
 
 public class LockScreenActivity extends AppCompatActivity {
     public static final String TAG = "LockScreenActivity";
-    private final boolean logEnable = AppConstant.env.isLogEnable();
 
     private LockScreenMainFragment mainFragment;
     private DrawerLayout drawerLayout;
@@ -38,7 +36,6 @@ public class LockScreenActivity extends AppCompatActivity {
     private void initViews() {
         setupSystemViews();
     }
-
 
 
     private void setupSystemViews() {
@@ -85,16 +82,16 @@ public class LockScreenActivity extends AppCompatActivity {
         }
     }
 
-    private void setupFragments(){
+    private void setupFragments() {
 
-        if(mainFragment == null){
-            mainFragment= LockScreenMainFragment.newInstance();
+        if (mainFragment == null) {
+            mainFragment = LockScreenMainFragment.newInstance();
         }
 
         FragmentManager manager = getSupportFragmentManager();
-        if(manager!=null){
+        if (manager != null) {
             FragmentTransaction transaction = manager.beginTransaction();
-            transaction.replace(R.id.lock_screen_frameLayout,mainFragment);
+            transaction.replace(R.id.lock_screen_frameLayout, mainFragment);
             transaction.commit();
         }
 
@@ -110,9 +107,7 @@ public class LockScreenActivity extends AppCompatActivity {
         int key = event.getKeyCode();
         switch (key) {
             case KeyEvent.KEYCODE_BACK: {
-                if (logEnable) {
-                    Log.i(TAG, "key KEYCODE_BACK disabled");
-                }
+                LogUtil.i(TAG, "key KEYCODE_BACK disabled");
                 return true;
             }
         }

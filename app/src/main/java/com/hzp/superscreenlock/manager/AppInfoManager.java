@@ -1,6 +1,8 @@
-package com.hzp.superscreenlock.entity;
+package com.hzp.superscreenlock.manager;
 
 import android.content.Context;
+
+import com.hzp.superscreenlock.entity.AppInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,28 +16,29 @@ public class AppInfoManager {
     private static AppInfoManager instance;
     private Context context;
 
-    private AppInfoManager(){/*empty*/}
+    private AppInfoManager() {/*empty*/}
 
-    public static AppInfoManager getInstance(){
-        if(instance==null){
-            synchronized (AppInfoManager.class){
-                if(instance==null){
-                    instance=new AppInfoManager();
+    public static AppInfoManager getInstance() {
+        if (instance == null) {
+            synchronized (AppInfoManager.class) {
+                if (instance == null) {
+                    instance = new AppInfoManager();
                 }
             }
         }
         return instance;
     }
 
-    public void init(Context context){
+    public void init(Context context) {
         this.context = context;
     }
 
     /**
      * 获得需要显示在主页面列表上的图标
+     *
      * @return
      */
-    public List<AppInfo> getAppInfoDisplayOnMain(){
+    public List<AppInfo> getAppInfoDisplayOnMain() {
         List<AppInfo> list = new ArrayList<>();
         //// TODO: 2016/8/23 temp test
         for (int i = 0; i < 4; i++) {

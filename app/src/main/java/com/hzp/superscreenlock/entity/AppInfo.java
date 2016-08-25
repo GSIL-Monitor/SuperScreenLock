@@ -9,11 +9,12 @@ import android.text.TextUtils;
  */
 public class AppInfo {
     private String appLabel;
-    private Drawable appIcon ;
-    private Intent intent ;
-    private String pkgName ;
+    private Drawable appIcon;
+    private Intent intent;
+    private String pkgName;
 
-    public AppInfo(){}
+    public AppInfo() {
+    }
 
     public String getAppLabel() {
         return appLabel;
@@ -54,6 +55,6 @@ public class AppInfo {
     public boolean isEmpty() {
         return
                 TextUtils.isEmpty(appLabel) &&
-                TextUtils.isEmpty(pkgName);
+                        TextUtils.isEmpty(pkgName);
     }
 }

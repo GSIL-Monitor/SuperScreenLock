@@ -7,13 +7,13 @@ import android.database.Cursor;
  */
 public class BaseDAO {
 
-    protected String getString(Cursor c,String columnName){
-       return c.getString(
+    protected String getString(Cursor c, String columnName) {
+        return c.getString(
                 c.getColumnIndexOrThrow(columnName)
         );
     }
 
-    protected long getLong(Cursor c,String columnName){
+    protected long getLong(Cursor c, String columnName) {
         return c.getLong(
                 c.getColumnIndexOrThrow(columnName)
         );

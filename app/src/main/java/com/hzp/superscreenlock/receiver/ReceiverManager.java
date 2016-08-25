@@ -18,44 +18,42 @@ public class ReceiverManager {
     private ScreenReceiver screenReceiver;
     private PhoneStateReceiver phoneStateReceiver;
 
-    private ReceiverManager(){
+    private ReceiverManager() {
     }
 
-    public static ReceiverManager getInstance(){
-        if(instance==null){
-            synchronized (ReceiverManager.class){
-                if(instance==null){
-                    instance=new ReceiverManager();
+    public static ReceiverManager getInstance() {
+        if (instance == null) {
+            synchronized (ReceiverManager.class) {
+                if (instance == null) {
+                    instance = new ReceiverManager();
                 }
             }
         }
         return instance;
     }
 
-    public void init(Context context){
-        this.context=context;
+    public void init(Context context) {
+        this.context = context;
 
-        screenReceiver= new ScreenReceiver();
+        screenReceiver = new ScreenReceiver();
         phoneStateReceiver = new PhoneStateReceiver();
     }
 
-    public void registerReceivers(){
+    public void registerReceivers() {
         IntentFilter mScreenOffFilter = new IntentFilter();
         mScreenOffFilter.addAction(Intent.ACTION_SCREEN_OFF);
         context.registerReceiver(screenReceiver, mScreenOffFilter);
 
-        // TODO: 2016/8/25 phonestate receiver
-
         receiversRegisted = true;
     }
 
-    public void unregisterReceivers(){
+    public void unregisterReceivers() {
         context.unregisterReceiver(screenReceiver);
 
         receiversRegisted = false;
     }
 
-    public boolean isReceiversRegisted() {
+    public boolean isReceiversResisted() {
         return receiversRegisted;
     }
 }

@@ -1,7 +1,6 @@
 package com.hzp.superscreenlock.utils;
 
 import android.app.Activity;
-import android.content.Context;
 import android.util.DisplayMetrics;
 
 /**
@@ -22,6 +21,7 @@ public class WindowUtil {
 
     /**
      * 获得屏幕宽度、高度
+     *
      * @param activity
      * @return [宽, 高]dip
      */
@@ -41,7 +41,7 @@ public class WindowUtil {
         return dm.densityDpi;
     }
 
-    public static DisplayMetrics getDisplayMetrics(Activity activity){
+    public static DisplayMetrics getDisplayMetrics(Activity activity) {
         DisplayMetrics dm = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
         return dm;

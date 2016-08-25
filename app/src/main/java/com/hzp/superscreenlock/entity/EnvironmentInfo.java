@@ -5,24 +5,24 @@ package com.hzp.superscreenlock.entity;
  */
 public class EnvironmentInfo {
 
-    public static final String LOCK_TYPE_WIFI = "LOCK_TYPE_WIFI";
-    public static final String LOCK_TYPE_GPS = "LOCK_TYPE_GPS";
-    public static final String LOCK_TYPE_UNKNOWN = "LOCK_TYPE_UNKNOWN";
+    public static final String TYPE_DEFAULT = "TYPE_DEFAULT";
+    public static final String TYPE_WIFI = "TYPE_WIFI";
+    public static final String TYPE_GPS = "TYPE_GPS";
 
-    public static final String LOCK_NONE ="LOCK_NONE";//不加锁
-    public static final String LOCK_PASSWORD = "LOCK_PASSWORD";//密码锁
-    public static final String LOCK_PATTERN = "LOCK_PATTERN";//九宫格锁
+    public static final String LOCK_TYPE_NONE = "LOCK_TYPE_NONE";//不加锁
+    public static final String LOCK_TYPE_PASSWORD = "LOCK_TYPE_PASSWORD";//密码锁
+    public static final String LOCK_TYPE_PATTERN = "LOCK_TYPE_PATTERN";//九宫格锁
 
     private String title;
     private String hint;
     private String type;
     private String lockType;
 
-    /* LOCK_TYPE_WIFI */
+    /* TYPE_WIFI */
     private String wifiSSID;
 
-    /* LOCK_TYPE_GPS*/
-    private long longitude/*经度*/,latitude/*纬度*/;
+    /* TYPE_GPS*/
+    private long longitude/*经度*/, latitude/*纬度*/;
 
     public String getType() {
         return type;

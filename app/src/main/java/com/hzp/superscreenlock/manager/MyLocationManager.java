@@ -1,4 +1,4 @@
-package com.hzp.superscreenlock.service;
+package com.hzp.superscreenlock.manager;
 
 import android.content.Context;
 import android.location.Location;
@@ -6,16 +6,14 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
-import android.util.Log;
 
-import com.hzp.superscreenlock.AppConstant;
+import com.hzp.superscreenlock.utils.LogUtil;
 
 /**
  * Created by hezhipeng on 2016/8/25.
  */
 public class MyLocationManager {
     public static final String TAG = "MyLocationManager";
-    private final boolean logEnable = AppConstant.env.isLogEnable();
 
     private static MyLocationManager instance;
     private Context context;
@@ -68,6 +66,7 @@ public class MyLocationManager {
 
     /**
      * 获取当前位置
+     *
      * @return 可能为null且不一定精确
      */
     public Location getCurrentLocation() {
@@ -76,9 +75,7 @@ public class MyLocationManager {
             Location l = listeners[i].current();
             if (l != null) return l;
         }
-        if (logEnable) {
-            Log.d(TAG, "No location received yet.");
-        }
+        LogUtil.d(TAG, "No location received yet.");
         return null;
     }
 
@@ -93,21 +90,15 @@ public class MyLocationManager {
                 // Hack to filter out 0.0,0.0 locations
                 return;
             }
-            if (logEnable && !mValid) {
-                Log.d(TAG, "Got first location.");
-            }
+            LogUtil.d(TAG, "Got first location.");
             mLastLocation.set(newLocation);
-            if(logEnable){
-                Log.d(TAG, "the newLocation is " + newLocation.getLongitude() + "x" + newLocation.getLatitude());
-            }
+            LogUtil.d(TAG, "the newLocation is " + newLocation.getLongitude() + "x" + newLocation.getLatitude());
             mValid = true;
         }
 
         @Override
         public void onStatusChanged(String provider, int status, Bundle bundle) {
-            if(logEnable){
-                Log.e(TAG,"LocationProvider {onStatusChanged}:status-->"+status);
-            }
+            LogUtil.e(TAG, "LocationProvider {onStatusChanged}:status-->" + status);
             switch (status) {
                 case LocationProvider.OUT_OF_SERVICE:
                 case LocationProvider.TEMPORARILY_UNAVAILABLE: {
@@ -119,16 +110,12 @@ public class MyLocationManager {
 
         @Override
         public void onProviderEnabled(String provider) {
-            if(logEnable){
-                Log.d(TAG, " support current " + provider);
-            }
+            LogUtil.d(TAG, " support current " + provider);
         }
 
         @Override
         public void onProviderDisabled(String provider) {
-            if(logEnable){
-                Log.d(TAG, "no support current " + provider);
-            }
+            LogUtil.d(TAG, "no support current " + provider);
             mValid = false;
         }
 

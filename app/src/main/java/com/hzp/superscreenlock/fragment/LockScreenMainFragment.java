@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.hzp.superscreenlock.R;
-import com.hzp.superscreenlock.entity.AppInfoManager;
+import com.hzp.superscreenlock.manager.AppInfoManager;
 
 
 public class LockScreenMainFragment extends Fragment {
@@ -18,7 +18,8 @@ public class LockScreenMainFragment extends Fragment {
     private RecyclerView mainRecyclerView;
     private AppInfoAdapter appInfoAdapter;
 
-    public LockScreenMainFragment() {}
+    public LockScreenMainFragment() {
+    }
 
     public static LockScreenMainFragment newInstance() {
         LockScreenMainFragment fragment = new LockScreenMainFragment();
@@ -37,7 +38,7 @@ public class LockScreenMainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_lock_screen_main, container, false);
+        View view = inflater.inflate(R.layout.fragment_lock_screen_main, container, false);
 
         mainRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_main);
         view.findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {

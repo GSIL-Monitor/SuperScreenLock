@@ -6,6 +6,8 @@ import android.os.IBinder;
 
 public class BaseService extends Service {
 
+    public static final String ACTION_WIFI_CONNECTED = "ACTION_WIFI_CONNECTED";//连接上某个wifi
+
     public BaseService() {
     }
 
@@ -16,7 +18,12 @@ public class BaseService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        switch (intent.getAction()){
+            case ACTION_WIFI_CONNECTED:
 
+                break;
+
+        }
         return START_STICKY;
     }
 }

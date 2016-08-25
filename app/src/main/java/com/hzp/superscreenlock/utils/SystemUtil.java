@@ -6,6 +6,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 
 import com.hzp.superscreenlock.entity.AppInfo;
 
@@ -17,15 +21,16 @@ import java.util.List;
  * Created by hezhipeng on 2016/8/23.
  */
 public class SystemUtil {
-
+    public static final String TAG = "SystemUtil";
 
     /**
      * 获取系统内安装的应用信息
+     *
      * @param context
      * @param callback
      * @see com.hzp.superscreenlock.entity.AppInfo
      */
-    public static void queryAppsInfo(Context context,AppsInfoQueryCallback callback) {
+    public static void queryAppsInfo(Context context, AppsInfoQueryCallback callback) {
         PackageManager pm = context.getPackageManager(); //获得PackageManager对象
         Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
@@ -55,12 +60,34 @@ public class SystemUtil {
                     .setIntent(launchIntent);
             appList.add(appInfo);
         }
-        if(callback!=null){
+        if (callback != null) {
             callback.onQueryFinished(appList);
         }
     }
 
-    interface AppsInfoQueryCallback{
+
+    public static String getCurrentWifiSSID(Context context) {
+        WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+        return wifiInfo.getSSID();
+    }
+
+    /**
+     * 获得已配置的wifi热点的SSID
+     * @param context
+     * @return SSID
+     */
+    public static String[] getConfiguredWifiSSID(Context context){
+        WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        List<WifiConfiguration> wifiList = wifiManager.getConfiguredNetworks();
+        String[] re = new String[wifiList.size()];
+        for(int i =0;i<wifiList.size();i++){
+            re[i] = wifiList.get(i).SSID;
+        }
+        return re;
+    }
+
+    interface AppsInfoQueryCallback {
         void onQueryFinished(List<AppInfo> list);
     }
 }
