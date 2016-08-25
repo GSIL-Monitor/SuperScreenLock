@@ -2,22 +2,30 @@ package com.hzp.superscreenlock.db;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
+import android.support.v4.text.TextUtilsCompat;
+import android.text.TextUtils;
+
+import com.hzp.superscreenlock.entity.AppInfo;
 
 
 /**
  * Created by hezhipeng on 2016/8/23.
  * //todo 异步处理
  */
-public class AppInfoDAO {
+public class AppInfoDAO extends BaseDAO{
 
     private SQLiteDatabase db;
     private boolean DbReady = false;
 
     public AppInfoDAO(Context context) {
-        AppInfoDBHelper dbHelper = new AppInfoDBHelper(context);
+        InfoDbHelper dbHelper = new InfoDbHelper(context);
         db = dbHelper.getWritableDatabase();
+        if(db!=null){
+            DbReady = true;
+        }
     }
 
     public boolean isDbReady() {
@@ -25,62 +33,86 @@ public class AppInfoDAO {
     }
 
     /**
-     * 插入一条app数据
+     * 插入一条数据
      *
-     * @param info {packageName,label,icon,intent}
      */
-    public void insertAppInfo(String[] info) {
-        if (info == null || info.length == 0) {
+    public void insertItem(AppInfo info) {
+        if (info == null || info.isEmpty()) {
             return;
         }
         ContentValues values = new ContentValues();
-        values.put(TableAppInfo.AppInfoEntry.COLUMN_NAME_PACKAGE, info[0]);
-        values.put(TableAppInfo.AppInfoEntry.COLUMN_NAME_APP_LABEL, info[1]);
-        values.put(TableAppInfo.AppInfoEntry.COLUMN_NAME_APP_LABEL, info[2]);
-        values.put(TableAppInfo.AppInfoEntry.COLUMN_NAME_START_INTENT, info[3]);
+        values.put(DbTables.AppInfo.Entry.COLUMN_NAME_PACKAGE, info.getPkgName());
+        values.put(DbTables.AppInfo.Entry.COLUMN_NAME_APP_LABEL, info.getAppLabel());
 
-        db.insert(TableAppInfo.AppInfoEntry.TABLE_NAME, null, values);
+        db.insert(DbTables.AppInfo.TABLE_NAME, null, values);
     }
 
     /**
      * 删除一条数据
      * @param packageName
      */
-    public void removeAppInfo(@NonNull String packageName) {
-        String selection = TableAppInfo.AppInfoEntry.COLUMN_NAME_PACKAGE + " =  ?";
+    public void removeItem(@NonNull String packageName) {
+        String selection = DbTables.AppInfo.Entry.COLUMN_NAME_PACKAGE + " =  ?";
         String[] selectionArgs = {packageName};
-        db.delete(TableAppInfo.AppInfoEntry.TABLE_NAME, selection, selectionArgs);
+        db.delete(DbTables.AppInfo.TABLE_NAME, selection, selectionArgs);
     }
 
     /**
      * 更新一条数据
      *
-     * @param options {label,icon,intent}，如果某项不更新则输入空串"" 或 null
      */
-    public void updateAppInfo(@NonNull String packageName, String[] options) {
-        if(options.length==0){
+    public void updateItem(AppInfo info) {
+        if(info==null || TextUtils.isEmpty(info.getPkgName())){
             return;
         }
 
         ContentValues values = new ContentValues();
-        if (options[0] != null && !options[0].isEmpty()) {
-            values.put(TableAppInfo.AppInfoEntry.COLUMN_NAME_APP_LABEL, options[0]);
-        }
-        if (options[1] != null && !options[1].isEmpty()) {
-            values.put(TableAppInfo.AppInfoEntry.COLUMN_NAME_APP_LABEL, options[1]);
-        }
-        if (options[2] != null && !options[2].isEmpty()) {
-            values.put(TableAppInfo.AppInfoEntry.COLUMN_NAME_START_INTENT, options[2]);
+        if(info.getAppLabel()!=null){
+            values.put(DbTables.AppInfo.Entry.COLUMN_NAME_APP_LABEL,info.getAppLabel());
         }
 
-        String selection = TableAppInfo.AppInfoEntry.COLUMN_NAME_PACKAGE + " = ?";
-        String[] selectionArgs = {packageName};
+        String selection = DbTables.AppInfo.Entry.COLUMN_NAME_PACKAGE + " = ?";
+        String[] selectionArgs = {info.getPkgName()};
 
         db.update(
-                TableAppInfo.AppInfoEntry.TABLE_NAME,
+                DbTables.AppInfo.TABLE_NAME,
                 values,
                 selection,
                 selectionArgs);
     }
+
+    public AppInfo queryItem(@NonNull String packageName){
+
+        String selection = DbTables.AppInfo.Entry.COLUMN_NAME_PACKAGE+" = ?";
+        String[] selectionArgs = {packageName};
+
+        Cursor c = db.query(
+                DbTables.AppInfo.TABLE_NAME,  // The table to query
+                null,                               // The columns to return
+                selection,                                // The columns for the WHERE clause
+                selectionArgs,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                null                                 // The sort order
+        );
+
+        try{
+            if(c.moveToFirst()){//只有一条查询数据
+                AppInfo result = new AppInfo();
+                result.setPkgName(getString(c,DbTables.AppInfo.Entry.COLUMN_NAME_PACKAGE));
+                result.setAppLabel(getString(c,DbTables.AppInfo.Entry.COLUMN_NAME_APP_LABEL));
+                c.close();
+                return result;
+
+            }else{
+                return null;
+            }
+        }
+         finally{
+            c.close();
+        }
+
+    }
+
 
 }

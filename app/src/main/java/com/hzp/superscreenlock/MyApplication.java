@@ -3,7 +3,8 @@ package com.hzp.superscreenlock;
 import android.app.Application;
 import android.content.Intent;
 
-import com.hzp.superscreenlock.service.AppInfoManager;
+import com.hzp.superscreenlock.receiver.ReceiverManager;
+import com.hzp.superscreenlock.entity.AppInfoManager;
 import com.hzp.superscreenlock.service.BootService;
 
 /**
@@ -21,5 +22,6 @@ public class MyApplication extends Application {
 
     private void initManagers(){
         AppInfoManager.getInstance().init(this);
+        ReceiverManager.getInstance().init(this);
     }
 }

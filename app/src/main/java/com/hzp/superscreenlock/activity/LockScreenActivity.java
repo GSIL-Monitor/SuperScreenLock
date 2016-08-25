@@ -3,28 +3,19 @@ package com.hzp.superscreenlock.activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.FrameLayout;
 
 import com.hzp.superscreenlock.AppConstant;
 import com.hzp.superscreenlock.R;
 import com.hzp.superscreenlock.fragment.LockScreenMainFragment;
-import com.hzp.superscreenlock.fragment.LockScreenSecondFragment;
-import com.hzp.superscreenlock.service.AppInfoManager;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -34,7 +25,6 @@ public class LockScreenActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
     private LockScreenMainFragment mainFragment;
-    private LockScreenSecondFragment secondFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,14 +33,15 @@ public class LockScreenActivity extends AppCompatActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
 
+
         initViews();
     }
 
     private void initViews() {
-        viewPager = (ViewPager) findViewById(R.id.lock_screen_view_pager);
-        setupViewPager(viewPager);
         setupSystemViews();
     }
+
+
 
     private void setupSystemViews() {
         setupImmersiveMode();
@@ -92,23 +83,6 @@ public class LockScreenActivity extends AppCompatActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             return;
         }
-    }
-
-    private void setupViewPager(ViewPager viewPager){
-        if(mainFragment==null){
-            mainFragment = LockScreenMainFragment.newInstance();
-        }
-        if(secondFragment==null){
-            secondFragment = LockScreenSecondFragment.newInstance();
-        }
-        List<Fragment> list = new ArrayList<>();
-        list.add(mainFragment);
-        list.add(secondFragment);
-        LockScreenPagerAdapter pagerAdapter = new LockScreenPagerAdapter(
-                getSupportFragmentManager(),
-                list
-        );
-        viewPager.setAdapter(pagerAdapter);
     }
 
     @Override

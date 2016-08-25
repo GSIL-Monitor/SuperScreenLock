@@ -5,25 +5,21 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.hzp.superscreenlock.activity.LockScreenActivity;
+import com.hzp.superscreenlock.service.BaseService;
+import com.hzp.superscreenlock.service.BootService;
 
 public class ScreenReceiver extends BroadcastReceiver {
     public ScreenReceiver() {
-
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
-            launchLockScreen(context);
+            Intent serviceIntent = new Intent(context, BaseService.class);
+            serviceIntent.setAction(BootService.ACTION_LAUNCH_MAIN_LOCK_SCREEN);
+            context.startService(serviceIntent);
         }
     }
 
-    private void launchLockScreen(Context context){
-        Intent mLockIntent = new Intent(context, LockScreenActivity.class);
-        mLockIntent.addFlags(
-                Intent.FLAG_ACTIVITY_NEW_TASK
-                        | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-        //启动锁屏页
-        context.startActivity(mLockIntent);
-    }
+
 }

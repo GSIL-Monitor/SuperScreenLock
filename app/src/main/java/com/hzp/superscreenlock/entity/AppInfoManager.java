@@ -1,8 +1,6 @@
-package com.hzp.superscreenlock.service;
+package com.hzp.superscreenlock.entity;
 
 import android.content.Context;
-
-import com.hzp.superscreenlock.entity.AppInfo;
 
 import java.util.ArrayList;
 import java.util.List;

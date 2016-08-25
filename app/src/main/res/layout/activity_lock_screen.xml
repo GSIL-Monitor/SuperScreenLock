@@ -4,12 +4,30 @@
     android:id="@+id/layout_under"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@android:color/black"
     tools:context=".activity.LockScreenActivity">
 
-    <android.support.v4.view.ViewPager
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/lock_screen_view_pager"/>
+    <!--<android.support.v4.widget.DrawerLayout-->
+        <!--android:id="@+id/lock_screen_drawer_layout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+
+        <!--main content-->
+        <!--<android.support.v4.view.ViewPager-->
+            <!--android:id="@+id/lock_screen_view_pager"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent" />-->
+
+        <!--drawer -->
+        <!--<include layout="@layout/drawer_layout_content" />-->
+
+    <!--</android.support.v4.widget.DrawerLayout>-->
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/button_test"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
