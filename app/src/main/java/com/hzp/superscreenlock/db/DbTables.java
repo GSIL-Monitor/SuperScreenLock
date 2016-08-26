@@ -10,6 +10,7 @@ public abstract class DbTables {
     private static final String COMMA_SEP = ",";
     private static final String TEXT_TYPE = " TEXT ";
     private static final String LONG_TYPE = " LONG ";
+    private static final String DOUBLE_TYPE = " DOUBLE ";
 
     public abstract class AppInfo {
         public static final String TABLE_NAME = "table_app_info";
@@ -40,9 +41,9 @@ public abstract class DbTables {
                         Entry.COLUMN_NAME_HINT + TEXT_TYPE + COMMA_SEP +
                         Entry.COLUMN_NAME_TYPE + TEXT_TYPE + COMMA_SEP +
                         Entry.COLUMN_NAME_SSID + TEXT_TYPE + COMMA_SEP +
-                        Entry.COLUMN_NAME_LONGITUDE + LONG_TYPE + COMMA_SEP +
-                        Entry.COLUMN_NAME_LATITUDE + LONG_TYPE + COMMA_SEP +
-                        Entry.COLUMN_NAME_LOCK_TYPE + LONG_TYPE + COMMA_SEP +
+                        Entry.COLUMN_NAME_LONGITUDE + DOUBLE_TYPE + COMMA_SEP +
+                        Entry.COLUMN_NAME_LATITUDE + DOUBLE_TYPE + COMMA_SEP +
+                        Entry.COLUMN_NAME_LOCK_TYPE + TEXT_TYPE + COMMA_SEP +
                         " )";
 
         public static final String SQL_DELETE_ENTRIES =

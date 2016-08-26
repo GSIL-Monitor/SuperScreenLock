@@ -16,7 +16,6 @@ public class ReceiverManager {
     private boolean receiversRegisted = false;
 
     private ScreenReceiver screenReceiver;
-    private PhoneStateReceiver phoneStateReceiver;
 
     private ReceiverManager() {
     }
@@ -36,7 +35,6 @@ public class ReceiverManager {
         this.context = context;
 
         screenReceiver = new ScreenReceiver();
-        phoneStateReceiver = new PhoneStateReceiver();
     }
 
     public void registerReceivers() {

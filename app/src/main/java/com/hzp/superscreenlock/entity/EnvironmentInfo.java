@@ -3,26 +3,44 @@ package com.hzp.superscreenlock.entity;
 /**
  * Created by hezhipeng on 2016/8/25.
  */
-public class EnvironmentInfo {
+public class EnvironmentInfo{
 
     public static final String TYPE_DEFAULT = "TYPE_DEFAULT";
     public static final String TYPE_WIFI = "TYPE_WIFI";
     public static final String TYPE_GPS = "TYPE_GPS";
 
-    public static final String LOCK_TYPE_NONE = "LOCK_TYPE_NONE";//不加锁
-    public static final String LOCK_TYPE_PASSWORD = "LOCK_TYPE_PASSWORD";//密码锁
-    public static final String LOCK_TYPE_PATTERN = "LOCK_TYPE_PATTERN";//九宫格锁
+    public enum LockType {
+        LOCK_TYPE_NONE("LOCK_TYPE_NONE",0),//不加锁
+        LOCK_TYPE_PASSWORD("LOCK_TYPE_PASSWORD",1),//密码锁
+        LOCK_TYPE_PATTERN("LOCK_TYPE_PATTERN",2);//九宫格锁
+
+        private String name;
+        private int priority;//优先程度从0开始依次增加
+        LockType(String name, int priority){
+            this.name = name;
+            this.priority = priority;
+        }
+
+        public int getPriority() {
+            return priority;
+        }
+
+        @Override
+        public String toString() {
+            return this.name;
+        }
+    }
 
     private String title;
     private String hint;
     private String type;
-    private String lockType;
+    private LockType lockType;
 
     /* TYPE_WIFI */
     private String wifiSSID;
 
     /* TYPE_GPS*/
-    private long longitude/*经度*/, latitude/*纬度*/;
+    private double longitude/*经度*/, latitude/*纬度*/;
 
     public String getType() {
         return type;
@@ -51,11 +69,11 @@ public class EnvironmentInfo {
         return this;
     }
 
-    public long getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public EnvironmentInfo setLatitude(long latitude) {
+    public EnvironmentInfo setLatitude(double latitude) {
         this.latitude = latitude;
         return this;
     }
@@ -69,21 +87,39 @@ public class EnvironmentInfo {
         return this;
     }
 
-    public long getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public EnvironmentInfo setLongitude(long longitude) {
+    public EnvironmentInfo setLongitude(double longitude) {
         this.longitude = longitude;
         return this;
     }
 
-    public String getLockType() {
+    public LockType getLockType() {
         return lockType;
     }
 
-    public EnvironmentInfo setLockType(String lockType) {
+    public EnvironmentInfo setLockType(LockType lockType) {
         this.lockType = lockType;
         return this;
     }
+
+    public EnvironmentInfo setLockType(String lockTypeName) {
+        switch (lockTypeName){
+            case "LOCK_TYPE_NONE":
+                setLockType(LockType.LOCK_TYPE_NONE);
+                break;
+            case "LOCK_TYPE_PASSWORD":
+                setLockType(LockType.LOCK_TYPE_PASSWORD);
+                break;
+            case "LOCK_TYPE_PATTERN":
+                setLockType(LockType.LOCK_TYPE_PATTERN);
+                break;
+            default:
+                throw new IllegalArgumentException("wrong lock type name!");
+        }
+        return this;
+    }
+
 }

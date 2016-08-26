@@ -19,4 +19,10 @@ public class BaseDAO {
         );
     }
 
+    protected double getDouble(Cursor c, String columnName) {
+        return c.getDouble(
+                c.getColumnIndexOrThrow(columnName)
+        );
+    }
+
 }

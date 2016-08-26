@@ -6,6 +6,7 @@ import android.os.IBinder;
 
 import com.hzp.superscreenlock.activity.LockScreenActivity;
 import com.hzp.superscreenlock.receiver.ReceiverManager;
+import com.hzp.superscreenlock.utils.SystemUtil;
 
 public class BootService extends Service {
 
@@ -25,11 +26,14 @@ public class BootService extends Service {
         if (!ReceiverManager.getInstance().isReceiversResisted()) {
             ReceiverManager.getInstance().registerReceivers();
         }
+        if(intent.getAction()!=null){
+            if (intent.getAction().equals(ACTION_LAUNCH_MAIN_LOCK_SCREEN)) {
+                launchLockScreen();
+            }
 
-        if (intent.getAction() != null && intent.getAction().equals(ACTION_LAUNCH_MAIN_LOCK_SCREEN)) {
-            launchLockScreen();
         }
 
+        // TODO: 2016/8/26 先检测是否已经存在
         bootOtherServices();
         return START_STICKY;
     }
@@ -45,7 +49,17 @@ public class BootService extends Service {
     }
 
     private void bootOtherServices() {
-        startService(new Intent(this, BaseService.class));
+        bootBaseService();
+    }
+
+    private void bootBaseService(){
+        String wifiSSID = SystemUtil.getCurrentWifiSSID(this);
+
+        Intent serviceIntent = new Intent(this, BaseService.class);
+        serviceIntent.setAction(BaseService.ACTION_WIFI_CONNECTED);
+        serviceIntent.putExtra("wifiSSID",wifiSSID);
+
+        startService(serviceIntent);
     }
 
     private void launchLockScreen() {

@@ -66,10 +66,18 @@ public class SystemUtil {
     }
 
 
+    /**
+     * 获得当前连接wifi的SSID
+     * @param context
+     * @return SSID 可能为null
+     */
     public static String getCurrentWifiSSID(Context context) {
         WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        if(!wifiManager.isWifiEnabled()){
+            return null;
+        }
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-        return wifiInfo.getSSID();
+        return wifiInfo.getSSID().replace('\"','\0');//去除掉可能存在的双引号
     }
 
     /**

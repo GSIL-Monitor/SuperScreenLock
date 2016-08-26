@@ -9,6 +9,7 @@ import android.os.Parcelable;
 
 import com.hzp.superscreenlock.service.BaseService;
 import com.hzp.superscreenlock.utils.LogUtil;
+import com.hzp.superscreenlock.utils.SystemUtil;
 
 public class NetworkReceiver extends BroadcastReceiver {
     public static final String TAG = "NetworkReceiver";
@@ -36,8 +37,11 @@ public class NetworkReceiver extends BroadcastReceiver {
             boolean isConnected = state == NetworkInfo.State.CONNECTED;
             LogUtil.i(TAG, "Wifi connect state =" + state);
             if (isConnected) {
+                String wifiSSID = SystemUtil.getCurrentWifiSSID(context);
+
                 Intent serviceIntent = new Intent(context, BaseService.class);
                 serviceIntent.setAction(BaseService.ACTION_WIFI_CONNECTED);
+                serviceIntent.putExtra("wifiSSID",wifiSSID);
                 context.startService(serviceIntent);
             }
         }

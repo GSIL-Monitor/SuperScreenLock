@@ -43,11 +43,6 @@
             android:enabled="true"
             android:exported="false" />
 
-        <receiver
-            android:name=".receiver.PhoneStateReceiver"
-            android:enabled="true"
-            android:exported="false" />
-
         <service
             android:name=".service.BaseService"
             android:enabled="true"
