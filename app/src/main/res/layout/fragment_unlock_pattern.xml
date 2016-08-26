@@ -1,0 +1,23 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.hzp.superscreenlock.fragment.UnlockFragment">
+
+    <com.takwolf.android.lock9.Lock9View
+        android:id="@+id/unlock_pattern_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:lock9_nodeSrc="@drawable/node_normal"
+        app:lock9_nodeOnSrc="@drawable/node_active"
+        app:lock9_nodeOnAnim="@anim/node_on_1"
+        app:lock9_padding="28dp"
+        app:lock9_spacing="28dp"
+        app:lock9_lineColor="@android:color/holo_blue_bright"
+        app:lock9_lineWidth="8dp"
+        app:lock9_autoLink="false"
+        app:lock9_enableVibrate="true"
+        app:lock9_vibrateTime="20"/>
+
+</FrameLayout>
