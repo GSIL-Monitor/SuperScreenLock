@@ -122,4 +122,8 @@ public class EnvironmentInfo{
         return this;
     }
 
+    @Override
+    public String toString() {
+        return "{title ="+title+" hint="+hint+" type="+type+" lockType="+lockType+"}";
+    }
 }

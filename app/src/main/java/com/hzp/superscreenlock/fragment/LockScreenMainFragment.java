@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.hzp.superscreenlock.R;
+import com.hzp.superscreenlock.locker.LockManager;
 import com.hzp.superscreenlock.manager.AppInfoManager;
 
 
@@ -44,7 +45,9 @@ public class LockScreenMainFragment extends Fragment {
         view.findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().finish();
+                LockManager.getInstance().startUnlockView
+                        (getActivity(),
+                                getActivity().getSupportFragmentManager());
             }
         });
 

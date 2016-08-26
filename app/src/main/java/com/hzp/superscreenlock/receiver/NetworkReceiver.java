@@ -23,6 +23,8 @@ public class NetworkReceiver extends BroadcastReceiver {
             case WifiManager.NETWORK_STATE_CHANGED_ACTION://这个监听wifi的连接状态即是否连上了一个有效无线路由
                 handleWifiChange(context, intent);
                 break;
+            case WifiManager.WIFI_STATE_CHANGED_ACTION:
+                break;
         }
     }
 
@@ -37,11 +39,8 @@ public class NetworkReceiver extends BroadcastReceiver {
             boolean isConnected = state == NetworkInfo.State.CONNECTED;
             LogUtil.i(TAG, "Wifi connect state =" + state);
             if (isConnected) {
-                String wifiSSID = SystemUtil.getCurrentWifiSSID(context);
-
                 Intent serviceIntent = new Intent(context, BaseService.class);
                 serviceIntent.setAction(BaseService.ACTION_WIFI_CONNECTED);
-                serviceIntent.putExtra("wifiSSID",wifiSSID);
                 context.startService(serviceIntent);
             }
         }

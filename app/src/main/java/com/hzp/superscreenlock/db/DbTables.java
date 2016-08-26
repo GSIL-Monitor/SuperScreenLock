@@ -18,7 +18,7 @@ public abstract class DbTables {
         public static final String SQL_CREATE_ENTRIES =
                 "CREATE TABLE " + TABLE_NAME + " (" +
                         Entry.COLUMN_NAME_PACKAGE + " " + TEXT_TYPE + " PRIMARY KEY," +
-                        Entry.COLUMN_NAME_APP_LABEL + TEXT_TYPE + COMMA_SEP +
+                        Entry.COLUMN_NAME_APP_LABEL + TEXT_TYPE  +
                         " )";
 
         public static final String SQL_DELETE_ENTRIES =
@@ -43,7 +43,7 @@ public abstract class DbTables {
                         Entry.COLUMN_NAME_SSID + TEXT_TYPE + COMMA_SEP +
                         Entry.COLUMN_NAME_LONGITUDE + DOUBLE_TYPE + COMMA_SEP +
                         Entry.COLUMN_NAME_LATITUDE + DOUBLE_TYPE + COMMA_SEP +
-                        Entry.COLUMN_NAME_LOCK_TYPE + TEXT_TYPE + COMMA_SEP +
+                        Entry.COLUMN_NAME_LOCK_TYPE + TEXT_TYPE  +
                         " )";
 
         public static final String SQL_DELETE_ENTRIES =

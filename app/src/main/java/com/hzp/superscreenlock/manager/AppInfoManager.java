@@ -2,6 +2,7 @@ package com.hzp.superscreenlock.manager;
 
 import android.content.Context;
 
+import com.hzp.superscreenlock.db.AppInfoDAO;
 import com.hzp.superscreenlock.entity.AppInfo;
 
 import java.util.ArrayList;
@@ -16,6 +17,8 @@ public class AppInfoManager {
     private static AppInfoManager instance;
     private Context context;
 
+    private AppInfoDAO dao;
+
     private AppInfoManager() {/*empty*/}
 
     public static AppInfoManager getInstance() {
@@ -29,8 +32,9 @@ public class AppInfoManager {
         return instance;
     }
 
-    public void init(Context context) {
+    public void init(Context context){
         this.context = context;
+        dao=new AppInfoDAO(context);
     }
 
     /**
@@ -46,4 +50,5 @@ public class AppInfoManager {
         }
         return list;
     }
+
 }

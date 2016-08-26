@@ -5,10 +5,10 @@ import android.content.Intent;
 import android.os.IBinder;
 
 import com.hzp.superscreenlock.activity.LockScreenActivity;
-import com.hzp.superscreenlock.receiver.ReceiverManager;
-import com.hzp.superscreenlock.utils.SystemUtil;
+import com.hzp.superscreenlock.utils.LogUtil;
 
 public class BootService extends Service {
+    private static final String TAG = "BootService";
 
     public static final String ACTION_LAUNCH_MAIN_LOCK_SCREEN = ".LAUNCH_MAIN_LOCK_SCREEN";
 
@@ -23,14 +23,12 @@ public class BootService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (!ReceiverManager.getInstance().isReceiversResisted()) {
-            ReceiverManager.getInstance().registerReceivers();
-        }
         if(intent.getAction()!=null){
-            if (intent.getAction().equals(ACTION_LAUNCH_MAIN_LOCK_SCREEN)) {
-                launchLockScreen();
+            switch (intent.getAction()){
+                case ACTION_LAUNCH_MAIN_LOCK_SCREEN:
+                    launchLockScreen();
+                    break;
             }
-
         }
 
         // TODO: 2016/8/26 先检测是否已经存在
@@ -41,9 +39,7 @@ public class BootService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (ReceiverManager.getInstance().isReceiversResisted()) {
-            ReceiverManager.getInstance().unregisterReceivers();
-        }
+        LogUtil.i(TAG,"<======= onDestroy ==========>");
         //重启服务防止监听失效
         startService(new Intent(this, BootService.class));
     }
@@ -53,11 +49,9 @@ public class BootService extends Service {
     }
 
     private void bootBaseService(){
-        String wifiSSID = SystemUtil.getCurrentWifiSSID(this);
-
-        Intent serviceIntent = new Intent(this, BaseService.class);
-        serviceIntent.setAction(BaseService.ACTION_WIFI_CONNECTED);
-        serviceIntent.putExtra("wifiSSID",wifiSSID);
+        LogUtil.i(TAG,"booting BaseService...");
+        Intent serviceIntent = new Intent(getApplicationContext(), BaseService.class);
+        serviceIntent.setAction(BaseService.ACTION_START_SERVICE);
 
         startService(serviceIntent);
     }

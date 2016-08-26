@@ -1,12 +1,14 @@
 package com.hzp.superscreenlock.manager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
 
+import com.hzp.superscreenlock.service.BaseService;
 import com.hzp.superscreenlock.utils.LogUtil;
 
 /**
@@ -79,6 +81,12 @@ public class MyLocationManager {
         return null;
     }
 
+    private void notifyServiceLocationChanged(){
+        Intent serviceIntent = new Intent(context, BaseService.class);
+        serviceIntent.setAction(BaseService.ACTION_LOCATION_CHANGED);
+        context.startService(serviceIntent);
+    }
+
     private class MyLocationListener implements LocationListener {
         Location mLastLocation;
         boolean mValid = false;
@@ -91,9 +99,10 @@ public class MyLocationManager {
                 return;
             }
             LogUtil.d(TAG, "Got first location.");
-            mLastLocation.set(newLocation);
+            mLastLocation =new Location(newLocation);
             LogUtil.d(TAG, "the newLocation is " + newLocation.getLongitude() + "x" + newLocation.getLatitude());
             mValid = true;
+            notifyServiceLocationChanged();
         }
 
         @Override

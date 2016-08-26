@@ -79,7 +79,7 @@ public class AppInfoDAO extends BaseDAO {
                 selectionArgs);
     }
 
-    public AppInfo queryItem(@NonNull String packageName) {
+    public AppInfo queryItemByPkgName(@NonNull String packageName) {
 
         String selection = DbTables.AppInfo.Entry.COLUMN_NAME_PACKAGE + " = ?";
         String[] selectionArgs = {packageName};
@@ -97,19 +97,29 @@ public class AppInfoDAO extends BaseDAO {
         try {
             if (c.moveToFirst()) {//只有一条查询数据
                 AppInfo result = new AppInfo();
-                result.setPkgName(getString(c, DbTables.AppInfo.Entry.COLUMN_NAME_PACKAGE));
-                result.setAppLabel(getString(c, DbTables.AppInfo.Entry.COLUMN_NAME_APP_LABEL));
+                cursorToAppInfo(c,result);
                 c.close();
                 return result;
-
             } else {
                 return null;
             }
         } finally {
             c.close();
         }
-
     }
 
+    private AppInfo cursorToAppInfo(Cursor c,AppInfo info){
+        if(info ==null){
+            info = new AppInfo();
+        }
+        info.setPkgName(getString(c, DbTables.AppInfo.Entry.COLUMN_NAME_PACKAGE));
+        info.setAppLabel(getString(c, DbTables.AppInfo.Entry.COLUMN_NAME_APP_LABEL));
+        return info;
+    }
 
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        db.close();
+    }
 }

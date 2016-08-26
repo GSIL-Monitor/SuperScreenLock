@@ -1,5 +1,6 @@
 package com.hzp.superscreenlock.activity;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -13,10 +14,11 @@ import android.view.WindowManager;
 
 import com.hzp.superscreenlock.R;
 import com.hzp.superscreenlock.fragment.LockScreenMainFragment;
+import com.hzp.superscreenlock.locker.LockManager;
 import com.hzp.superscreenlock.utils.LogUtil;
 
 
-public class LockScreenActivity extends AppCompatActivity {
+public class LockScreenActivity extends AppCompatActivity implements LockManager.LockManagerControl {
     public static final String TAG = "LockScreenActivity";
 
     private LockScreenMainFragment mainFragment;
@@ -29,20 +31,20 @@ public class LockScreenActivity extends AppCompatActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
 
-
         initViews();
     }
 
     private void initViews() {
+        drawerLayout = (DrawerLayout) findViewById(R.id.lock_screen_drawer_layout);
+
         setupSystemViews();
+        setupFragments();
     }
 
 
     private void setupSystemViews() {
         setupImmersiveMode();
         setupTranslucentStatusBar();
-
-        setupFragments();
     }
 
     /**
@@ -83,7 +85,6 @@ public class LockScreenActivity extends AppCompatActivity {
     }
 
     private void setupFragments() {
-
         if (mainFragment == null) {
             mainFragment = LockScreenMainFragment.newInstance();
         }
@@ -95,6 +96,22 @@ public class LockScreenActivity extends AppCompatActivity {
             transaction.commit();
         }
 
+        showDrawer();
+    }
+
+    @Override
+    public int getFragmentContainerResId(){
+        return R.id.lock_screen_frameLayout;
+    }
+
+    @Override
+    public void showDrawer() {
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+    }
+
+    @Override
+    public void hideDrawer() {
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
 
     @Override
@@ -114,5 +131,10 @@ public class LockScreenActivity extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        LogUtil.i(TAG,"new intent arrived = "+intent.toString());
+        setupFragments();
+    }
 }
