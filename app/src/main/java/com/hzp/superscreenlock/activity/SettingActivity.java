@@ -31,7 +31,7 @@ public class SettingActivity extends AppCompatActivity {
     private void initViews() {
         toolbar = (Toolbar) findViewById(R.id.setting_toolbar);
         if (toolbar != null) {
-            toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+            toolbar.setNavigationIcon(R.drawable.ic_clear_black_24dp);
             setSupportActionBar(toolbar);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
@@ -96,6 +96,7 @@ public class SettingActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDefaultDisplayHomeAsUpEnabled(false);
+            toolbar.setNavigationIcon(null);
         }
     }
 
@@ -116,6 +117,7 @@ public class SettingActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDefaultDisplayHomeAsUpEnabled(true);
+            toolbar.setNavigationIcon(R.drawable.ic_clear_black_24dp);
         }
     }
 }
