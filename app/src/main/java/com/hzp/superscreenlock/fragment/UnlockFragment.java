@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.hzp.superscreenlock.R;
-import com.takwolf.android.lock9.Lock9View;
+import com.hzp.superscreenlock.view.Lock9View;
 
 
 public class UnlockFragment extends Fragment {

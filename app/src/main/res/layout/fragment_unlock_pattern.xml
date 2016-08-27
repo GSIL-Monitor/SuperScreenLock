@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.hzp.superscreenlock.fragment.UnlockFragment">
 
-    <com.takwolf.android.lock9.Lock9View
+    <com.hzp.superscreenlock.view.Lock9View
         android:id="@+id/unlock_pattern_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
