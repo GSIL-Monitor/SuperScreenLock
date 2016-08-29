@@ -22,6 +22,7 @@ public class LogUtil {
         }
     }
 
+
     public static void d(String TAG, String content) {
         if (logEnable) {
             Log.i(TAG, content);

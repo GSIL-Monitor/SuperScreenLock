@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 import com.hzp.superscreenlock.R;
@@ -14,10 +15,11 @@ import com.hzp.superscreenlock.fragment.DetailEditPatternFragment;
 import com.hzp.superscreenlock.fragment.DetailEditWifiFragment;
 
 public class DetailEditActivity extends AppCompatActivity {
+    private static final String TAG = "DetailEditActivity";
 
     public static final int DETAIL_TYPE_ERROR = -1;
     public static final int DETAIL_TYPE_ENV_WIFI = 1;
-    public static final int DETAIL_TYPE_ENV_GPS = 2;
+    public static final int DETAIL_TYPE_ENV_LOCATION = 2;
 
     public static final int DETAIL_TYPE_LOCK_PASSWORD = 999;
     public static final int DETAIL_TYPE_LOCK_PATTERN = 998;
@@ -57,7 +59,8 @@ public class DetailEditActivity extends AppCompatActivity {
     private void setupDetail() {
         detailType = getIntent().getIntExtra("detail_type", DETAIL_TYPE_ERROR);
         if (detailType == DETAIL_TYPE_ERROR) {
-            throw new IllegalArgumentException("wrong detail type!");
+            Log.e(TAG,"wrong detail type!");
+            finish();
         }
 
         Fragment fragment;
@@ -66,7 +69,7 @@ public class DetailEditActivity extends AppCompatActivity {
             case DETAIL_TYPE_ENV_WIFI:
                 fragment= new DetailEditWifiFragment();
                 break;
-            case DETAIL_TYPE_ENV_GPS:
+            case DETAIL_TYPE_ENV_LOCATION:
                 fragment=new DetailEditLocationFragment();
                 break;
             case DETAIL_TYPE_LOCK_PASSWORD:

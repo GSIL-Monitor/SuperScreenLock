@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
 import com.hzp.superscreenlock.R;
+import com.hzp.superscreenlock.entity.EnvironmentInfo;
+import com.hzp.superscreenlock.utils.LogUtil;
 import com.hzp.superscreenlock.utils.PreferencesUtil;
 
 
@@ -13,6 +15,7 @@ public class EnvEditFragment extends PreferenceFragment
         implements SharedPreferences.OnSharedPreferenceChangeListener {
 
 
+    private static final String TAG = "EnvEditFragment";
     private SettingChangedCallBack callBack;
 
     public EnvEditFragment() {
@@ -46,10 +49,27 @@ public class EnvEditFragment extends PreferenceFragment
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        switch (key){
+        switch (key) {
             case PreferencesUtil.KEY_ENV_TYPE:
-                if(callBack!=null){
-                    callBack.onEnvironmentChanged(SettingChangedCallBack.ENV_DEFAULT);
+                if (callBack != null) {
+                    String value = getPreferenceScreen().getSharedPreferences().getString(
+                            key, null
+                    );
+                    if (value == null) {
+                        return;
+                    }
+                    LogUtil.i(TAG, "start {" + value + "} detail edit");
+                    switch (value) {
+                        case "wifi":
+                            callBack.onEnvironmentChanged(EnvironmentInfo.TYPE_WIFI);
+                            break;
+                        case "location":
+                            callBack.onEnvironmentChanged(EnvironmentInfo.TYPE_LOCATION);
+                            break;
+                        case "default":
+                            callBack.onEnvironmentChanged(EnvironmentInfo.TYPE_DEFAULT);
+                            break;
+                    }
                 }
                 break;
         }
@@ -65,12 +85,16 @@ public class EnvEditFragment extends PreferenceFragment
                 .commit();
     }
 
-    public void setCallback(SettingChangedCallBack callback){
+    public void setCallback(SettingChangedCallBack callback) {
         this.callBack = callback;
     }
 
     public interface SettingChangedCallBack {
-       int ENV_DEFAULT =1,ENV_WIFI=2,ENV_GPS=3;
-        void onEnvironmentChanged(int env);
+        /**
+         * @see com.hzp.superscreenlock.entity.EnvironmentInfo
+         */
+        void onEnvironmentChanged(String env);
+
+        void onLockTypeChanged(EnvironmentInfo.LockType lockType);
     }
 }

@@ -46,7 +46,7 @@ public class EnvironmentInfoDAO extends BaseDAO {
             case EnvironmentInfo.TYPE_WIFI:
                 values.put(DbTables.EnvironmentInfo.Entry.COLUMN_NAME_SSID, info.getWifiSSID());
                 break;
-            case EnvironmentInfo.TYPE_GPS:
+            case EnvironmentInfo.TYPE_LOCATION:
                 values.put(DbTables.EnvironmentInfo.Entry.COLUMN_NAME_LATITUDE, info.getLatitude());
                 values.put(DbTables.EnvironmentInfo.Entry.COLUMN_NAME_LONGITUDE, info.getLongitude());
                 break;
@@ -89,7 +89,7 @@ public class EnvironmentInfoDAO extends BaseDAO {
                 case EnvironmentInfo.TYPE_WIFI:
                     values.put(DbTables.EnvironmentInfo.Entry.COLUMN_NAME_SSID, info.getWifiSSID());
                     break;
-                case EnvironmentInfo.TYPE_GPS:
+                case EnvironmentInfo.TYPE_LOCATION:
                     values.put(DbTables.EnvironmentInfo.Entry.COLUMN_NAME_LATITUDE, info.getLatitude());
                     values.put(DbTables.EnvironmentInfo.Entry.COLUMN_NAME_LONGITUDE, info.getLongitude());
                     break;
@@ -214,7 +214,7 @@ public class EnvironmentInfoDAO extends BaseDAO {
             case EnvironmentInfo.TYPE_WIFI:
                 info.setWifiSSID(getString(c, DbTables.EnvironmentInfo.Entry.COLUMN_NAME_SSID));
                 break;
-            case EnvironmentInfo.TYPE_GPS:
+            case EnvironmentInfo.TYPE_LOCATION:
                 info.setLongitude(getDouble(c, DbTables.EnvironmentInfo.Entry.COLUMN_NAME_LONGITUDE));
                 info.setLatitude(getDouble(c, DbTables.EnvironmentInfo.Entry.COLUMN_NAME_LATITUDE));
                 break;

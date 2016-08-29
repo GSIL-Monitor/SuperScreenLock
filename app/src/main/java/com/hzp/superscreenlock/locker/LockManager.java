@@ -5,7 +5,6 @@ import android.location.Location;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import com.hzp.superscreenlock.R;
 import com.hzp.superscreenlock.entity.EnvironmentInfo;
 import com.hzp.superscreenlock.fragment.UnlockFragment;
 import com.hzp.superscreenlock.manager.EnvironmentManager;
@@ -135,7 +134,7 @@ public class LockManager {
         switch (info.getType()) {
             case EnvironmentInfo.TYPE_WIFI:
                 return checkWifiEnvironment(info);
-            case EnvironmentInfo.TYPE_GPS:
+            case EnvironmentInfo.TYPE_LOCATION:
                 return checkLocationEnvironment(info);
             case EnvironmentInfo.TYPE_DEFAULT:
                 return !checkLocationEnvironment(info) && !checkWifiEnvironment(info);

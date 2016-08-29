@@ -7,7 +7,7 @@ public class EnvironmentInfo{
 
     public static final String TYPE_DEFAULT = "TYPE_DEFAULT";
     public static final String TYPE_WIFI = "TYPE_WIFI";
-    public static final String TYPE_GPS = "TYPE_GPS";
+    public static final String TYPE_LOCATION = "TYPE_LOCATION";
 
     public enum LockType {
         LOCK_TYPE_NONE("LOCK_TYPE_NONE",0),//不加锁
@@ -39,7 +39,7 @@ public class EnvironmentInfo{
     /* TYPE_WIFI */
     private String wifiSSID;
 
-    /* TYPE_GPS*/
+    /* TYPE_LOCATION*/
     private double longitude/*经度*/, latitude/*纬度*/;
 
     public String getType() {
