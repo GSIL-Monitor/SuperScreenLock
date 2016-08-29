@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="基础设置">
+    <EditTextPreference
+        android:key="KEY_ENV_TITLE"
+        android:summary="为该场景设置一个唯一的名称"
+        android:title="场景名称" />
+
+    <EditTextPreference
+        android:key="KEY_ENV_HINT"
+        android:summary="显示在锁屏界面上的提示文字,用于标识当前场景"
+        android:title="场景提示" />
+
+        <ListPreference
+            android:title="场景选择"
+            android:key="KEY_ENV_TYPE"
+            android:entries="@array/lock_env_entries"
+            android:entryValues="@array/lock_env_entries_values"
+            />
+
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory android:title="解锁设置">
+
+        <ListPreference
+            android:entries="@array/lock_type_entries"
+            android:entryValues="@array/lock_type_entries_values"
+            android:key="KEY_ENV_LOCK_TYPE"
+            android:title="选择解锁模式" />
+
+        <EditTextPreference
+            android:enabled="false"
+            android:title="密码锁设置" />
+        <EditTextPreference
+            android:enabled="false"
+            android:title="九宫格手势设置" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

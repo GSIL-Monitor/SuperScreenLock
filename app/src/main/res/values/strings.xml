@@ -6,4 +6,30 @@
     <string name="action_add_item">添加</string>
     <string name="action_edit_mode">编辑模式</string>
     <string name="action_delete_item">删除</string>
+    <string name="action_done_item">完成</string>
+
+    <string-array name="lock_type_entries">
+        <item>不加锁</item>
+        <item>密码锁</item>
+        <item>九宫格手势</item>
+    </string-array>
+    <string-array name="lock_type_entries_values">
+        <item>none</item>
+        <item>password</item>
+        <item>pattern</item>
+    </string-array>
+
+    <string-array name="lock_env_entries">
+        <item>默认</item>
+        <item>WiFi</item>
+        <item>位置</item>
+    </string-array>
+    <string-array name="lock_env_entries_values">
+        <item>default</item>
+        <item>wifi</item>
+        <item>location</item>
+    </string-array>
+
+
+
 </resources>

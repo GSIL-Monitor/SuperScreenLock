@@ -1,5 +1,6 @@
 package com.hzp.superscreenlock.activity;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,13 +10,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.hzp.superscreenlock.R;
 import com.hzp.superscreenlock.entity.EnvironmentInfo;
 import com.hzp.superscreenlock.view.adapter.EnvironmentAdapter;
 
-public class SettingActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     public static final int SETTING_MODE_NORMAL = 1;
     public static final int SETTING_MODE_EDIT = 2;
@@ -30,7 +30,7 @@ public class SettingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting);
+        setContentView(R.layout.activity_main);
 
         initViews();
     }
@@ -53,8 +53,6 @@ public class SettingActivity extends AppCompatActivity {
         envList.setLayoutManager(new LinearLayoutManager(this));
         adapter = new EnvironmentAdapter(this);
         envList.setAdapter(adapter);
-
-
     }
 
     @Override
@@ -89,8 +87,7 @@ public class SettingActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_add_item:
-                // TODO: 2016/8/27
-                Toast.makeText(getApplicationContext(), "add", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this,EnvEditActivity.class));
                 break;
             case R.id.action_edit_mode:
                 settingMode = SETTING_MODE_EDIT;

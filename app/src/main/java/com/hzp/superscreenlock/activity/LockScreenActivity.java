@@ -13,7 +13,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.hzp.superscreenlock.R;
-import com.hzp.superscreenlock.fragment.LockScreenMainFragment;
+import com.hzp.superscreenlock.fragment.LockScreenFragment;
 import com.hzp.superscreenlock.locker.LockManager;
 import com.hzp.superscreenlock.utils.LogUtil;
 
@@ -21,7 +21,7 @@ import com.hzp.superscreenlock.utils.LogUtil;
 public class LockScreenActivity extends AppCompatActivity implements LockManager.LockManagerControl {
     public static final String TAG = "LockScreenActivity";
 
-    private LockScreenMainFragment mainFragment;
+    private LockScreenFragment mainFragment;
     private DrawerLayout drawerLayout;
 
     @Override
@@ -86,7 +86,7 @@ public class LockScreenActivity extends AppCompatActivity implements LockManager
 
     private void setupFragments() {
         if (mainFragment == null) {
-            mainFragment = LockScreenMainFragment.newInstance();
+            mainFragment = LockScreenFragment.newInstance();
         }
 
         FragmentManager manager = getSupportFragmentManager();

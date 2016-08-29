@@ -1,7 +1,6 @@
 package com.hzp.superscreenlock.fragment;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -11,31 +10,27 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.hzp.superscreenlock.R;
-import com.hzp.superscreenlock.activity.SettingActivity;
+import com.hzp.superscreenlock.locker.LockManager;
 import com.hzp.superscreenlock.manager.AppInfoManager;
 import com.hzp.superscreenlock.view.adapter.AppInfoAdapter;
 
 
-public class LockScreenMainFragment extends Fragment {
+public class LockScreenFragment extends Fragment {
 
     private RecyclerView mainRecyclerView;
     private AppInfoAdapter appInfoAdapter;
 
-    public LockScreenMainFragment() {
+    public LockScreenFragment() {
     }
 
-    public static LockScreenMainFragment newInstance() {
-        LockScreenMainFragment fragment = new LockScreenMainFragment();
-//        Bundle args = new Bundle();
-//        fragment.setArguments(args);
+    public static LockScreenFragment newInstance() {
+        LockScreenFragment fragment = new LockScreenFragment();
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//        }
     }
 
     @Override
@@ -47,10 +42,9 @@ public class LockScreenMainFragment extends Fragment {
         view.findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                LockManager.getInstance().startUnlockView
-//                        (getActivity(),
-//                                getActivity().getSupportFragmentManager());
-                startActivity(new Intent(getContext(), SettingActivity.class));
+                LockManager.getInstance().startUnlockView
+                        (getActivity(),
+                                getActivity().getSupportFragmentManager());
             }
         });
 

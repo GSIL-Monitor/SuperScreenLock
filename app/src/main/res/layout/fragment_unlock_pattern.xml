@@ -1,11 +1,13 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/white"
     tools:context="com.hzp.superscreenlock.fragment.UnlockFragment">
 
     <com.hzp.superscreenlock.view.Lock9View
+        android:layout_centerInParent="true"
         android:id="@+id/unlock_pattern_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -20,4 +22,4 @@
         app:lock9_enableVibrate="true"
         app:lock9_vibrateTime="20"/>
 
-</FrameLayout>
+</RelativeLayout>
