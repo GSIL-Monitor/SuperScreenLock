@@ -3,4 +3,10 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="colorBackground">#ffffff</color>
+
+    <color name="color_env_normal">#99CC66</color>
+    <color name="color_env_password">#FFFF66</color>
+    <color name="color_env_pattern">#FF6666</color>
 </resources>

@@ -4,4 +4,8 @@
     <dimen name="app_info_label_max_length">100dp</dimen>
     <dimen name="app_info_label_size">16sp</dimen>
 
+    <dimen name="env_card_height">60dp</dimen>
+    <dimen name="env_card_container_padding">16dp</dimen>
+    <dimen name="env_card_in_padding">5dp</dimen>
+    <dimen name="env_card_margin">5dp</dimen>
 </resources>

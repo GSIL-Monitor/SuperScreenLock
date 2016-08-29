@@ -12,8 +12,8 @@ import android.view.ViewGroup;
 
 import com.hzp.superscreenlock.R;
 import com.hzp.superscreenlock.activity.SettingActivity;
-import com.hzp.superscreenlock.locker.LockManager;
 import com.hzp.superscreenlock.manager.AppInfoManager;
+import com.hzp.superscreenlock.view.adapter.AppInfoAdapter;
 
 
 public class LockScreenMainFragment extends Fragment {

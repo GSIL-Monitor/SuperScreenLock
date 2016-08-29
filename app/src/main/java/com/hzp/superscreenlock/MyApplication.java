@@ -3,6 +3,7 @@ package com.hzp.superscreenlock;
 import android.app.Application;
 import android.content.Intent;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.hzp.superscreenlock.db.DbTables;
 import com.hzp.superscreenlock.manager.AppInfoManager;
 import com.hzp.superscreenlock.manager.EnvironmentManager;
@@ -18,6 +19,8 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        SDKInitializer.initialize(this);
 
         initManagers();
 

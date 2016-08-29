@@ -1,4 +1,4 @@
-package com.hzp.superscreenlock.fragment;
+package com.hzp.superscreenlock.view.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

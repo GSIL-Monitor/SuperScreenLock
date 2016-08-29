@@ -23,6 +23,12 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/LockScreenBase">
+
+        <!-- baidu map -->
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="cpa8FsqseUA3jueqAYgonearbjAU1kXV" />
+
         <activity
             android:name=".activity.LockScreenActivity"
             android:fitsSystemWindows="true"
@@ -53,7 +59,8 @@
             android:enabled="true"
             android:exported="false" />
 
-        <activity android:name=".activity.SettingActivity"></activity>
+        <activity android:name=".activity.SettingActivity" />
+        <activity android:name=".activity.LocationActivity"></activity>
     </application>
 
 </manifest>
