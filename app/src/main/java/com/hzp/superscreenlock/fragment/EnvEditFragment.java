@@ -4,6 +4,7 @@ package com.hzp.superscreenlock.fragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
+import android.text.TextUtils;
 
 import com.hzp.superscreenlock.R;
 import com.hzp.superscreenlock.entity.EnvironmentInfo;
@@ -49,31 +50,35 @@ public class EnvEditFragment extends PreferenceFragment
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        switch (key) {
-            case PreferencesUtil.KEY_ENV_TYPE:
-                if (callBack != null) {
-                    String value = getPreferenceScreen().getSharedPreferences().getString(
-                            key, null
-                    );
-                    if (value == null) {
-                        return;
-                    }
-                    LogUtil.i(TAG, "start {" + value + "} detail edit");
-                    switch (value) {
-                        case "wifi":
-                            callBack.onEnvironmentChanged(EnvironmentInfo.TYPE_WIFI);
-                            break;
-                        case "location":
-                            callBack.onEnvironmentChanged(EnvironmentInfo.TYPE_LOCATION);
-                            break;
-                        case "default":
-                            callBack.onEnvironmentChanged(EnvironmentInfo.TYPE_DEFAULT);
-                            break;
-                    }
-                }
-                break;
+        if (callBack != null) {
+            String value = getPreferenceScreen().getSharedPreferences().getString(
+                    key, null
+            );
+            if (value == null || TextUtils.isEmpty(value)) {
+                return;
+            }
+            LogUtil.i(TAG, "start {" + value + "} detail edit");
+            switch (value) {
+                case "wifi":
+                    callBack.onEnvironmentChanged(EnvironmentInfo.TYPE_WIFI);
+                    break;
+                case "location":
+                    callBack.onEnvironmentChanged(EnvironmentInfo.TYPE_LOCATION);
+                    break;
+                case "default":
+                    callBack.onEnvironmentChanged(EnvironmentInfo.TYPE_DEFAULT);
+                    break;
+                case "password":
+                    callBack.onLockTypeChanged(EnvironmentInfo.LockType.LOCK_TYPE_PASSWORD);
+                    break;
+                case "pattern":
+                    callBack.onLockTypeChanged(EnvironmentInfo.LockType.LOCK_TYPE_PATTERN);
+                    break;
+                case "none":
+                    callBack.onLockTypeChanged(EnvironmentInfo.LockType.LOCK_TYPE_NONE);
+                    break;
+            }
         }
-
     }
 
     public void clear() {

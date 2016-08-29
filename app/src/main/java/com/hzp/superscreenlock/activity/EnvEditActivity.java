@@ -107,14 +107,14 @@ public class EnvEditActivity extends AppCompatActivity
     public void onLockTypeChanged(EnvironmentInfo.LockType lockType) {
         Intent intent= new Intent(this,DetailEditActivity.class);
         switch (lockType){
-            case LOCK_TYPE_NONE:
-                break;
-            case LOCK_TYPE_PASSWORD:
+            case LOCK_TYPE_PASSWORD://启动设置密码锁界面
                 intent.putExtra("detail_type",DetailEditActivity.DETAIL_TYPE_LOCK_PASSWORD);
                 break;
-            case LOCK_TYPE_PATTERN:
+            case LOCK_TYPE_PATTERN://启动设置手势锁界面
                 intent.putExtra("detail_type",DetailEditActivity.DETAIL_TYPE_LOCK_PATTERN);
                 break;
+            case LOCK_TYPE_NONE://不加锁不需要其他设置
+                return;
         }
         startActivity(intent);
     }

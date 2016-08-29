@@ -102,6 +102,12 @@ public class EnvironmentAdapter extends RecyclerView.Adapter<EnvironmentAdapter.
         switch (type) {
             case NORMAL:
                 holder.checkBox.setVisibility(View.GONE);
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        // TODO: 2016/8/29 打开对应项的编辑界面
+                    }
+                });
                 break;
             case EDIT:
                 holder.checkBox.setVisibility(View.VISIBLE);
