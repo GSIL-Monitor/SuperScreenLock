@@ -31,12 +31,6 @@
             android:key="KEY_ENV_LOCK_TYPE"
             android:title="选择解锁模式" />
 
-        <EditTextPreference
-            android:enabled="false"
-            android:title="密码锁设置" />
-        <EditTextPreference
-            android:enabled="false"
-            android:title="九宫格手势设置" />
     </PreferenceCategory>
 
 </PreferenceScreen>
