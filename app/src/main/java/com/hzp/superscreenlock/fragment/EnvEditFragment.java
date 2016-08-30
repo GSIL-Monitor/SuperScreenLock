@@ -68,13 +68,13 @@ public class EnvEditFragment extends PreferenceFragment
                 case "default":
                     callBack.onEnvironmentChanged(EnvironmentInfo.TYPE_DEFAULT);
                     break;
-                case "password":
+                case "LOCK_TYPE_PASSWORD":
                     callBack.onLockTypeChanged(EnvironmentInfo.LockType.LOCK_TYPE_PASSWORD);
                     break;
-                case "pattern":
+                case "LOCK_TYPE_PATTERN":
                     callBack.onLockTypeChanged(EnvironmentInfo.LockType.LOCK_TYPE_PATTERN);
                     break;
-                case "none":
+                case "LOCK_TYPE_NONE":
                     callBack.onLockTypeChanged(EnvironmentInfo.LockType.LOCK_TYPE_NONE);
                     break;
             }

@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.hzp.superscreenlock.R;
 import com.hzp.superscreenlock.entity.EnvironmentInfo;
 import com.hzp.superscreenlock.fragment.EnvEditFragment;
+import com.hzp.superscreenlock.manager.EnvironmentManager;
 
 /**
  * Created by hezhipeng on 2016/8/29.
@@ -95,7 +96,7 @@ public class EnvEditActivity extends AppCompatActivity
         }else if(TextUtils.isEmpty(info.getType())){
             Toast.makeText(getApplicationContext(),"还未选择场景！",Toast.LENGTH_SHORT).show();
             return;
-        }else if(TextUtils.isEmpty(info.getLockType().toString())){
+        }else if(info.getLockType()==null || TextUtils.isEmpty(info.getLockType().toString())){
             Toast.makeText(getApplicationContext(),"还未选择解锁模式！",Toast.LENGTH_SHORT).show();
             return;
         }
@@ -121,7 +122,7 @@ public class EnvEditActivity extends AppCompatActivity
         }
 
         //检查加锁模式
-        if(!TextUtils.isEmpty(info.getLockType().toString())){
+        if(info.getLockType()!=null && !TextUtils.isEmpty(info.getLockType().toString())){
             switch (info.getLockType()){
                 case LOCK_TYPE_NONE:
                     break;
@@ -140,7 +141,11 @@ public class EnvEditActivity extends AppCompatActivity
             }
         }
 
-        // TODO: 2016/8/30 持久化数据
+        // 持久化数据
+        EnvironmentManager.getInstance().saveItem(info);
+        //通知MainActivity更新Env列表
+        setResult(MainActivity.RESULT_SUCCESS,null);
+        finish();
     }
 
     @Override

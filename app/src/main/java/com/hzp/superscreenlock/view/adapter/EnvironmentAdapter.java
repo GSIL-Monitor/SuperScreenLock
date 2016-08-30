@@ -24,6 +24,10 @@ public class EnvironmentAdapter extends RecyclerView.Adapter<EnvironmentAdapter.
     List<EnvironmentInfo> list;
     List<EnvironmentInfo> deleteList;
 
+    public void clear() {
+        removeItems(list);
+    }
+
     public enum Type {
         EDIT,
         NORMAL;
@@ -64,6 +68,12 @@ public class EnvironmentAdapter extends RecyclerView.Adapter<EnvironmentAdapter.
         int position = getItemCount();
         list.add(item);
         notifyItemInserted(position);
+    }
+
+    public void addItems(List<EnvironmentInfo> items){
+        for(EnvironmentInfo i:items){
+            addItem(i);
+        }
     }
 
     public void removeItems(List<EnvironmentInfo> l) {
@@ -144,6 +154,10 @@ public class EnvironmentAdapter extends RecyclerView.Adapter<EnvironmentAdapter.
             removeItems(deleteList);
         }
         deleteList.clear();
+    }
+
+    public List<EnvironmentInfo> getDeleteList() {
+        return deleteList;
     }
 
     public static class EnvironmentHolder extends RecyclerView.ViewHolder {

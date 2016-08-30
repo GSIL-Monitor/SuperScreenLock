@@ -16,9 +16,9 @@
         <item>九宫格手势</item>
     </string-array>
     <string-array name="lock_type_entries_values">
-        <item>none</item>
-        <item>password</item>
-        <item>pattern</item>
+        <item>LOCK_TYPE_NONE</item>
+        <item>LOCK_TYPE_PASSWORD</item>
+        <item>LOCK_TYPE_PATTERN</item>
     </string-array>
 
     <string-array name="lock_env_entries">

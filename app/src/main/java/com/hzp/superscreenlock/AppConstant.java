@@ -21,6 +21,6 @@ public class AppConstant {
 
     public static final ENV env = ENV.DEBUG;
 
-    public static final String DEFAULT_SHAREPREFERENCES="com.hzp.superscreenlock_sharepreferences";
+    public static final String DEFAULT_SHAREPREFERENCES="com.hzp.superscreenlock_preferences";
 }
 

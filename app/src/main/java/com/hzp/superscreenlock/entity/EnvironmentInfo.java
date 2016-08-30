@@ -108,6 +108,9 @@ public class EnvironmentInfo{
     }
 
     public EnvironmentInfo setLockType(String lockTypeName) {
+        if(lockTypeName==null){
+            return this;
+        }
         switch (lockTypeName){
             case "LOCK_TYPE_NONE":
                 setLockType(LockType.LOCK_TYPE_NONE);

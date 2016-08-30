@@ -68,7 +68,7 @@ public class EnvironmentInfoDAO extends BaseDAO {
                 break;
         }
 
-        db.insert(DbTables.AppInfo.TABLE_NAME, null, values);
+        db.insert(DbTables.EnvironmentInfo.TABLE_NAME, null, values);
     }
 
     /**

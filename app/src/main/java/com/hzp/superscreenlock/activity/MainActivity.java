@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -13,12 +14,16 @@ import android.view.View;
 
 import com.hzp.superscreenlock.R;
 import com.hzp.superscreenlock.entity.EnvironmentInfo;
+import com.hzp.superscreenlock.manager.EnvironmentManager;
 import com.hzp.superscreenlock.view.adapter.EnvironmentAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final int SETTING_MODE_NORMAL = 1;
     public static final int SETTING_MODE_EDIT = 2;
+
+    public static final int REQUEST_CODE = 999;
+    public static final int RESULT_SUCCESS = 998;
 
     private Toolbar toolbar;
 
@@ -50,17 +55,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         envList = (RecyclerView) findViewById(R.id.setting_environment_list);
-        envList.setLayoutManager(new LinearLayoutManager(this));
+        envList.setLayoutManager(new GridLayoutManager(this,3));
         adapter = new EnvironmentAdapter(this);
+        adapter.addItems(EnvironmentManager.getInstance().getAllItems());
         envList.setAdapter(adapter);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        adapter.addItem(new EnvironmentInfo().setTitle("test1").setLockType(EnvironmentInfo.LockType.LOCK_TYPE_NONE));
-        adapter.addItem(new EnvironmentInfo().setTitle("test2").setLockType(EnvironmentInfo.LockType.LOCK_TYPE_PASSWORD));
-        adapter.addItem(new EnvironmentInfo().setTitle("test3").setLockType(EnvironmentInfo.LockType.LOCK_TYPE_PATTERN));
     }
 
     @Override
@@ -87,17 +85,31 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_add_item:
-                startActivity(new Intent(this,EnvEditActivity.class));
+                startActivityForResult(new Intent(this,EnvEditActivity.class),REQUEST_CODE);
                 break;
             case R.id.action_edit_mode:
                 settingMode = SETTING_MODE_EDIT;
                 invalidateOptionsMenu();
                 break;
             case R.id.action_delete_item:
+                EnvironmentManager.getInstance().deleteItems(adapter.getDeleteList());
                 adapter.commitEdit();
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==REQUEST_CODE){
+            if(resultCode==RESULT_SUCCESS){
+                //刷新数据
+                adapter.clear();
+                adapter.addItems(EnvironmentManager.getInstance().getAllItems());
+                adapter.notifyDataSetChanged();
+            }
+        }
     }
 
     private void setActionBarNormal(Menu menu) {

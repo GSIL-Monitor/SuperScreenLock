@@ -1,9 +1,11 @@
 package com.hzp.superscreenlock.manager;
 
 import android.content.Context;
+import android.nfc.Tag;
 
 import com.hzp.superscreenlock.db.EnvironmentInfoDAO;
 import com.hzp.superscreenlock.entity.EnvironmentInfo;
+import com.hzp.superscreenlock.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +14,7 @@ import java.util.List;
  * Created by hezhipeng on 2016/8/25.
  */
 public class EnvironmentManager {
+    private static final String TAG = EnvironmentManager.class.getSimpleName();
     private static EnvironmentManager instance;
     private Context context;
 
@@ -35,9 +38,20 @@ public class EnvironmentManager {
         dao=new EnvironmentInfoDAO(context);
     }
 
-    // TODO: 2016/8/25
     public List<EnvironmentInfo> getAllItems(){
-        return new ArrayList<>();
+        return dao.queryItems();
+    }
+
+    public void saveItem(EnvironmentInfo info){
+        LogUtil.i(TAG,"save env item = "+info.toString());
+        dao.insertItem(info);
+    }
+
+    public void deleteItems(List<EnvironmentInfo> list){
+        for (EnvironmentInfo i :
+                list) {
+            dao.removeItem(i.getTitle());
+        }
     }
 
 }
