@@ -13,7 +13,10 @@ import android.net.wifi.WifiManager;
 
 import com.hzp.superscreenlock.entity.AppInfo;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -93,6 +96,27 @@ public class SystemUtil {
             re[i] = wifiList.get(i).SSID.replace('\"',' ').trim();
         }
         return re;
+    }
+
+    public static String encryptString(String content){
+        MessageDigest md5 = null;
+        try {
+            md5 = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            return null;
+        }
+        md5.update(content.getBytes());
+        byte[] m = md5.digest();//加密
+        return Arrays.toString(m);
+    }
+
+    public static String decryptString(String content){
+        StringBuffer sb = new StringBuffer();
+        byte[] contentByte = content.getBytes();
+        for(int i = 0; i < contentByte.length; i ++){
+            sb.append(contentByte[i]);
+        }
+        return sb.toString();
     }
 
     interface AppsInfoQueryCallback {
