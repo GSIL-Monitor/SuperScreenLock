@@ -77,7 +77,7 @@ public class SystemUtil {
             return null;
         }
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-        return wifiInfo.getSSID().replace('\"','\0');//去除掉可能存在的双引号
+        return wifiInfo.getSSID().replace('\"',' ').trim();//去除掉可能存在的双引号
     }
 
     /**
@@ -90,7 +90,7 @@ public class SystemUtil {
         List<WifiConfiguration> wifiList = wifiManager.getConfiguredNetworks();
         String[] re = new String[wifiList.size()];
         for(int i =0;i<wifiList.size();i++){
-            re[i] = wifiList.get(i).SSID;
+            re[i] = wifiList.get(i).SSID.replace('\"',' ').trim();
         }
         return re;
     }

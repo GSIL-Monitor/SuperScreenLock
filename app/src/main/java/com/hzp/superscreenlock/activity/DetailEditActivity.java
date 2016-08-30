@@ -59,7 +59,7 @@ public class DetailEditActivity extends AppCompatActivity {
     private void setupDetail() {
         detailType = getIntent().getIntExtra("detail_type", DETAIL_TYPE_ERROR);
         if (detailType == DETAIL_TYPE_ERROR) {
-            Log.e(TAG,"wrong detail type!");
+            Log.e(TAG, "wrong detail type!");
             finish();
         }
 
@@ -67,23 +67,23 @@ public class DetailEditActivity extends AppCompatActivity {
 
         switch (detailType) {
             case DETAIL_TYPE_ENV_WIFI:
-                fragment= new DetailEditWifiFragment();
+                fragment = new DetailEditWifiFragment();
                 break;
             case DETAIL_TYPE_ENV_LOCATION:
-                fragment=new DetailEditLocationFragment();
+                fragment = new DetailEditLocationFragment();
                 break;
             case DETAIL_TYPE_LOCK_PASSWORD:
-                fragment=new DetailEditPasswordFragment();
+                fragment = new DetailEditPasswordFragment();
                 break;
             case DETAIL_TYPE_LOCK_PATTERN:
-                fragment=new DetailEditPatternFragment();
+                fragment = new DetailEditPatternFragment();
                 break;
             default:
                 return;
         }
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.detail_edit_container,fragment)
+                .replace(R.id.detail_edit_container, fragment)
                 .commit();
     }
 

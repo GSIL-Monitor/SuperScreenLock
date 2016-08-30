@@ -82,12 +82,14 @@ public class EnvEditFragment extends PreferenceFragment
     }
 
     public void clear() {
+        LogUtil.i(TAG,"clear temp edit SP  data...");
         getPreferenceScreen().getSharedPreferences().edit()
                 .remove(PreferencesUtil.KEY_ENV_TITLE)
                 .remove(PreferencesUtil.KEY_ENV_HINT)
                 .remove(PreferencesUtil.KEY_ENV_LOCK_TYPE)
                 .remove(PreferencesUtil.KEY_ENV_TYPE)
-                .commit();
+                .remove(PreferencesUtil.KEY_ENV_WIFI_SSID)
+                .apply();
     }
 
     public void setCallback(SettingChangedCallBack callback) {
