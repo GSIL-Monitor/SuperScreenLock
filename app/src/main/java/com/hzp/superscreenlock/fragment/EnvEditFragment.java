@@ -81,6 +81,22 @@ public class EnvEditFragment extends PreferenceFragment
         }
     }
 
+    public EnvironmentInfo getEditData(){
+        EnvironmentInfo info = new EnvironmentInfo();
+        SharedPreferences sp = getPreferenceScreen().getSharedPreferences();
+        info.setTitle(sp.getString(PreferencesUtil.KEY_ENV_TITLE,null))
+                .setHint(sp.getString(PreferencesUtil.KEY_ENV_HINT,null))
+                .setType(sp.getString(PreferencesUtil.KEY_ENV_TYPE,null))
+                .setWifiSSID(sp.getString(PreferencesUtil.KEY_ENV_WIFI_SSID,null))
+                .setLatitude(sp.getFloat(PreferencesUtil.KEY_ENV_LOCATION_LATITUDE,0f))
+                .setLongitude(sp.getFloat(PreferencesUtil.KEY_ENV_LOCATION_LONGITUDE,0f))
+                .setLockType(sp.getString(PreferencesUtil.KEY_ENV_LOCK_TYPE,null))
+                .setPassword(sp.getString(PreferencesUtil.KEY_ENV_PASSWORD,null))
+                .setPatternPassword(sp.getString(PreferencesUtil.KEY_ENV_PATTERN,null));
+
+        return info;
+    }
+
     public void clear() {
         LogUtil.i(TAG,"clear temp edit SP  data...");
         getPreferenceScreen().getSharedPreferences().edit()

@@ -35,6 +35,8 @@ public class EnvironmentInfo{
     private String hint;
     private String type;
     private LockType lockType;
+    private String password;
+    private String patternPassword;
 
     /* TYPE_WIFI */
     private String wifiSSID;
@@ -119,6 +121,24 @@ public class EnvironmentInfo{
             default:
                 throw new IllegalArgumentException("wrong lock type name!");
         }
+        return this;
+    }
+
+    public String getPatternPassword() {
+        return patternPassword;
+    }
+
+    public EnvironmentInfo setPatternPassword(String patternPassword) {
+        this.patternPassword = patternPassword;
+        return this;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public EnvironmentInfo setPassword(String password) {
+        this.password = password;
         return this;
     }
 

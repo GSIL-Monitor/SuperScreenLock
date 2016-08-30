@@ -56,6 +56,18 @@ public class EnvironmentInfoDAO extends BaseDAO {
 
         values.put(DbTables.EnvironmentInfo.Entry.COLUMN_NAME_LOCK_TYPE, info.getLockType().toString());
 
+        switch (info.getLockType()){
+            case LOCK_TYPE_NONE:
+                break;
+            case LOCK_TYPE_PASSWORD:
+                values.put(DbTables.EnvironmentInfo.Entry.COLUMN_NAME_PASSWORD,info.getPassword());
+                break;
+            case LOCK_TYPE_PATTERN:
+                values.put(DbTables.EnvironmentInfo.Entry.COLUMN_NAME_PATTERN_PASSWORD
+                        ,info.getPatternPassword());
+                break;
+        }
+
         db.insert(DbTables.AppInfo.TABLE_NAME, null, values);
     }
 
@@ -100,6 +112,18 @@ public class EnvironmentInfoDAO extends BaseDAO {
 
         if (info.getLockType() != null) {
             values.put(DbTables.EnvironmentInfo.Entry.COLUMN_NAME_LOCK_TYPE, info.getLockType().toString());
+
+            switch (info.getLockType()){
+                case LOCK_TYPE_NONE:
+                    break;
+                case LOCK_TYPE_PASSWORD:
+                    values.put(DbTables.EnvironmentInfo.Entry.COLUMN_NAME_PASSWORD,info.getPassword());
+                    break;
+                case LOCK_TYPE_PATTERN:
+                    values.put(DbTables.EnvironmentInfo.Entry.COLUMN_NAME_PATTERN_PASSWORD
+                            ,info.getPatternPassword());
+                    break;
+            }
         }
 
         String selection = DbTables.EnvironmentInfo.Entry.COLUMN_NAME_TITLE + " = ?";
@@ -225,6 +249,19 @@ public class EnvironmentInfoDAO extends BaseDAO {
         info.setLockType(
                 getString(c, DbTables.EnvironmentInfo.Entry.COLUMN_NAME_LOCK_TYPE)
         );
+
+        switch (info.getLockType()){
+            case LOCK_TYPE_NONE:
+                break;
+            case LOCK_TYPE_PASSWORD:
+                info.setPassword(getString(c,DbTables.EnvironmentInfo.Entry.COLUMN_NAME_PASSWORD));
+                break;
+            case LOCK_TYPE_PATTERN:
+                info.setPatternPassword(getString
+                        (c,DbTables.EnvironmentInfo.Entry.COLUMN_NAME_PATTERN_PASSWORD)
+                );
+                break;
+        }
 
         return info;
     }

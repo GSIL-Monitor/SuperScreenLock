@@ -43,7 +43,9 @@ public abstract class DbTables {
                         Entry.COLUMN_NAME_SSID + TEXT_TYPE + COMMA_SEP +
                         Entry.COLUMN_NAME_LONGITUDE + DOUBLE_TYPE + COMMA_SEP +
                         Entry.COLUMN_NAME_LATITUDE + DOUBLE_TYPE + COMMA_SEP +
-                        Entry.COLUMN_NAME_LOCK_TYPE + TEXT_TYPE  +
+                        Entry.COLUMN_NAME_LOCK_TYPE + TEXT_TYPE  + COMMA_SEP+
+                        Entry.COLUMN_NAME_PASSWORD + TEXT_TYPE  + COMMA_SEP+
+                        Entry.COLUMN_NAME_PATTERN_PASSWORD + TEXT_TYPE  +
                         " )";
 
         public static final String SQL_DELETE_ENTRIES =
@@ -58,6 +60,8 @@ public abstract class DbTables {
             public static final String COLUMN_NAME_LONGITUDE = "longitude";
             public static final String COLUMN_NAME_LATITUDE = "latitude";
             public static final String COLUMN_NAME_LOCK_TYPE = "lock_type";
+            public static final String COLUMN_NAME_PASSWORD = "password";
+            public static final String COLUMN_NAME_PATTERN_PASSWORD = "pattern_password";
         }
     }
 }
