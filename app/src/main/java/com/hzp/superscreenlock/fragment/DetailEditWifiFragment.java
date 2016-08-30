@@ -66,7 +66,7 @@ public class DetailEditWifiFragment extends Fragment  implements AdapterCallback
                 getContext(),
                 PreferencesUtil.KEY_ENV_WIFI_SSID,
                 item.getSSID());
-        LogUtil.i(TAG,"wifi item ssid=" + item.getSSID()+" clicked");
+        LogUtil.i(TAG,"Put temp wifi item{ssid=" + item.getSSID()+"}");
         getActivity().finish();
     }
 }
