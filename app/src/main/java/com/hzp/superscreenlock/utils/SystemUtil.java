@@ -115,10 +115,8 @@ public class SystemUtil {
             }
 
             return strBuf.toString().toUpperCase();
-        } catch (NoSuchAlgorithmException e) {
-            return null;
-        } catch (UnsupportedEncodingException e) {
-            return null;
+        } catch (NoSuchAlgorithmException|UnsupportedEncodingException e) {
+            throw new RuntimeException(e.toString());
         }
     }
 
