@@ -17,6 +17,7 @@ public class PreferencesUtil {
     public static final String KEY_ENV_WIFI_SSID = "KEY_ENV_WIFI_SSID";
     public static final String KEY_ENV_LOCATION_LONGITUDE = "KEY_ENV_LOCATION_LONGITUDE";
     public static final String KEY_ENV_LOCATION_LATITUDE = "KEY_ENV_LOCATION_LATITUDE";
+    public static final String KEY_ENV_PASSWORD = "KEY_ENV_PASSWORD";
 
     public static SharedPreferences getDefaultSharePreferences(Context context) {
         return context.getSharedPreferences(AppConstant.DEFAULT_SHAREPREFERENCES, Context.MODE_PRIVATE);

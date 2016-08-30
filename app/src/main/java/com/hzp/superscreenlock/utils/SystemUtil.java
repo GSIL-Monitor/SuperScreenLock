@@ -13,6 +13,7 @@ import android.net.wifi.WifiManager;
 
 import com.hzp.superscreenlock.entity.AppInfo;
 
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -98,25 +99,27 @@ public class SystemUtil {
         return re;
     }
 
-    public static String encryptString(String content){
-        MessageDigest md5 = null;
+    public static String encryptString(String content) {
         try {
-            md5 = MessageDigest.getInstance("MD5");
+            MessageDigest md5 = MessageDigest.getInstance("MD5");
+            md5.update(content.getBytes("UTF-8"));
+            byte[] encryption = md5.digest();
+
+            StringBuffer strBuf = new StringBuffer();
+            for (int i = 0; i < encryption.length; i++) {
+                if (Integer.toHexString(0xff & encryption[i]).length() == 1) {
+                    strBuf.append("0").append(Integer.toHexString(0xff & encryption[i]));
+                } else {
+                    strBuf.append(Integer.toHexString(0xff & encryption[i]));
+                }
+            }
+
+            return strBuf.toString().toUpperCase();
         } catch (NoSuchAlgorithmException e) {
             return null;
+        } catch (UnsupportedEncodingException e) {
+            return null;
         }
-        md5.update(content.getBytes());
-        byte[] m = md5.digest();//加密
-        return Arrays.toString(m);
-    }
-
-    public static String decryptString(String content){
-        StringBuffer sb = new StringBuffer();
-        byte[] contentByte = content.getBytes();
-        for(int i = 0; i < contentByte.length; i ++){
-            sb.append(contentByte[i]);
-        }
-        return sb.toString();
     }
 
     interface AppsInfoQueryCallback {

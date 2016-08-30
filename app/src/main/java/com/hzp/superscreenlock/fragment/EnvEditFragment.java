@@ -91,6 +91,7 @@ public class EnvEditFragment extends PreferenceFragment
                 .remove(PreferencesUtil.KEY_ENV_WIFI_SSID)
                 .remove(PreferencesUtil.KEY_ENV_LOCATION_LONGITUDE)
                 .remove(PreferencesUtil.KEY_ENV_LOCATION_LATITUDE)
+                .remove(PreferencesUtil.KEY_ENV_PASSWORD)
                 .apply();
     }
 

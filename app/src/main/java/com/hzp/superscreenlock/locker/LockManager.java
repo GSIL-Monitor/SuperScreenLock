@@ -73,7 +73,6 @@ public class LockManager {
      * 结束所有activity
      */
     public void unlockScreen(){
-
     }
 
     /**
@@ -194,6 +193,40 @@ public class LockManager {
 
     public void updateLocationState(Location location) {
         this.currentLocation = location;
+    }
+
+    /**
+     * 设置数字密码
+     * @param password
+     */
+    public void setPassword(String password){
+
+    }
+
+    /**
+     * 验证数字密码
+     * @param password
+     * @return
+     */
+    public boolean verifyPassword(String password){
+        return true;// TODO: 2016/8/30
+    }
+
+    /**
+     * 设置手势密码
+     * @param password
+     */
+    public void setPatternPassword(String password){
+
+    }
+
+    /**
+     * 验证手势密码
+     * @param password
+     * @return
+     */
+    public boolean verifyPatternPassword(String password){
+        return true;// TODO: 2016/8/30
     }
 
     public interface LockManagerControl{
