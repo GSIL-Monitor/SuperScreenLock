@@ -59,13 +59,13 @@ public class EnvEditFragment extends PreferenceFragment
             }
             LogUtil.i(TAG, "start {" + value + "} detail edit");
             switch (value) {
-                case "wifi":
+                case "TYPE_WIFI":
                     callBack.onEnvironmentChanged(EnvironmentInfo.TYPE_WIFI);
                     break;
-                case "location":
+                case "TYPE_LOCATION":
                     callBack.onEnvironmentChanged(EnvironmentInfo.TYPE_LOCATION);
                     break;
-                case "default":
+                case "TYPE_DEFAULT":
                     callBack.onEnvironmentChanged(EnvironmentInfo.TYPE_DEFAULT);
                     break;
                 case "LOCK_TYPE_PASSWORD":

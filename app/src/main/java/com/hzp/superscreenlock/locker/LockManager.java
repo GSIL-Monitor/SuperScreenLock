@@ -9,6 +9,7 @@ import com.hzp.superscreenlock.entity.EnvironmentInfo;
 import com.hzp.superscreenlock.fragment.UnlockFragment;
 import com.hzp.superscreenlock.manager.EnvironmentManager;
 import com.hzp.superscreenlock.utils.LogUtil;
+import com.hzp.superscreenlock.utils.SystemUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,19 +46,19 @@ public class LockManager {
      * 由Manager来控制启动解锁界面的类型
      */
     public void startUnlockView(Activity invoker, FragmentManager fm) {
-        if(currentEnvironment==null){
+        if (currentEnvironment == null) {
             return;
         }
         String hint = currentEnvironment.getHint();
         EnvironmentInfo.LockType lockType = currentEnvironment.getLockType();
 
-        LogUtil.i(TAG,"start unlock: hint="+hint+" lockType="+lockType);
+        LogUtil.i(TAG, "start unlock: hint=" + hint + " lockType=" + lockType);
         // TODO: 2016/8/25 1.滑动解锁（无锁） 2.密码解锁 3.九宫格
-        switch (lockType){
+        switch (lockType) {
             case LOCK_TYPE_NONE:
             case LOCK_TYPE_PASSWORD:
             case LOCK_TYPE_PATTERN:
-                if(invoker instanceof LockManagerControl){
+                if (invoker instanceof LockManagerControl) {
                     FragmentTransaction transaction = fm.beginTransaction();
                     transaction.replace(((LockManagerControl) invoker).getFragmentContainerResId(),
                             UnlockFragment.newInstance(UnlockFragment.DISPLAY_TYPE_NONE));
@@ -72,7 +73,7 @@ public class LockManager {
      * 解锁屏幕
      * 结束所有activity
      */
-    public void unlockScreen(){
+    public void unlockScreen() {
     }
 
     /**
@@ -82,7 +83,7 @@ public class LockManager {
      * @return 符合当前状态的场景
      */
     public void syncCurrentEnvironment() {
-        LogUtil.d(TAG,"Start syncCurrentEnvironment...");
+        LogUtil.d(TAG, "Start syncCurrentEnvironment...");
 
         List<EnvironmentInfo> list = EnvironmentManager.getInstance().getAllItems();
         List<EnvironmentInfo> checkResult = new ArrayList<>();
@@ -104,15 +105,15 @@ public class LockManager {
                 }
             }
 
-            if(choose!=null){
-                LogUtil.i(TAG,"current Environment set to"+choose.toString());
+            if (choose != null) {
+                LogUtil.i(TAG, "current Environment set to" + choose.toString());
                 setCurrentEnvironment(choose);
             }
         } else if (checkResult.size() == 1) {
-            LogUtil.i(TAG,"current Environment set to:"+checkResult.get(0).toString());
+            LogUtil.i(TAG, "current Environment set to:" + checkResult.get(0).toString());
             setCurrentEnvironment(checkResult.get(0));
         } else {
-            LogUtil.i(TAG,"current Environment set to: SystemDefault");
+            LogUtil.i(TAG, "current Environment set to: SystemDefault");
             setCurrentEnvironment(getSystemDefaultEnvironment());
         }
     }
@@ -148,20 +149,20 @@ public class LockManager {
     }
 
     private boolean checkLocationEnvironment(EnvironmentInfo info) {
-        return computeLocation(info.getLongitude(),info.getLatitude());
+        return computeLocation(info.getLongitude(), info.getLatitude());
     }
 
     // TODO: 2016/8/26 可能需要异步处理，计算量较大
     private boolean computeLocation(double longitude, double latitude) {
 
-        if(currentLocation==null){
-            LogUtil.e(TAG,"computeLocation: currentLocation is NULL !");
+        if (currentLocation == null) {
+            LogUtil.e(TAG, "computeLocation: currentLocation is NULL !");
             return false;
         }
 
-        LogUtil.d(TAG,"computeLocation: startLatitude="+latitude+" startLongitude="+longitude);
-        LogUtil.d(TAG,"computeLocation: endLatitude="+currentLocation.getLatitude()
-                +" endLongitude="+currentLocation.getLongitude());
+        LogUtil.d(TAG, "computeLocation: startLatitude=" + latitude + " startLongitude=" + longitude);
+        LogUtil.d(TAG, "computeLocation: endLatitude=" + currentLocation.getLatitude()
+                + " endLongitude=" + currentLocation.getLongitude());
 
         float[] result = new float[3];
         Location.distanceBetween(
@@ -171,11 +172,11 @@ public class LockManager {
                 currentLocation.getLongitude(),
                 result);
 
-        if(result.length<1){
-            LogUtil.d(TAG,"computeLocation: wrong result !" );
+        if (result.length < 1) {
+            LogUtil.d(TAG, "computeLocation: wrong result !");
             return false;
-        }else{
-            if(result[0]<= locationError){
+        } else {
+            if (result[0] <= locationError) {
                 return true;
             }
         }
@@ -189,49 +190,51 @@ public class LockManager {
 
     public void updateWifiState(String currentSSID) {
         this.currentSSID = currentSSID;
+        if (currentSSID != null) {
+            LogUtil.i(TAG, "current wifi update to " + currentSSID);
+        }
     }
 
     public void updateLocationState(Location location) {
         this.currentLocation = location;
+        if (location != null) {
+
+            LogUtil.i(TAG, "current location update to " + location.toString());
+        }
     }
 
-    /**
-     * 设置数字密码
-     * @param password
-     */
-    public void setPassword(String password){
-
-    }
 
     /**
      * 验证数字密码
+     *
      * @param password
      * @return
      */
-    public boolean verifyPassword(String password){
+    public boolean verifyPassword(String password) {
         return true;// TODO: 2016/8/30
     }
 
-    /**
-     * 设置手势密码
-     * @param password
-     */
-    public void setPatternPassword(String password){
-
-    }
 
     /**
      * 验证手势密码
+     *
      * @param password
      * @return
      */
-    public boolean verifyPatternPassword(String password){
-        return true;// TODO: 2016/8/30
+    public boolean verifyPatternPassword(String password) {
+        if (currentEnvironment == null ||
+                currentEnvironment.getLockType() == null ||
+                currentEnvironment.getLockType() != EnvironmentInfo.LockType.LOCK_TYPE_PATTERN) {
+            return false;
+        }
+        return SystemUtil.encryptString(password).equals(currentEnvironment.getPatternPassword());
     }
 
-    public interface LockManagerControl{
+    public interface LockManagerControl {
         int getFragmentContainerResId();
+
         void showDrawer();
+
         void hideDrawer();
     }
 }

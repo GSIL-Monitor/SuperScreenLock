@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.hzp.superscreenlock.R;
+import com.hzp.superscreenlock.locker.LockManager;
 import com.hzp.superscreenlock.view.Lock9View;
 
 
@@ -46,6 +47,7 @@ public class UnlockFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         int resId = 0;
+        //选择对应的资源文件
         switch (displayType) {
             case DISPLAY_TYPE_NONE:
 //                break;
@@ -61,6 +63,7 @@ public class UnlockFragment extends Fragment {
         }
         View view = inflater.inflate(resId, container, false);
 
+        //选择进行对应的初始化
         switch (displayType) {
             case DISPLAY_TYPE_NONE:
 //                break;
@@ -74,6 +77,7 @@ public class UnlockFragment extends Fragment {
                 throw new IllegalArgumentException("wrong unlock display type");
         }
 
+        // TODO: 2016/8/30 删除这段
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,8 +92,9 @@ public class UnlockFragment extends Fragment {
         lock9View.setCallBack(new Lock9View.CallBack() {
             @Override
             public void onFinish(String password) {
-
-                Toast.makeText(getActivity(), password, Toast.LENGTH_SHORT).show();
+                if(LockManager.getInstance().verifyPatternPassword(password)){
+                    getActivity().finish();// TODO: 2016/8/30 替换为LockManager的unlock方法来结束
+                }
             }
         });
     }

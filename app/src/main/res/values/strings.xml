@@ -27,9 +27,9 @@
         <item>位置</item>
     </string-array>
     <string-array name="lock_env_entries_values">
-        <item>default</item>
-        <item>wifi</item>
-        <item>location</item>
+        <item>TYPE_DEFAULT</item>
+        <item>TYPE_WIFI</item>
+        <item>TYPE_LOCATION</item>
     </string-array>
 
 
