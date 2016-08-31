@@ -44,17 +44,6 @@ public class LockScreenFragment extends Fragment {
         hintTextView = (CircleTextView) view.findViewById(R.id.circle_text_hint);
         mainRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_main);
 
-        // TODO: 2016/8/31 test button
-        view.findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LockManager.getInstance().startUnlockView
-                        (getActivity(),
-                                getActivity().getSupportFragmentManager());
-            }
-        });
-
-
         setupMainRecyclerView();;
 
         return view;

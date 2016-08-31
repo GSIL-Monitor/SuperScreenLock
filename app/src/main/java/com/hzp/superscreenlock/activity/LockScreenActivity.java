@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -20,10 +21,11 @@ import com.hzp.superscreenlock.fragment.LockScreenFragment;
 import com.hzp.superscreenlock.locker.LockManager;
 import com.hzp.superscreenlock.manager.AppInfoManager;
 import com.hzp.superscreenlock.utils.LogUtil;
+import com.hzp.superscreenlock.utils.WindowUtil;
 import com.hzp.superscreenlock.view.adapter.AppInfoAdapter;
 
 
-public class LockScreenActivity extends AppCompatActivity implements LockManager.LockManagerControl {
+public class LockScreenActivity extends AppCompatActivity implements LockManager.LockManagerControl, View.OnTouchListener {
     public static final String TAG = "LockScreenActivity";
 
     private LockScreenFragment mainFragment;
@@ -31,6 +33,10 @@ public class LockScreenActivity extends AppCompatActivity implements LockManager
 
     private RecyclerView drawerRecyclerView;
     private AppInfoAdapter appInfoAdapter;
+
+    private int displayHeightPx = 0;
+    private float touchThreshold;
+    private float touchStartY = 0f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +52,9 @@ public class LockScreenActivity extends AppCompatActivity implements LockManager
 
     private void initViews() {
         drawerLayout = (DrawerLayout) findViewById(R.id.lock_screen_drawer_layout);
+        drawerLayout.setOnTouchListener(this);
+        displayHeightPx = WindowUtil.getDisplayDimensionWithPx(this)[0];
+        touchThreshold = (float) (displayHeightPx * 0.3);
 
         setupSystemViews();
         setupFragments();
@@ -152,10 +161,33 @@ public class LockScreenActivity extends AppCompatActivity implements LockManager
         return super.onKeyDown(keyCode, event);
     }
 
+
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         LogUtil.i(TAG,"new intent arrived = "+intent.toString());
         setupFragments();
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                touchStartY = event.getY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                break;
+            case MotionEvent.ACTION_UP:
+                if(event.getY()-touchStartY>touchThreshold){
+                    //向下滑动
+                    LockManager.getInstance().startUnlockView
+                            (this, getSupportFragmentManager());
+                    return true;
+                }else if(event.getY()-touchStartY<-touchThreshold){
+                   //向上滑动
+                }
+                break;
+        }
+        return false;
     }
 }
