@@ -1,5 +1,6 @@
 package com.hzp.superscreenlock.utils;
 
+import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
