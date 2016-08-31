@@ -221,6 +221,10 @@ public class LockManager {
         return this;
     }
 
+    public EnvironmentInfo getCurrentEnvironment() {
+        return currentEnvironment;
+    }
+
     public void updateWifiState(String currentSSID) {
         this.currentSSID = currentSSID;
         if (currentSSID != null) {

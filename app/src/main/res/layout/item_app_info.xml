@@ -16,6 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:textColor="@android:color/white"
         android:maxWidth="@dimen/app_info_label_max_length"
         android:textSize="@dimen/app_info_label_size"
         android:singleLine="true"

@@ -5,12 +5,14 @@
     tools:context=".fragment.LockScreenFragment">
 
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:id="@+id/layout_under"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".activity.LockScreenActivity">
+        tools:context=".activity.LockScreenActivity"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <Button
             android:id="@+id/button"
@@ -27,6 +29,21 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
+
+        <com.hzp.superscreenlock.view.CircleTextView
+            android:id="@+id/circle_text_hint"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:gravity="center"
+            android:text="T"
+            android:textColor="@color/colorAccent"
+            android:textSize="20sp"
+            android:layout_marginRight="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="39dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
     </RelativeLayout>
 

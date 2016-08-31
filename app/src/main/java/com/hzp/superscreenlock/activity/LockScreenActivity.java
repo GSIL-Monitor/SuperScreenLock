@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -15,7 +17,9 @@ import android.view.WindowManager;
 import com.hzp.superscreenlock.R;
 import com.hzp.superscreenlock.fragment.LockScreenFragment;
 import com.hzp.superscreenlock.locker.LockManager;
+import com.hzp.superscreenlock.manager.AppInfoManager;
 import com.hzp.superscreenlock.utils.LogUtil;
+import com.hzp.superscreenlock.view.adapter.AppInfoAdapter;
 
 
 public class LockScreenActivity extends AppCompatActivity implements LockManager.LockManagerControl {
@@ -23,6 +27,9 @@ public class LockScreenActivity extends AppCompatActivity implements LockManager
 
     private LockScreenFragment mainFragment;
     private DrawerLayout drawerLayout;
+
+    private RecyclerView drawerRecyclerView;
+    private AppInfoAdapter appInfoAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +48,18 @@ public class LockScreenActivity extends AppCompatActivity implements LockManager
 
         setupSystemViews();
         setupFragments();
+        setupDrawerRecyclerView();
     }
 
+    private void setupDrawerRecyclerView(){
+        drawerRecyclerView  = (RecyclerView) findViewById(R.id.drawer_recycler_view);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setReverseLayout(true);
+        drawerRecyclerView.setLayoutManager(linearLayoutManager);
+        appInfoAdapter = new AppInfoAdapter(AppInfoManager.getInstance().getAppInfoDisplayOnMain());
+        drawerRecyclerView.setAdapter(appInfoAdapter);
+
+    }
 
     private void setupSystemViews() {
         setupImmersiveMode();
