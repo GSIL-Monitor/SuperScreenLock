@@ -36,7 +36,7 @@ public class LockScreenActivity extends AppCompatActivity implements LockManager
 
     private int displayHeightPx = 0;
     private float touchThreshold;
-    private float touchStartY = 0f;
+    private float touchStartX=0f,touchStartY = 0f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,16 +174,19 @@ public class LockScreenActivity extends AppCompatActivity implements LockManager
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
                 touchStartY = event.getY();
+                touchStartX = event.getX();
                 break;
             case MotionEvent.ACTION_MOVE:
                 break;
             case MotionEvent.ACTION_UP:
-                if(event.getY()-touchStartY>touchThreshold){
+                if(event.getY()-touchStartY>touchThreshold
+                        && Math.abs(event.getX()-touchStartX)<touchThreshold){
                     //向下滑动
                     LockManager.getInstance().startUnlockView
                             (this, getSupportFragmentManager());
                     return true;
-                }else if(event.getY()-touchStartY<-touchThreshold){
+                }else if(event.getY()-touchStartY<-touchThreshold
+                        && Math.abs(event.getX()-touchStartX)<touchThreshold ){
                    //向上滑动
                 }
                 break;

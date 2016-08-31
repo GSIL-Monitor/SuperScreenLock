@@ -12,6 +12,7 @@ public class AppInfo implements Comparable<AppInfo>{
     /*图标显示的方位*/
     public static final int SCREEN_SHOW_TYPE_BOTTOM = 1;//底部
     public static final int SCREEN_SHOW_TYPE_SLIDE = 2;//侧边栏
+    public static final int SCREEN_SHOW_TYPE_SELECT_LIST = 3;//选择框页面
 
     private String appLabel;
     private Drawable appIcon;

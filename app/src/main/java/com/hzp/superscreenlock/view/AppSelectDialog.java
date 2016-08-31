@@ -50,7 +50,7 @@ public class AppSelectDialog extends DialogFragment implements AppInfoManager.Ap
         recyclerView = (RecyclerView) view.findViewById(R.id.app_select_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         appInfoAdapter = new AppInfoAdapter(AppInfoManager.getInstance()
-                .getStubsDisplay(AppInfo.SCREEN_SHOW_TYPE_BOTTOM));
+                .getStubsDisplay(AppInfo.SCREEN_SHOW_TYPE_SELECT_LIST));
         appInfoAdapter.setType(AppInfoAdapter.TYPE_EDIT);
         appInfoAdapter.setListener(this);
         recyclerView.setAdapter(appInfoAdapter);

@@ -87,10 +87,13 @@ public static final String TAG = AppInfoAdapter.class.getSimpleName();
             holder.label.setText(appInfo.getAppLabel());
         }
 
-        if(appInfo.getScreenShowType()==AppInfo.SCREEN_SHOW_TYPE_SLIDE){
-            holder.label.setVisibility(View.VISIBLE);
-        }else {
-            holder.label.setVisibility(View.GONE);
+        switch (appInfo.getScreenShowType()){
+            case AppInfo.SCREEN_SHOW_TYPE_SLIDE:
+                case AppInfo.SCREEN_SHOW_TYPE_SELECT_LIST:
+                    holder.label.setVisibility(View.VISIBLE);
+                    break;
+                    default:
+                        holder.label.setVisibility(View.GONE);
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
