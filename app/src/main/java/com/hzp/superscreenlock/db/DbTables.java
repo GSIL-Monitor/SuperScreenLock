@@ -7,18 +7,20 @@ import android.provider.BaseColumns;
  */
 public abstract class DbTables {
 
-    private static final String COMMA_SEP = ",";
+    private static final String COMMA_SEP = " , ";
     private static final String TEXT_TYPE = " TEXT ";
     private static final String LONG_TYPE = " LONG ";
     private static final String DOUBLE_TYPE = " DOUBLE ";
+    private static final String INTEGER_TYPE = " INTEGER ";
 
     public abstract class AppInfo {
         public static final String TABLE_NAME = "table_app_info";
 
         public static final String SQL_CREATE_ENTRIES =
                 "CREATE TABLE " + TABLE_NAME + " (" +
-                        Entry.COLUMN_NAME_PACKAGE + " " + TEXT_TYPE + " PRIMARY KEY," +
-                        Entry.COLUMN_NAME_APP_LABEL + TEXT_TYPE  +
+                        Entry.COLUMN_NAME_PACKAGE + " " + TEXT_TYPE + " PRIMARY KEY " + COMMA_SEP+
+                        Entry.COLUMN_NAME_SHOW_TYPE + INTEGER_TYPE  + COMMA_SEP+
+                        Entry.COLUMN_NAME_SHOW_POSITION + INTEGER_TYPE  +
                         " )";
 
         public static final String SQL_DELETE_ENTRIES =
@@ -27,7 +29,8 @@ public abstract class DbTables {
         public abstract class Entry implements BaseColumns {
 
             public static final String COLUMN_NAME_PACKAGE = "package";
-            public static final String COLUMN_NAME_APP_LABEL = "app_label";
+            public static final String COLUMN_NAME_SHOW_TYPE = "show_type";
+            public static final String COLUMN_NAME_SHOW_POSITION = "show_position";
         }
     }
 

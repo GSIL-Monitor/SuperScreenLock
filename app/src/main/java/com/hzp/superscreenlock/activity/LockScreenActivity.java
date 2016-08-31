@@ -15,6 +15,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.hzp.superscreenlock.R;
+import com.hzp.superscreenlock.entity.AppInfo;
 import com.hzp.superscreenlock.fragment.LockScreenFragment;
 import com.hzp.superscreenlock.locker.LockManager;
 import com.hzp.superscreenlock.manager.AppInfoManager;
@@ -56,7 +57,8 @@ public class LockScreenActivity extends AppCompatActivity implements LockManager
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setReverseLayout(true);
         drawerRecyclerView.setLayoutManager(linearLayoutManager);
-        appInfoAdapter = new AppInfoAdapter(AppInfoManager.getInstance().getAppInfoDisplayOnMain());
+        appInfoAdapter = new AppInfoAdapter(AppInfoManager.getInstance()
+                .getStubsDisplay(AppInfo.SCREEN_SHOW_TYPE_SLIDE));
         drawerRecyclerView.setAdapter(appInfoAdapter);
 
     }

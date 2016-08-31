@@ -70,8 +70,7 @@ public class LockScreenFragment extends Fragment {
 
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 4);
         mainRecyclerView.setLayoutManager(layoutManager);
-        // TODO: 2016/8/23 换位置载入数据
-        appInfoAdapter = new AppInfoAdapter(AppInfoManager.getInstance().getAppInfoDisplayOnMain());
+        appInfoAdapter = new AppInfoAdapter(AppInfoManager.getInstance().getListDisplayOnBottom());
         mainRecyclerView.setAdapter(appInfoAdapter);
 
     }

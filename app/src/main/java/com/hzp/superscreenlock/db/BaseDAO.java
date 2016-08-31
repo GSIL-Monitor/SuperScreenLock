@@ -25,4 +25,8 @@ public class BaseDAO {
         );
     }
 
+    protected int getInteger(Cursor c, String columnName) {
+        return c.getInt(c.getColumnIndexOrThrow(columnName));
+    }
+
 }

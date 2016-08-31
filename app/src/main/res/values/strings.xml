@@ -7,6 +7,7 @@
     <string name="action_edit_mode">编辑模式</string>
     <string name="action_delete_item">删除</string>
     <string name="action_done_item">完成</string>
+    <string name="action_setting_item">设置</string>
     <string name="pattern_edit_hint_first">请设置手势</string>
     <string name="pattern_edit_hint_second">再次设置以确认</string>
 
@@ -31,7 +32,6 @@
         <item>TYPE_WIFI</item>
         <item>TYPE_LOCATION</item>
     </string-array>
-
 
 
 </resources>

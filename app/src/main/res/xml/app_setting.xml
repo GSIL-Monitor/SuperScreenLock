@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="快捷图标设置">
+
+        <Preference android:title="设置底部快捷图标">
+            <intent
+                android:action="com.hzp.superscreenlock.activity.ScreenIconSettingActivity"/>
+        </Preference>
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

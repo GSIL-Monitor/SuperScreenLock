@@ -9,6 +9,9 @@ import android.text.TextUtils;
 
 import com.hzp.superscreenlock.entity.AppInfo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Created by hezhipeng on 2016/8/23.
@@ -40,7 +43,8 @@ public class AppInfoDAO extends BaseDAO {
         }
         ContentValues values = new ContentValues();
         values.put(DbTables.AppInfo.Entry.COLUMN_NAME_PACKAGE, info.getPkgName());
-        values.put(DbTables.AppInfo.Entry.COLUMN_NAME_APP_LABEL, info.getAppLabel());
+        values.put(DbTables.AppInfo.Entry.COLUMN_NAME_SHOW_TYPE, info.getScreenShowType());
+        values.put(DbTables.AppInfo.Entry.COLUMN_NAME_SHOW_POSITION, info.getShowPosition());
 
         db.insert(DbTables.AppInfo.TABLE_NAME, null, values);
     }
@@ -56,6 +60,15 @@ public class AppInfoDAO extends BaseDAO {
         db.delete(DbTables.AppInfo.TABLE_NAME, selection, selectionArgs);
     }
 
+    public void removeItemByTypeAndPosition(int showType,int showPosition) {
+        String selection =
+                DbTables.AppInfo.Entry.COLUMN_NAME_SHOW_TYPE +" = ? "
+                +" AND "
+                + DbTables.AppInfo.Entry.COLUMN_NAME_SHOW_POSITION +" = ? ";
+        String[] selectionArgs = { String.valueOf(showType), String.valueOf(showPosition)};
+        db.delete(DbTables.AppInfo.TABLE_NAME, selection, selectionArgs);
+    }
+
     /**
      * 更新一条数据
      */
@@ -65,9 +78,10 @@ public class AppInfoDAO extends BaseDAO {
         }
 
         ContentValues values = new ContentValues();
-        if (info.getAppLabel() != null) {
-            values.put(DbTables.AppInfo.Entry.COLUMN_NAME_APP_LABEL, info.getAppLabel());
+        if (info.getShowPosition() != -1) {
+            values.put(DbTables.AppInfo.Entry.COLUMN_NAME_SHOW_POSITION, info.getShowPosition());
         }
+        values.put(DbTables.AppInfo.Entry.COLUMN_NAME_SHOW_TYPE, info.getScreenShowType());
 
         String selection = DbTables.AppInfo.Entry.COLUMN_NAME_PACKAGE + " = ?";
         String[] selectionArgs = {info.getPkgName()};
@@ -77,6 +91,37 @@ public class AppInfoDAO extends BaseDAO {
                 values,
                 selection,
                 selectionArgs);
+    }
+
+    public List<AppInfo> queryItemsByShowType(int showType) {
+
+        String selection = DbTables.AppInfo.Entry.COLUMN_NAME_SHOW_TYPE+" = ? ";
+        String[] selectionArgs = {String.valueOf(showType)};
+
+        Cursor c = db.query(
+                DbTables.AppInfo.TABLE_NAME,  // The table to query
+                null,                               // The columns to return
+                selection,                                // The columns for the WHERE clause
+                selectionArgs,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                null                                 // The sort order
+        );
+
+        List<AppInfo> resultList = new ArrayList<>();
+        try {
+            if(c!=null&&c.moveToFirst()){
+                do{
+                    resultList.add(cursorToAppInfo(c,null));
+                }while(c.moveToNext());
+            }
+            return resultList;
+        } finally {
+            if(c!=null){
+                c.close();
+            }
+        }
+
     }
 
     public AppInfo queryItemByPkgName(@NonNull String packageName) {
@@ -108,18 +153,22 @@ public class AppInfoDAO extends BaseDAO {
         }
     }
 
+
     private AppInfo cursorToAppInfo(Cursor c,AppInfo info){
         if(info ==null){
             info = new AppInfo();
         }
         info.setPkgName(getString(c, DbTables.AppInfo.Entry.COLUMN_NAME_PACKAGE));
-        info.setAppLabel(getString(c, DbTables.AppInfo.Entry.COLUMN_NAME_APP_LABEL));
+        info.setScreenShowType(getInteger(c, DbTables.AppInfo.Entry.COLUMN_NAME_SHOW_TYPE));
+        info.setShowPosition(getInteger(c,DbTables.AppInfo.Entry.COLUMN_NAME_SHOW_POSITION));
         return info;
     }
+
 
     @Override
     protected void finalize() throws Throwable {
         super.finalize();
         db.close();
     }
+
 }

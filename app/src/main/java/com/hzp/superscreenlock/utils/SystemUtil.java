@@ -4,6 +4,8 @@ import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
@@ -37,26 +39,15 @@ public class SystemUtil {
      */
     public static void queryAppsInfo(Context context, AppsInfoQueryCallback callback) {
         PackageManager pm = context.getPackageManager(); //获得PackageManager对象
-        Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
-        mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        // 通过查询，获得所有ResolveInfo对象.
-        List<ResolveInfo> resolveInfos = pm
-                .queryIntentActivities(mainIntent, PackageManager.MATCH_DEFAULT_ONLY);
-        // 调用系统排序 ， 根据name排序
-        // 该排序很重要，否则只能显示系统应用，而不能列出第三方应用程序
-        Collections.sort(resolveInfos, new ResolveInfo.DisplayNameComparator(pm));
+        List<PackageInfo> packages = pm.getInstalledPackages(0);
 
         List<AppInfo> appList = new ArrayList<>();
 
-        for (ResolveInfo reInfo : resolveInfos) {
-            String activityName = reInfo.activityInfo.name; // 获得该应用程序的启动Activity的name
-            String pkgName = reInfo.activityInfo.packageName; // 获得应用程序的包名
-            String appLabel = (String) reInfo.loadLabel(pm); // 获得应用程序的Label
-            Drawable icon = reInfo.loadIcon(pm); // 获得应用程序图标
-            // 为应用程序的启动Activity 准备Intent
-            Intent launchIntent = new Intent();
-            launchIntent.setComponent(new ComponentName(pkgName,
-                    activityName));
+        for (PackageInfo pkg : packages) {
+            String appLabel = pkg.applicationInfo.loadLabel(pm).toString();
+            String pkgName = pkg.packageName;
+            Drawable icon = pkg.applicationInfo.loadIcon(pm);
+            Intent launchIntent = pm.getLaunchIntentForPackage(pkg.packageName);
             // 创建一个AppInfo对象，并赋值
             AppInfo appInfo = new AppInfo()
                     .setAppLabel(appLabel)
@@ -68,6 +59,28 @@ public class SystemUtil {
         if (callback != null) {
             callback.onQueryFinished(appList);
         }
+    }
+
+    public static AppInfo queryAppInfo(Context context,String packageName){
+        PackageManager pm = context.getPackageManager();
+        AppInfo appInfo = null;
+        try {
+             ApplicationInfo info = pm.getApplicationInfo(packageName,
+                            PackageManager.GET_META_DATA);
+            String label = pm.getApplicationLabel(info).toString();
+            Drawable icon = pm.getApplicationIcon(info);
+            Intent launchIntent = pm.getLaunchIntentForPackage(packageName);
+
+            appInfo= new AppInfo();
+            appInfo.setPkgName(packageName)
+                    .setAppLabel(label)
+                    .setAppIcon(icon)
+                    .setIntent(launchIntent);
+
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return appInfo;
     }
 
 
@@ -121,7 +134,7 @@ public class SystemUtil {
         }
     }
 
-    interface AppsInfoQueryCallback {
+    public interface AppsInfoQueryCallback {
         void onQueryFinished(List<AppInfo> list);
     }
 }

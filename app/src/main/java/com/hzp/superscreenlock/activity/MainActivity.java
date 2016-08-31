@@ -84,16 +84,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_add_item:
+            case R.id.action_add_item://新增
                 startActivityForResult(new Intent(this,EnvEditActivity.class),REQUEST_CODE);
                 break;
-            case R.id.action_edit_mode:
+            case R.id.action_edit_mode://编辑模式
                 settingMode = SETTING_MODE_EDIT;
                 invalidateOptionsMenu();
                 break;
-            case R.id.action_delete_item:
+            case R.id.action_delete_item://删除所选
                 EnvironmentManager.getInstance().deleteItems(adapter.getDeleteList());
                 adapter.commitEdit();
+                break;
+            case R.id.action_setting_item://应用设置
+                startActivity(new Intent(this,AppSettingActivity.class));
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -125,6 +128,10 @@ public class MainActivity extends AppCompatActivity {
         if (editMode != null) {
             editMode.setVisible(true);
         }
+        MenuItem setting = menu.findItem(R.id.action_setting_item);
+        if (setting != null) {
+            setting.setVisible(true);
+        }
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -147,6 +154,10 @@ public class MainActivity extends AppCompatActivity {
         MenuItem editMode = menu.findItem(R.id.action_edit_mode);
         if (editMode != null) {
             editMode.setVisible(false);
+        }
+        MenuItem setting = menu.findItem(R.id.action_setting_item);
+        if (setting != null) {
+            setting.setVisible(false);
         }
 
         ActionBar actionBar = getSupportActionBar();
