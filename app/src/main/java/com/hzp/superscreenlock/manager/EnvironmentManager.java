@@ -54,4 +54,8 @@ public class EnvironmentManager {
         }
     }
 
+    public boolean checkTitle(String title){
+        return dao.queryItemByTitle(title)==null;
+    }
+
 }

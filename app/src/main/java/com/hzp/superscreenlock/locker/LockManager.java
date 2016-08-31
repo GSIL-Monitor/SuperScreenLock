@@ -155,7 +155,7 @@ public class LockManager {
                 .setLockType(EnvironmentInfo.LockType.LOCK_TYPE_NONE);
     }
 
-    public boolean checkEnvironment(EnvironmentInfo info) {
+    private boolean checkEnvironment(EnvironmentInfo info) {
         switch (info.getType()) {
             case EnvironmentInfo.TYPE_WIFI:
                 return checkWifiEnvironment(info);
@@ -170,11 +170,19 @@ public class LockManager {
     private boolean checkWifiEnvironment(EnvironmentInfo info) {
         return currentSSID != null
                 &&
+                info.getWifiSSID()!=null
+                &&
                 info.getWifiSSID().equals(currentSSID);
     }
 
     private boolean checkLocationEnvironment(EnvironmentInfo info) {
-        return computeLocation(info.getLongitude(), info.getLatitude());
+        return currentLocation!=null
+                &&
+                info.getLongitude()>0.001f
+                &&
+                info.getLatitude()>0.001f
+                &&
+                computeLocation(info.getLongitude(), info.getLatitude());
     }
 
     // TODO: 2016/8/26 可能需要异步处理，计算量较大
