@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         envList = (RecyclerView) findViewById(R.id.setting_environment_list);
-        envList.setLayoutManager(new GridLayoutManager(this,3));
+        envList.setLayoutManager(new GridLayoutManager(this,2));
         adapter = new EnvironmentAdapter(this);
         adapter.addItems(EnvironmentManager.getInstance().getAllItems());
         envList.setAdapter(adapter);

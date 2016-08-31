@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.hzp.superscreenlock.db.DbTables;
+import com.hzp.superscreenlock.locker.LockManager;
 import com.hzp.superscreenlock.manager.AppInfoManager;
 import com.hzp.superscreenlock.manager.EnvironmentManager;
 import com.hzp.superscreenlock.receiver.ReceiverManager;
@@ -33,5 +34,6 @@ public class MyApplication extends Application {
         EnvironmentManager.getInstance().init(this);
         ReceiverManager.getInstance().init(this);
         MyLocationManager.getInstance().init(this);
+        LockManager.getInstance().init(this);
     }
 }

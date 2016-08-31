@@ -1,6 +1,7 @@
 package com.hzp.superscreenlock.locker;
 
 import android.app.Activity;
+import android.content.Context;
 import android.location.Location;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -22,6 +23,8 @@ public class LockManager {
 
     private static LockManager instance;
 
+    List<Activity> activityList = new ArrayList<>();
+
     private EnvironmentInfo currentEnvironment;
     private String currentSSID;
     private Location currentLocation;
@@ -42,6 +45,10 @@ public class LockManager {
         return instance;
     }
 
+    public void init(Context context){
+        activityList.clear();
+    }
+
     /**
      * 由Manager来控制启动解锁界面的类型
      */
@@ -53,15 +60,24 @@ public class LockManager {
         EnvironmentInfo.LockType lockType = currentEnvironment.getLockType();
 
         LogUtil.i(TAG, "start unlock: hint=" + hint + " lockType=" + lockType);
-        // TODO: 2016/8/25 1.滑动解锁（无锁） 2.密码解锁 3.九宫格
         switch (lockType) {
-            case LOCK_TYPE_NONE:
-            case LOCK_TYPE_PASSWORD:
-            case LOCK_TYPE_PATTERN:
-                if (invoker instanceof LockManagerControl) {
+            case LOCK_TYPE_NONE://直接解锁
+                unlockScreen();
+                break;
+            case LOCK_TYPE_PASSWORD://启动密码锁界面
+                if (invoker!=null && invoker instanceof LockManagerControl) {
                     FragmentTransaction transaction = fm.beginTransaction();
                     transaction.replace(((LockManagerControl) invoker).getFragmentContainerResId(),
-                            UnlockFragment.newInstance(UnlockFragment.DISPLAY_TYPE_NONE));
+                            UnlockFragment.newInstance(UnlockFragment.DISPLAY_TYPE_PASSWORD));
+                    transaction.commit();
+                    ((LockManagerControl) invoker).hideDrawer();
+                }
+                break;
+            case LOCK_TYPE_PATTERN://启动手势锁界面
+                if (invoker!=null && invoker instanceof LockManagerControl) {
+                    FragmentTransaction transaction = fm.beginTransaction();
+                    transaction.replace(((LockManagerControl) invoker).getFragmentContainerResId(),
+                            UnlockFragment.newInstance(UnlockFragment.DISPLAY_TYPE_PATTERN));
                     transaction.commit();
                     ((LockManagerControl) invoker).hideDrawer();
                 }
@@ -74,6 +90,15 @@ public class LockManager {
      * 结束所有activity
      */
     public void unlockScreen() {
+        LogUtil.i(TAG,"screen unlock success!");
+        for(Activity activity:activityList){
+            activity.finish();
+        }
+    }
+
+    public void registerLockActivity(Activity  activity){
+        if(activity!=null && activity instanceof LockManagerControl)
+        activityList.add(activity);
     }
 
     /**
@@ -211,7 +236,12 @@ public class LockManager {
      * @return
      */
     public boolean verifyPassword(String password) {
-        return true;// TODO: 2016/8/30
+        if (currentEnvironment == null ||
+                currentEnvironment.getLockType() == null ||
+                currentEnvironment.getLockType() != EnvironmentInfo.LockType.LOCK_TYPE_PASSWORD) {
+            return false;
+        }
+        return SystemUtil.encryptString(password).equals(currentEnvironment.getPassword());
     }
 
 
@@ -229,6 +259,7 @@ public class LockManager {
         }
         return SystemUtil.encryptString(password).equals(currentEnvironment.getPatternPassword());
     }
+
 
     public interface LockManagerControl {
         int getFragmentContainerResId();

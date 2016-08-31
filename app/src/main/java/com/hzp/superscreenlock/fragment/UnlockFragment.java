@@ -3,13 +3,17 @@ package com.hzp.superscreenlock.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.hzp.superscreenlock.R;
 import com.hzp.superscreenlock.locker.LockManager;
+import com.hzp.superscreenlock.utils.SystemUtil;
 import com.hzp.superscreenlock.view.Lock9View;
 
 
@@ -49,14 +53,13 @@ public class UnlockFragment extends Fragment {
         int resId = 0;
         //选择对应的资源文件
         switch (displayType) {
-            case DISPLAY_TYPE_NONE:
+//            case DISPLAY_TYPE_NONE:
 //                break;
             case DISPLAY_TYPE_PASSWORD:
-                // TODO: 2016/8/26 初始化密码解锁
-//                break;
+                resId = R.layout.fragment_unlock_password;
+                break;
             case DISPLAY_TYPE_PATTERN:
                 resId = R.layout.fragment_unlock_pattern;
-
                 break;
             default:
                 throw new IllegalArgumentException("wrong unlock display type");
@@ -65,11 +68,10 @@ public class UnlockFragment extends Fragment {
 
         //选择进行对应的初始化
         switch (displayType) {
-            case DISPLAY_TYPE_NONE:
-//                break;
+//            case DISPLAY_TYPE_NONE:
             case DISPLAY_TYPE_PASSWORD:
-                // TODO: 2016/8/26 初始化密码解锁
-//                break;
+                initPasswordLock(view);
+                break;
             case DISPLAY_TYPE_PATTERN:
                 initPatternLock(view);
                 break;
@@ -77,14 +79,26 @@ public class UnlockFragment extends Fragment {
                 throw new IllegalArgumentException("wrong unlock display type");
         }
 
-        // TODO: 2016/8/30 删除这段
-        view.setOnClickListener(new View.OnClickListener() {
+        return view;
+    }
+
+    private void initPasswordLock(View view) {
+        final EditText passwordEditText = (EditText) view.findViewById(R.id.editText_password_unlock);
+        Button passwordBtOk= (Button) view.findViewById(R.id.password_unlock_ok);
+
+        passwordBtOk.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                getActivity().finish();
+            public void onClick(View v) {
+                String s = passwordEditText.getText().toString();
+                if(TextUtils.isEmpty(s) || s.length()<4){
+                    Toast.makeText(getContext(),"密码错误!",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(LockManager.getInstance().verifyPassword(s)){
+                    LockManager.getInstance().unlockScreen();
+                }
             }
         });
-        return view;
     }
 
     private void initPatternLock(View view) {
@@ -93,7 +107,7 @@ public class UnlockFragment extends Fragment {
             @Override
             public void onFinish(String password) {
                 if(LockManager.getInstance().verifyPatternPassword(password)){
-                    getActivity().finish();// TODO: 2016/8/30 替换为LockManager的unlock方法来结束
+                    LockManager.getInstance().unlockScreen();
                 }
             }
         });

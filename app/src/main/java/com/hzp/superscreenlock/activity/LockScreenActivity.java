@@ -32,6 +32,8 @@ public class LockScreenActivity extends AppCompatActivity implements LockManager
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
 
         initViews();
+
+        LockManager.getInstance().registerLockActivity(this);
     }
 
     private void initViews() {
