@@ -88,7 +88,8 @@ public class UnlockFragment extends Fragment {
 
     private void initPasswordLock(View view) {
         final EditText passwordEditText = (EditText) view.findViewById(R.id.editText_password_unlock);
-
+        passwordEditText.setCursorVisible(false);
+//        passwordEditText.getBackground().setAlpha(0);
         passwordEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -147,7 +148,8 @@ public class UnlockFragment extends Fragment {
         if(displayType==DISPLAY_TYPE_PASSWORD){
             InputMethodManager imm = (InputMethodManager) getActivity()
                     .getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.toggleSoftInput(0, InputMethodManager.HIDE_IMPLICIT_ONLY);
+            imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken()
+                    ,InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
 }
