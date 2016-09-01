@@ -103,10 +103,11 @@ public class AppInfoDAO extends BaseDAO {
                 selectionArgs);
     }
 
-    public List<AppInfo> queryItemsByShowType(int showType) {
+    public List<AppInfo> queryItemsByShowType(int showType,int startPosition){
 
-        String selection = DbTables.AppInfo.Entry.COLUMN_NAME_SHOW_TYPE+" = ? ";
-        String[] selectionArgs = {String.valueOf(showType)};
+        String selection = DbTables.AppInfo.Entry.COLUMN_NAME_SHOW_TYPE+" = ? AND "+
+                DbTables.AppInfo.Entry.COLUMN_NAME_SHOW_POSITION + " >= ? ";
+        String[] selectionArgs = {String.valueOf(showType),String.valueOf(startPosition)};
 
         Cursor c = db.query(
                 DbTables.AppInfo.TABLE_NAME,  // The table to query
@@ -131,7 +132,10 @@ public class AppInfoDAO extends BaseDAO {
                 c.close();
             }
         }
+    }
 
+    public List<AppInfo> queryItemsByShowType(int showType) {
+        return queryItemsByShowType(showType,0);
     }
 
     public AppInfo queryItemByPkgName(@NonNull String packageName) {
