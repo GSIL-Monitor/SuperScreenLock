@@ -2,13 +2,17 @@ package com.hzp.superscreenlock.locker;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
+import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.hzp.superscreenlock.entity.EnvironmentInfo;
 import com.hzp.superscreenlock.fragment.UnlockFragment;
 import com.hzp.superscreenlock.manager.EnvironmentManager;
+import com.hzp.superscreenlock.service.BaseService;
 import com.hzp.superscreenlock.utils.LogUtil;
 import com.hzp.superscreenlock.utils.SystemUtil;
 
@@ -22,12 +26,15 @@ public class LockManager {
     public static final String TAG = "LockManager";
 
     private static LockManager instance;
+    private Context context;
 
     List<Activity> activityList = new ArrayList<>();
 
     private EnvironmentInfo currentEnvironment;
     private String currentSSID;
     private Location currentLocation;
+
+    private Intent startIntent;
 
     private float locationError = 500f;//距离判定最大误差范围 单位(米)
 
@@ -47,15 +54,18 @@ public class LockManager {
 
     public void init(Context context){
         activityList.clear();
+        this.context  = context;
     }
 
     /**
      * 由Manager来控制启动解锁界面的类型
      */
-    public void startUnlockView(Activity invoker, FragmentManager fm) {
+    public void startUnlockView(Activity invoker, FragmentManager fm,Intent startIntent) {
         if (currentEnvironment == null) {
             return;
         }
+        this.startIntent = startIntent;
+
         String hint = currentEnvironment.getHint();
         EnvironmentInfo.LockType lockType = currentEnvironment.getLockType();
 
@@ -83,6 +93,7 @@ public class LockManager {
                 }
                 break;
         }
+
     }
 
     /**
@@ -91,9 +102,16 @@ public class LockManager {
      */
     public void unlockScreen() {
         LogUtil.i(TAG,"screen unlock success!");
+
+        if(startIntent!=null){
+            LogUtil.i(TAG,"start intent = "+startIntent.toString());
+            context.startActivity(startIntent);
+            startIntent = null;
+        }
         for(Activity activity:activityList){
             activity.finish();
         }
+
     }
 
     public void registerLockActivity(Activity  activity){
@@ -279,5 +297,6 @@ public class LockManager {
         void showDrawer();
 
         void hideDrawer();
+
     }
 }

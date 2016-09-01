@@ -108,6 +108,9 @@ public class UnlockFragment extends Fragment {
             public void onFinish(String password) {
                 if(LockManager.getInstance().verifyPatternPassword(password)){
                     LockManager.getInstance().unlockScreen();
+                }else{
+                    Toast.makeText(getContext(),"手势错误!",Toast.LENGTH_SHORT).show();
+                    return;
                 }
             }
         });

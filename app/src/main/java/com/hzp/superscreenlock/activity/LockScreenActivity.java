@@ -3,6 +3,7 @@ package com.hzp.superscreenlock.activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
@@ -25,7 +26,7 @@ import com.hzp.superscreenlock.utils.WindowUtil;
 import com.hzp.superscreenlock.view.adapter.AppInfoAdapter;
 
 
-public class LockScreenActivity extends AppCompatActivity implements LockManager.LockManagerControl, View.OnTouchListener {
+public class LockScreenActivity extends AppCompatActivity implements LockManager.LockManagerControl, View.OnTouchListener, AppInfoAdapter.AppInfoListener {
     public static final String TAG = "LockScreenActivity";
 
     private LockScreenFragment mainFragment;
@@ -68,6 +69,7 @@ public class LockScreenActivity extends AppCompatActivity implements LockManager
         drawerRecyclerView.setLayoutManager(linearLayoutManager);
         appInfoAdapter = new AppInfoAdapter(AppInfoManager.getInstance()
                 .getListToDisplay(AppInfo.SCREEN_SHOW_TYPE_SLIDE));
+        appInfoAdapter.setListener(this);
         drawerRecyclerView.setAdapter(appInfoAdapter);
 
     }
@@ -144,6 +146,7 @@ public class LockScreenActivity extends AppCompatActivity implements LockManager
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
 
+
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -183,7 +186,7 @@ public class LockScreenActivity extends AppCompatActivity implements LockManager
                         && Math.abs(event.getX()-touchStartX)<touchThreshold){
                     //向下滑动
                     LockManager.getInstance().startUnlockView
-                            (this, getSupportFragmentManager());
+                            (this, getSupportFragmentManager(),null);
                     return true;
                 }else if(event.getY()-touchStartY<-touchThreshold
                         && Math.abs(event.getX()-touchStartX)<touchThreshold ){
@@ -193,4 +196,10 @@ public class LockScreenActivity extends AppCompatActivity implements LockManager
         }
         return false;
     }
+
+    @Override
+    public void onItemClick(AppInfo appInfo, int position) {
+        LockManager.getInstance().startUnlockView(this,getSupportFragmentManager(),appInfo.getIntent());
+    }
+
 }

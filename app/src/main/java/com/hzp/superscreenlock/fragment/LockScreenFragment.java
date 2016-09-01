@@ -18,7 +18,7 @@ import com.hzp.superscreenlock.view.CircleTextView;
 import com.hzp.superscreenlock.view.adapter.AppInfoAdapter;
 
 
-public class LockScreenFragment extends Fragment {
+public class LockScreenFragment extends Fragment implements AppInfoAdapter.AppInfoListener {
 
     private RecyclerView mainRecyclerView;
     private AppInfoAdapter appInfoAdapter;
@@ -63,6 +63,7 @@ public class LockScreenFragment extends Fragment {
         mainRecyclerView.setLayoutManager(layoutManager);
         appInfoAdapter = new AppInfoAdapter(AppInfoManager.getInstance()
                 .getListToDisplay(AppInfo.SCREEN_SHOW_TYPE_BOTTOM));
+        appInfoAdapter.setListener(this);
         mainRecyclerView.setAdapter(appInfoAdapter);
 
     }
@@ -74,4 +75,10 @@ public class LockScreenFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onItemClick(AppInfo appInfo, int position) {
+        LockManager.getInstance().startUnlockView(getActivity(),
+                getActivity().getSupportFragmentManager(),
+                appInfo.getIntent());
+    }
 }
