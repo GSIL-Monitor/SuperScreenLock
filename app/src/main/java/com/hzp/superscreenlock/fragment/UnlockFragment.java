@@ -1,12 +1,16 @@
 package com.hzp.superscreenlock.fragment;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -84,19 +88,29 @@ public class UnlockFragment extends Fragment {
 
     private void initPasswordLock(View view) {
         final EditText passwordEditText = (EditText) view.findViewById(R.id.editText_password_unlock);
-        Button passwordBtOk= (Button) view.findViewById(R.id.password_unlock_ok);
 
-        passwordBtOk.setOnClickListener(new View.OnClickListener() {
+        passwordEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View v) {
-                String s = passwordEditText.getText().toString();
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(TextUtils.isEmpty(s) || s.length()<4){
-                    Toast.makeText(getContext(),"密码错误!",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(LockManager.getInstance().verifyPassword(s)){
+                if(LockManager.getInstance().verifyPassword(String.valueOf(s))){
                     LockManager.getInstance().unlockScreen();
+                }else{
+                    Toast.makeText(getContext(),"密码错误!",Toast.LENGTH_SHORT).show();
+                    passwordEditText.setText("");
                 }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
     }
@@ -116,4 +130,24 @@ public class UnlockFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(displayType==DISPLAY_TYPE_PASSWORD){
+            InputMethodManager imm = (InputMethodManager) getActivity()
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+        }
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(displayType==DISPLAY_TYPE_PASSWORD){
+            InputMethodManager imm = (InputMethodManager) getActivity()
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.toggleSoftInput(0, InputMethodManager.HIDE_IMPLICIT_ONLY);
+        }
+    }
 }

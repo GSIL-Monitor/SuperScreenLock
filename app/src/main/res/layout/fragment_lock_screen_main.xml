@@ -11,7 +11,8 @@
         android:layout_height="match_parent"
         tools:context=".activity.LockScreenActivity"
         android:layout_alignParentTop="true"
-        >
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
 
         <android.support.v7.widget.RecyclerView
@@ -36,6 +37,17 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:id="@+id/lock_screen_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00:00"
+            android:textSize="50sp"
+            android:textColor="@android:color/white"
+            android:layout_below="@+id/circle_text_hint"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="76dp" />
 
     </RelativeLayout>
 
