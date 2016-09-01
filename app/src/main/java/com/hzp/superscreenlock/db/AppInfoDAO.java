@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
@@ -67,6 +68,15 @@ public class AppInfoDAO extends BaseDAO {
                 + DbTables.AppInfo.Entry.COLUMN_NAME_SHOW_POSITION +" = ? ";
         String[] selectionArgs = { String.valueOf(showType), String.valueOf(showPosition)};
         db.delete(DbTables.AppInfo.TABLE_NAME, selection, selectionArgs);
+//        String sql = "DELETE FROM "+ DbTables.AppInfo.TABLE_NAME+" WHERE "+
+//                DbTables.AppInfo.Entry.COLUMN_NAME_SHOW_TYPE +" = ?  and "+
+//                DbTables.AppInfo.Entry.COLUMN_NAME_SHOW_POSITION +" = ?";
+//        try{
+//
+//        db.execSQL(sql);
+//        }catch (SQLiteException exception){
+//
+//        }
     }
 
     /**

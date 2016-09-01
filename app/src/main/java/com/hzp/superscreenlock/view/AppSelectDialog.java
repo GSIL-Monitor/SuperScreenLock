@@ -28,16 +28,21 @@ public class AppSelectDialog extends DialogFragment implements AppInfoManager.Ap
     private AppInfoAdapter appInfoAdapter;
 
     private static final String  KEY_SHOW_POSITION = "KEY_SHOW_POSITION";
+    private static final String  KEY_SHOW_TYPE = "KEY_SHOW_TYPE";
 
     private int showPosition = -1;
+    private int showType = AppInfo.SCREEN_SHOW_TYPE_SELECT_LIST;
+
+    private AppSelectDialogListener selectDialogListener;
 
     public AppSelectDialog(){}
 
-    public static AppSelectDialog newInstance(int showPosition){
+    public static AppSelectDialog newInstance(int showPosition, int screenShowType){
 
         AppSelectDialog dialog = new AppSelectDialog();
         Bundle bundle = new Bundle();
         bundle.putInt(KEY_SHOW_POSITION,showPosition);
+        bundle.putInt(KEY_SHOW_TYPE,screenShowType);
         dialog.setArguments(bundle);
         return dialog;
     }
@@ -49,8 +54,7 @@ public class AppSelectDialog extends DialogFragment implements AppInfoManager.Ap
 
         recyclerView = (RecyclerView) view.findViewById(R.id.app_select_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        appInfoAdapter = new AppInfoAdapter(AppInfoManager.getInstance()
-                .getStubsDisplay(AppInfo.SCREEN_SHOW_TYPE_SELECT_LIST));
+        appInfoAdapter = new AppInfoAdapter();
         appInfoAdapter.setType(AppInfoAdapter.TYPE_EDIT);
         appInfoAdapter.setListener(this);
         recyclerView.setAdapter(appInfoAdapter);
@@ -61,6 +65,7 @@ public class AppSelectDialog extends DialogFragment implements AppInfoManager.Ap
 
         if(showPosition!=1 && getArguments()!=null){
             showPosition = getArguments().getInt(KEY_SHOW_POSITION);
+            showType = getArguments().getInt(KEY_SHOW_TYPE);
         }else{
             throw new IllegalArgumentException("args showPosition incorrect or not found!");
         }
@@ -71,6 +76,9 @@ public class AppSelectDialog extends DialogFragment implements AppInfoManager.Ap
     @Override
     public void onAppListUpdated(List<AppInfo> list) {
         appInfoAdapter.clear();
+        for(AppInfo i:list){
+            i.setScreenShowType(AppInfo.SCREEN_SHOW_TYPE_SELECT_LIST);
+        }
         appInfoAdapter.addItems(list);
     }
 
@@ -83,13 +91,28 @@ public class AppSelectDialog extends DialogFragment implements AppInfoManager.Ap
     @Override
     public void onItemClick(AppInfo appInfo, int position) {
         //持久化处理设置选项
-        appInfo.setScreenShowType(AppInfo.SCREEN_SHOW_TYPE_BOTTOM)
+        appInfo.setScreenShowType(showType)
                 .setShowPosition(showPosition);
         //删除掉位置重复的
-        // TODO: 2016/8/31 不太妥
-        AppInfoManager.getInstance().removeItemByTypeAndPosition(AppInfo.SCREEN_SHOW_TYPE_BOTTOM,showPosition);
+        // TODO: 2016/8/31 这样处理不太妥
+        AppInfoManager.getInstance().removeItemByTypeAndPosition(showType,showPosition);
         AppInfoManager.getInstance().saveItem(appInfo);
 
+        if(selectDialogListener!=null){
+            selectDialogListener.onDialogDismiss();
+        }
+
         dismiss();
+    }
+
+
+    public AppSelectDialog setSelectDialogListener(AppSelectDialogListener selectDialogListener) {
+        this.selectDialogListener = selectDialogListener;
+        return this;
+    }
+
+    public interface AppSelectDialogListener {
+
+        void onDialogDismiss();
     }
 }

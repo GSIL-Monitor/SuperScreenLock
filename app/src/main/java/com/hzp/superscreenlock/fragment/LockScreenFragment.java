@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.hzp.superscreenlock.R;
+import com.hzp.superscreenlock.entity.AppInfo;
 import com.hzp.superscreenlock.entity.EnvironmentInfo;
 import com.hzp.superscreenlock.locker.LockManager;
 import com.hzp.superscreenlock.manager.AppInfoManager;
@@ -44,7 +45,7 @@ public class LockScreenFragment extends Fragment {
         hintTextView = (CircleTextView) view.findViewById(R.id.circle_text_hint);
         mainRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_main);
 
-        setupMainRecyclerView();;
+        setupMainRecyclerView();
 
         return view;
     }
@@ -57,9 +58,11 @@ public class LockScreenFragment extends Fragment {
 
     private void setupMainRecyclerView() {
 
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 4);
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(),
+                AppInfoManager.getInstance().getBottomIconNumber());
         mainRecyclerView.setLayoutManager(layoutManager);
-        appInfoAdapter = new AppInfoAdapter(AppInfoManager.getInstance().getListDisplayOnBottom());
+        appInfoAdapter = new AppInfoAdapter(AppInfoManager.getInstance()
+                .getListToDisplay(AppInfo.SCREEN_SHOW_TYPE_BOTTOM));
         mainRecyclerView.setAdapter(appInfoAdapter);
 
     }

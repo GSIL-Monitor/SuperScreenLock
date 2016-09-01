@@ -5,7 +5,12 @@
 
         <Preference android:title="设置底部快捷图标">
             <intent
-                android:action="com.hzp.superscreenlock.activity.ScreenIconSettingActivity"/>
+                android:action="com.hzp.superscreenlock.activity.ScreenIconSettingActivity.bottom"/>
+        </Preference>
+
+        <Preference android:title="设置侧边栏快捷图标">
+            <intent
+                android:action="com.hzp.superscreenlock.activity.ScreenIconSettingActivity.slide"/>
         </Preference>
 
     </PreferenceCategory>

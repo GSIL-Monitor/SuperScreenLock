@@ -11,7 +11,7 @@
         android:layout_height="@dimen/app_info_icon_size"
         android:layout_gravity="center_horizontal"
         android:id="@+id/item_app_info_icon"
-        android:src="@android:drawable/stat_sys_warning" />
+        android:src="@drawable/ic_add_box_white_24dp" />
 
     <TextView
         android:layout_width="wrap_content"

@@ -70,7 +70,8 @@
         <activity android:name=".activity.AppSettingActivity" />
         <activity android:name=".activity.ScreenIconSettingActivity">
             <intent-filter>
-                <action android:name="com.hzp.superscreenlock.activity.ScreenIconSettingActivity"/>
+                <action android:name="com.hzp.superscreenlock.activity.ScreenIconSettingActivity.bottom"/>
+                <action android:name="com.hzp.superscreenlock.activity.ScreenIconSettingActivity.slide"/>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

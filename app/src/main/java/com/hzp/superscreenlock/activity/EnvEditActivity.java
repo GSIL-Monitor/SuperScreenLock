@@ -86,11 +86,7 @@ public class EnvEditActivity extends AppCompatActivity
 
     private void handleEnvEditDone(){
         EnvironmentInfo info = envEditFragment.getEditData();
-        //检查标题重复
-        if(!EnvironmentManager.getInstance().checkTitle(info.getTitle())){
-            Toast.makeText(getApplicationContext(),"场景名称已存在，请重新输入！",Toast.LENGTH_SHORT).show();
-            return;
-        }
+
         //开始检查完整性
         if(TextUtils.isEmpty(info.getTitle())){
             Toast.makeText(getApplicationContext(),"场景名称未填写！",Toast.LENGTH_SHORT).show();
@@ -103,6 +99,12 @@ public class EnvEditActivity extends AppCompatActivity
             return;
         }else if(info.getLockType()==null || TextUtils.isEmpty(info.getLockType().toString())){
             Toast.makeText(getApplicationContext(),"还未选择解锁模式！",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        //检查标题重复
+        if(!EnvironmentManager.getInstance().checkTitle(info.getTitle())){
+            Toast.makeText(getApplicationContext(),"场景名称已存在，请重新输入！",Toast.LENGTH_SHORT).show();
             return;
         }
 

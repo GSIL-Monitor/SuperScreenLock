@@ -67,7 +67,7 @@ public class LockScreenActivity extends AppCompatActivity implements LockManager
         linearLayoutManager.setReverseLayout(true);
         drawerRecyclerView.setLayoutManager(linearLayoutManager);
         appInfoAdapter = new AppInfoAdapter(AppInfoManager.getInstance()
-                .getStubsDisplay(AppInfo.SCREEN_SHOW_TYPE_SLIDE));
+                .getListToDisplay(AppInfo.SCREEN_SHOW_TYPE_SLIDE));
         drawerRecyclerView.setAdapter(appInfoAdapter);
 
     }

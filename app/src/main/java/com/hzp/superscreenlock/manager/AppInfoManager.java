@@ -1,7 +1,9 @@
 package com.hzp.superscreenlock.manager;
 
 import android.content.Context;
+import android.os.Build;
 
+import com.hzp.superscreenlock.R;
 import com.hzp.superscreenlock.db.AppInfoDAO;
 import com.hzp.superscreenlock.entity.AppInfo;
 import com.hzp.superscreenlock.utils.SystemUtil;
@@ -17,6 +19,9 @@ import java.util.List;
  */
 public class AppInfoManager {
     private static AppInfoManager instance;
+
+    public static final String STUB_PACKAGE_NAME= "com.hzp.superscreenlock.stub";
+
     private Context context;
 
     private AppInfoDAO dao;
@@ -24,7 +29,7 @@ public class AppInfoManager {
     private List<AppInfoListener> listeners = new ArrayList<>();
     private List<AppInfo> appInfoList = new ArrayList<>();
 
-    private int bottomIconNumber = 4,slideIconNumber =4;
+    private int bottomIconNumber = 4, slideIconNumber = 4;
 
     private AppInfoManager() {/*empty*/}
 
@@ -39,48 +44,51 @@ public class AppInfoManager {
         return instance;
     }
 
-    public void init(Context context){
+    public void init(Context context) {
         this.context = context;
-        dao=new AppInfoDAO(context);
+        dao = new AppInfoDAO(context);
     }
 
 
-    public List<AppInfo> getStubsDisplay(int showType) {
+    public AppInfo getStubAppInfo() {
+        AppInfo stub = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            stub = new AppInfo().setAppIcon(context.getDrawable(R.drawable.ic_add_box_white_24dp));
+        } else {
+            stub = new AppInfo().setAppIcon(context.getResources().getDrawable(R.drawable.ic_add_box_white_24dp));
+        }
+        stub.setPkgName(STUB_PACKAGE_NAME);
+        stub.setShowPosition(9999);
+        return stub;
+    }
 
-        List<AppInfo> list = new ArrayList<>();
-        for (int i = 0; i < bottomIconNumber; i++) {
-            switch (showType){
-                case AppInfo.SCREEN_SHOW_TYPE_BOTTOM:
-                    list.add(new AppInfo());
-                    break;
-                case AppInfo.SCREEN_SHOW_TYPE_SLIDE:
-                    list.add(new AppInfo().setScreenShowType(AppInfo.SCREEN_SHOW_TYPE_SLIDE));
-                    break;
+
+    public List<AppInfo> getListToDisplay(int showType) {
+        List<AppInfo> list = null;
+
+        list = dao.queryItemsByShowType(showType);
+
+        for (AppInfo info : list) {
+            AppInfo temp = SystemUtil.queryAppInfo(context, info.getPkgName());
+
+            if(temp==null && info.getPkgName().equals(STUB_PACKAGE_NAME)){
+                info = getAppInfo(info.getPkgName());
+                continue;
             }
-        }
-        return list;
-    }
 
-
-    public List<AppInfo> getListDisplayOnBottom(){
-        List<AppInfo> list = dao.queryItemsByShowType(AppInfo.SCREEN_SHOW_TYPE_BOTTOM);
-
-        for(AppInfo info:list){
-            AppInfo temp = SystemUtil.queryAppInfo(context,info.getPkgName());
             info.setAppLabel(temp.getAppLabel())
-            .setAppIcon(temp.getAppIcon())
-            .setIntent(temp.getIntent());
+                    .setAppIcon(temp.getAppIcon())
+                    .setIntent(temp.getIntent());
         }
 
-        Collections.sort(list);
         return list;
     }
 
-    public void requestUpdateAppList(){
+    public void requestUpdateAppList() {
         SystemUtil.queryAppsInfo(context, new SystemUtil.AppsInfoQueryCallback() {
             @Override
             public void onQueryFinished(List<AppInfo> list) {
-                for(AppInfoListener listener:listeners){
+                for (AppInfoListener listener : listeners) {
                     listener.onAppListUpdated(list);
                 }
                 appInfoList.clear();
@@ -93,31 +101,82 @@ public class AppInfoManager {
         listeners.add(listener);
     }
 
-    public void removeListener(AppInfoListener listener){
+    public void removeListener(AppInfoListener listener) {
         listeners.remove(listener);
     }
 
-    public interface AppInfoListener{
+    public interface AppInfoListener {
         void onAppListUpdated(List<AppInfo> list);
     }
 
-    public void saveItem(AppInfo info){
-        if(info==null){
+    public void saveItem(AppInfo info) {
+        if (info == null) {
             return;
         }
         if (checkPackage(info.getPkgName())) {
-             dao.insertItem(info);
-        }else{
-             dao.updateItem(info);
+            dao.insertItem(info);
+        } else {
+            AppInfo infoTemp = checkItemShowTypeChange(info);
+            if (infoTemp !=null) {//显示位置showType更换，用一个stub代替
+                dao.insertItem(getStubAppInfo()
+                .setScreenShowType(infoTemp.getScreenShowType())
+                .setShowPosition(infoTemp.getShowPosition()));
+
+                dao.updateItem(info);
+            }else{
+            dao.updateItem(info);
+            }
         }
     }
 
-    public void removeItemByTypeAndPosition(int showType,int showPosition){
-        dao.removeItemByTypeAndPosition(showType,showPosition);
+    public AppInfo getAppInfo(String pkgName){
+        return dao.queryItemByPkgName(pkgName);
     }
 
-    public boolean checkPackage(String packageName){
-        return dao.queryItemByPkgName(packageName)==null;
+    /**
+     * 检查图标showType是否与已储存的内容相同
+     *
+     * @param info
+     * @return null未改变 有返回值说明该值改变
+     */
+    private AppInfo checkItemShowTypeChange(AppInfo info) {
+        AppInfo infoTemp = dao.queryItemByPkgName(info.getPkgName());
+       if(infoTemp.getScreenShowType() != info.getScreenShowType()){
+           return infoTemp;
+       }else{
+           return null;
+       }
     }
 
+    public void removeItemByTypeAndPosition(int showType, int showPosition) {
+        dao.removeItemByTypeAndPosition(showType, showPosition);
+    }
+
+    /**
+     * 检查是否已经存在
+     *
+     * @param packageName
+     * @return
+     */
+    public boolean checkPackage(String packageName) {
+        return dao.queryItemByPkgName(packageName) == null;
+    }
+
+    public int getSlideIconNumber() {
+        return slideIconNumber;
+    }
+
+    public AppInfoManager setSlideIconNumber(int slideIconNumber) {
+        this.slideIconNumber = slideIconNumber;
+        return this;
+    }
+
+    public int getBottomIconNumber() {
+        return bottomIconNumber;
+    }
+
+    public AppInfoManager setBottomIconNumber(int bottomIconNumber) {
+        this.bottomIconNumber = bottomIconNumber;
+        return this;
+    }
 }

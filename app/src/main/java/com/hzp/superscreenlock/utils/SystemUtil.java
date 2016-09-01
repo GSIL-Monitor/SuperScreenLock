@@ -62,6 +62,7 @@ public class SystemUtil {
     }
 
     public static AppInfo queryAppInfo(Context context,String packageName){
+
         PackageManager pm = context.getPackageManager();
         AppInfo appInfo = null;
         try {

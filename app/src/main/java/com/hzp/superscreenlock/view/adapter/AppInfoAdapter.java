@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.hzp.superscreenlock.R;
 import com.hzp.superscreenlock.entity.AppInfo;
+import com.hzp.superscreenlock.manager.AppInfoManager;
 import com.hzp.superscreenlock.utils.LogUtil;
 
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ public static final String TAG = AppInfoAdapter.class.getSimpleName();
         } else {
             this.list = new ArrayList<>();
         }
+        Collections.sort(this.list);
     }
 
     public void addItem(AppInfo item) {
@@ -48,6 +50,7 @@ public static final String TAG = AppInfoAdapter.class.getSimpleName();
         }
         int position = getItemCount();
         list.add(item);
+        Collections.sort(list);
         notifyItemInserted(position);
     }
 
@@ -94,6 +97,12 @@ public static final String TAG = AppInfoAdapter.class.getSimpleName();
                     break;
                     default:
                         holder.label.setVisibility(View.GONE);
+        }
+
+        if(getType()!=TYPE_EDIT && appInfo.getPkgName().equals(AppInfoManager.STUB_PACKAGE_NAME)){//非编辑模式下的stub不显示
+            holder.itemView.setVisibility(View.INVISIBLE);
+        }else{
+            holder.itemView.setVisibility(View.VISIBLE);
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
