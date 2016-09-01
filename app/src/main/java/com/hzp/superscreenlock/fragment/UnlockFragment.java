@@ -2,6 +2,10 @@ package com.hzp.superscreenlock.fragment;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -17,6 +21,7 @@ import android.widget.Toast;
 
 import com.hzp.superscreenlock.R;
 import com.hzp.superscreenlock.locker.LockManager;
+import com.hzp.superscreenlock.utils.BlurUtil;
 import com.hzp.superscreenlock.utils.SystemUtil;
 import com.hzp.superscreenlock.view.Lock9View;
 
@@ -82,6 +87,13 @@ public class UnlockFragment extends Fragment {
             default:
                 throw new IllegalArgumentException("wrong unlock display type");
         }
+
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg_screenlock_blue);
+        Bitmap newImg = BlurUtil.doBlur(bitmap, 20, 10);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            view.setBackground(new BitmapDrawable(newImg));
+        }
+        bitmap.recycle();
 
         return view;
     }

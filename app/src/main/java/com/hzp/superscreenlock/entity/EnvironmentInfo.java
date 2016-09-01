@@ -32,7 +32,7 @@ public class EnvironmentInfo{
     }
 
     private String title;
-    private String hint;
+    private String hint="";//默认为空 需求暂时不需要显示
     private String type;
     private LockType lockType;
     private String password;

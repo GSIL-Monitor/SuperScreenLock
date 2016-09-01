@@ -179,4 +179,18 @@ public class AppInfoManager {
         this.bottomIconNumber = bottomIconNumber;
         return this;
     }
+
+    public void removeItemsAndSort(AppInfo info){
+        List<AppInfo> listToSort = dao.queryItemsByShowType(info.getScreenShowType(),info.getShowPosition()+1);
+        dao.removeItem(info.getPkgName());
+        //重新排序剩下的
+        for (AppInfo i :
+                listToSort) {
+            if (i.getShowPosition() >= 0) {
+                i.setShowPosition(i.getShowPosition()-1);
+                dao.updateItem(i);
+            }
+        }
+
+    }
 }

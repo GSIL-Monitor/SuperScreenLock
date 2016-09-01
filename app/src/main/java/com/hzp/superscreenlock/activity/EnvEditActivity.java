@@ -91,10 +91,12 @@ public class EnvEditActivity extends AppCompatActivity
         if(TextUtils.isEmpty(info.getTitle())){
             Toast.makeText(getApplicationContext(),"场景名称未填写！",Toast.LENGTH_SHORT).show();
             return;
-        }else if(TextUtils.isEmpty(info.getHint())){
-            Toast.makeText(getApplicationContext(),"场景提示未填写！",Toast.LENGTH_SHORT).show();
-            return;
-        }else if(TextUtils.isEmpty(info.getType())){
+        }
+//        else if(TextUtils.isEmpty(info.getHint())){
+//            Toast.makeText(getApplicationContext(),"场景提示未填写！",Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+        else if(TextUtils.isEmpty(info.getType())){
             Toast.makeText(getApplicationContext(),"还未选择场景！",Toast.LENGTH_SHORT).show();
             return;
         }else if(info.getLockType()==null || TextUtils.isEmpty(info.getLockType().toString())){

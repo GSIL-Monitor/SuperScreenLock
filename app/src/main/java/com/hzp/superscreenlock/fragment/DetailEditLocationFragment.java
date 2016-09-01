@@ -54,15 +54,17 @@ public class DetailEditLocationFragment extends Fragment {
         mBaiduMap = mMapView.getMap();
         mBaiduMap.setMyLocationEnabled(true);
         Location location = MyLocationManager.getInstance().getCurrentLocation();
-        //设定中心点坐标
-        LatLng cenpt = new LatLng(location.getLatitude(),location.getLongitude());
-        //定义地图状态
-        mMapStatus = new MapStatus.Builder()
-                .target(cenpt)
-                .build();
-        MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
-        //改变地图状态
-        mBaiduMap.setMapStatus(mMapStatusUpdate);
+        if(location!=null){
+            //设定中心点坐标
+            LatLng cenpt = new LatLng(location.getLatitude(),location.getLongitude());
+            //定义地图状态
+            mMapStatus = new MapStatus.Builder()
+                    .target(cenpt)
+                    .build();
+            MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
+            //改变地图状态
+            mBaiduMap.setMapStatus(mMapStatusUpdate);
+        }
 
         mBaiduMap.setOnMapStatusChangeListener(new BaiduMap.OnMapStatusChangeListener() {
             @Override

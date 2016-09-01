@@ -16,6 +16,7 @@ import com.hzp.superscreenlock.entity.AppInfo;
 import com.hzp.superscreenlock.manager.AppInfoManager;
 import com.hzp.superscreenlock.utils.LogUtil;
 import com.hzp.superscreenlock.view.AppSelectDialog;
+import com.hzp.superscreenlock.view.LinearSpaceItemDecoration;
 import com.hzp.superscreenlock.view.adapter.AppInfoAdapter;
 
 public class ScreenIconSettingActivity extends AppCompatActivity implements AppInfoAdapter.AppInfoListener, AppSelectDialog.AppSelectDialogListener {
@@ -35,7 +36,7 @@ public class ScreenIconSettingActivity extends AppCompatActivity implements AppI
             switch (action) {
                 case "com.hzp.superscreenlock.activity.ScreenIconSettingActivity.bottom":
                     view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.fragment_lock_screen_main, null);
-                    view.findViewById(R.id.circle_text_hint).setVisibility(View.GONE);
+                    view.findViewById(R.id.hint_icon_image).setVisibility(View.GONE);
                     showType = AppInfo.SCREEN_SHOW_TYPE_BOTTOM;
                     break;
                 case "com.hzp.superscreenlock.activity.ScreenIconSettingActivity.slide":
@@ -66,6 +67,7 @@ public class ScreenIconSettingActivity extends AppCompatActivity implements AppI
                 recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,true));
                 appInfoAdapter = new AppInfoAdapter(AppInfoManager.getInstance()
                         .getListToDisplay(AppInfo.SCREEN_SHOW_TYPE_SLIDE));
+                recyclerView.addItemDecoration(new LinearSpaceItemDecoration(25));
 
                 break;
             default:

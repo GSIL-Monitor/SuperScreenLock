@@ -7,10 +7,10 @@
         android:summary="为该场景设置一个唯一的名称"
         android:title="场景名称" />
 
-    <EditTextPreference
-        android:key="KEY_ENV_HINT"
-        android:summary="显示在锁屏界面上的提示文字,用于标识当前场景"
-        android:title="场景提示" />
+    <!--<EditTextPreference-->
+        <!--android:key="KEY_ENV_HINT"-->
+        <!--android:summary="显示在锁屏界面上的提示文字,用于标识当前场景"-->
+        <!--android:title="场景提示" />-->
 
         <ListPreference
             android:title="场景选择"

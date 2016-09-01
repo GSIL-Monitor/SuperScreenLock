@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,6 +26,7 @@ import com.hzp.superscreenlock.locker.LockManager;
 import com.hzp.superscreenlock.manager.AppInfoManager;
 import com.hzp.superscreenlock.utils.LogUtil;
 import com.hzp.superscreenlock.utils.WindowUtil;
+import com.hzp.superscreenlock.view.LinearSpaceItemDecoration;
 import com.hzp.superscreenlock.view.adapter.AppInfoAdapter;
 
 
@@ -37,7 +41,7 @@ public class LockScreenActivity extends AppCompatActivity implements LockManager
 
     private int displayHeightPx = 0;
     private float touchThreshold;
-    private float touchStartX=0f,touchStartY = 0f;
+    private float touchStartX = 0f, touchStartY = 0f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,14 +66,16 @@ public class LockScreenActivity extends AppCompatActivity implements LockManager
         setupDrawerRecyclerView();
     }
 
-    private void setupDrawerRecyclerView(){
-        drawerRecyclerView  = (RecyclerView) findViewById(R.id.drawer_recycler_view);
+    private void setupDrawerRecyclerView() {
+        drawerRecyclerView = (RecyclerView) findViewById(R.id.drawer_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setReverseLayout(true);
         drawerRecyclerView.setLayoutManager(linearLayoutManager);
         appInfoAdapter = new AppInfoAdapter(AppInfoManager.getInstance()
                 .getListToDisplay(AppInfo.SCREEN_SHOW_TYPE_SLIDE));
         appInfoAdapter.setListener(this);
+        drawerRecyclerView.addItemDecoration(new LinearSpaceItemDecoration(25));
+
         drawerRecyclerView.setAdapter(appInfoAdapter);
 
     }
@@ -132,7 +138,7 @@ public class LockScreenActivity extends AppCompatActivity implements LockManager
     }
 
     @Override
-    public int getFragmentContainerResId(){
+    public int getFragmentContainerResId() {
         return R.id.lock_screen_frameLayout;
     }
 
@@ -168,13 +174,13 @@ public class LockScreenActivity extends AppCompatActivity implements LockManager
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        LogUtil.i(TAG,"new intent arrived = "+intent.toString());
+        LogUtil.i(TAG, "new intent arrived = " + intent.toString());
         setupFragments();
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        switch (event.getAction()){
+        switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 touchStartY = event.getY();
                 touchStartX = event.getX();
@@ -182,15 +188,31 @@ public class LockScreenActivity extends AppCompatActivity implements LockManager
             case MotionEvent.ACTION_MOVE:
                 break;
             case MotionEvent.ACTION_UP:
-                if(event.getY()-touchStartY>touchThreshold
-                        && Math.abs(event.getX()-touchStartX)<touchThreshold){
+                if (event.getY() - touchStartY > touchThreshold
+                        && Math.abs(event.getX() - touchStartX) < touchThreshold) {
                     //向下滑动
                     LockManager.getInstance().startUnlockView
-                            (this, getSupportFragmentManager(),null);
+                            (this, getSupportFragmentManager(), null);
                     return true;
-                }else if(event.getY()-touchStartY<-touchThreshold
-                        && Math.abs(event.getX()-touchStartX)<touchThreshold ){
-                   //向上滑动
+                } else if (event.getY() - touchStartY < -touchThreshold
+                        && Math.abs(event.getX() - touchStartX) < touchThreshold) {
+                    //向上滑动
+                } else if (event.getX() - touchStartX > touchThreshold
+                        && Math.abs(event.getY() - touchStartY) < touchThreshold) {
+                    //向右滑动
+                    LogUtil.d(TAG, "向右滑动");
+                    //打开侧边栏
+                    drawerLayout.openDrawer(GravityCompat.START);
+                } else if (event.getX() - touchStartX < -touchThreshold
+                        && Math.abs(event.getY() - touchStartY) < touchThreshold) {
+                    //向左滑动
+                    LogUtil.d(TAG, "向左滑动");
+                    if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                    }else{
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivity(intent);
+                    }
                 }
                 break;
         }
@@ -199,7 +221,7 @@ public class LockScreenActivity extends AppCompatActivity implements LockManager
 
     @Override
     public void onItemClick(AppInfo appInfo, int position) {
-        LockManager.getInstance().startUnlockView(this,getSupportFragmentManager(),appInfo.getIntent());
+        LockManager.getInstance().startUnlockView(this, getSupportFragmentManager(), appInfo.getIntent());
     }
 
 }

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.WindowManager;
 
 import com.hzp.superscreenlock.entity.EnvironmentInfo;
 import com.hzp.superscreenlock.fragment.UnlockFragment;
@@ -66,10 +67,9 @@ public class LockManager {
         }
         this.startIntent = startIntent;
 
-        String hint = currentEnvironment.getHint();
         EnvironmentInfo.LockType lockType = currentEnvironment.getLockType();
 
-        LogUtil.i(TAG, "start unlock: hint=" + hint + " lockType=" + lockType);
+        LogUtil.i(TAG, "start unlock: lockType =" + lockType);
         switch (lockType) {
             case LOCK_TYPE_NONE://直接解锁
                 unlockScreen();
@@ -105,6 +105,7 @@ public class LockManager {
 
         if(startIntent!=null){
             LogUtil.i(TAG,"start intent = "+startIntent.toString());
+            startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(startIntent);
             startIntent = null;
         }

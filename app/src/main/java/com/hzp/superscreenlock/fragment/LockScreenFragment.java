@@ -5,6 +5,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -12,14 +15,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hzp.superscreenlock.R;
+import com.hzp.superscreenlock.activity.MainActivity;
 import com.hzp.superscreenlock.entity.AppInfo;
 import com.hzp.superscreenlock.entity.EnvironmentInfo;
 import com.hzp.superscreenlock.locker.LockManager;
 import com.hzp.superscreenlock.manager.AppInfoManager;
-import com.hzp.superscreenlock.view.CircleTextView;
+import com.hzp.superscreenlock.utils.BlurUtil;
 import com.hzp.superscreenlock.view.adapter.AppInfoAdapter;
 
 import java.text.SimpleDateFormat;
@@ -31,7 +36,7 @@ public class LockScreenFragment extends Fragment implements AppInfoAdapter.AppIn
 
     private RecyclerView mainRecyclerView;
     private AppInfoAdapter appInfoAdapter;
-    private CircleTextView hintTextView;
+    private ImageView hintIconImageView;
     private TextView timeTv;
 
     private TimeReceiver timeReceiver;
@@ -57,12 +62,14 @@ public class LockScreenFragment extends Fragment implements AppInfoAdapter.AppIn
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_lock_screen_main, container, false);
 
-        hintTextView = (CircleTextView) view.findViewById(R.id.circle_text_hint);
+        hintIconImageView = (ImageView) view.findViewById(R.id.hint_icon_image);
         mainRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_main);
         timeTv = (TextView) view.findViewById(R.id.lock_screen_time);
         timeTv.setText(getFormatCurrentTime());
 
         setupMainRecyclerView();
+
+        setupHintIcon();
 
         return view;
     }
@@ -70,7 +77,6 @@ public class LockScreenFragment extends Fragment implements AppInfoAdapter.AppIn
     @Override
     public void onResume() {
         super.onResume();
-        setupHintText();//更新场景提示
         registerTimeReceiver();
     }
 
@@ -92,10 +98,23 @@ public class LockScreenFragment extends Fragment implements AppInfoAdapter.AppIn
 
     }
 
-    private void setupHintText(){
+    /**
+     * 设置显示在屏幕右上角的图标
+     */
+    private void setupHintIcon(){
         EnvironmentInfo currentEnv = LockManager.getInstance().getCurrentEnvironment();
         if(currentEnv!=null){
-            hintTextView.setText(currentEnv.getHint());
+            hintIconImageView.setImageResource(R.drawable.ic_lock_screen);
+            hintIconImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent startIntent = new Intent(getActivity(), MainActivity.class);
+                    LockManager.getInstance().startUnlockView(
+                            getActivity()
+                            ,getActivity().getSupportFragmentManager()
+                            ,startIntent);
+                }
+            });
         }
     }
 
