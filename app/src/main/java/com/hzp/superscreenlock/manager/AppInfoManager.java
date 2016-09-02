@@ -180,6 +180,10 @@ public class AppInfoManager {
         return this;
     }
 
+    /**
+     * 删除某个快捷图标，然后将剩下的图标重新排序以对齐
+     * @param info
+     */
     public void removeItemsAndSort(AppInfo info){
         List<AppInfo> listToSort = dao.queryItemsByShowType(info.getScreenShowType(),info.getShowPosition()+1);
         //删除选定的
