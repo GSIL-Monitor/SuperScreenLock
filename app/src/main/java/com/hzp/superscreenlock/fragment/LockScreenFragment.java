@@ -33,7 +33,6 @@ public class LockScreenFragment extends Fragment implements AppInfoAdapter.AppIn
 
     private RecyclerView mainRecyclerView;
     private AppInfoAdapter appInfoAdapter;
-    private ImageView hintIconImageView;
     private TextView timeTv,dateTv;
 
     private TimeReceiver timeReceiver;
@@ -60,7 +59,7 @@ public class LockScreenFragment extends Fragment implements AppInfoAdapter.AppIn
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_lock_screen_main, container, false);
 
-        hintIconImageView = (ImageView) view.findViewById(R.id.hint_icon_image);
+
         mainRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_main);
         timeTv = (TextView) view.findViewById(R.id.lock_screen_time);
         timeTv.setText(getFormatCurrentTime());
@@ -68,8 +67,6 @@ public class LockScreenFragment extends Fragment implements AppInfoAdapter.AppIn
         dateTv.setText(getFormatCurrentDate());
 
         setupMainRecyclerView();
-
-        setupHintIcon();
 
         return view;
     }
@@ -99,25 +96,6 @@ public class LockScreenFragment extends Fragment implements AppInfoAdapter.AppIn
 
     }
 
-    /**
-     * 设置显示在屏幕右上角的图标
-     */
-    private void setupHintIcon(){
-        EnvironmentInfo currentEnv = LockManager.getInstance().getCurrentEnvironment();
-        if(currentEnv!=null){
-            hintIconImageView.setImageResource(R.drawable.ic_lock_screen);
-            hintIconImageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent startIntent = new Intent(getActivity(), MainActivity.class);
-                    LockManager.getInstance().startUnlockView(
-                            getActivity()
-                            ,getActivity().getSupportFragmentManager()
-                            ,startIntent);
-                }
-            });
-        }
-    }
 
     private void registerTimeReceiver(){
         IntentFilter intentFilter = new IntentFilter();

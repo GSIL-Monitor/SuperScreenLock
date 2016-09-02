@@ -18,9 +18,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
 import com.hzp.superscreenlock.R;
 import com.hzp.superscreenlock.entity.AppInfo;
+import com.hzp.superscreenlock.entity.EnvironmentInfo;
 import com.hzp.superscreenlock.fragment.LockScreenFragment;
 import com.hzp.superscreenlock.locker.LockManager;
 import com.hzp.superscreenlock.manager.AppInfoManager;
@@ -35,6 +37,7 @@ public class LockScreenActivity extends AppCompatActivity implements LockManager
 
     private LockScreenFragment mainFragment;
     private DrawerLayout drawerLayout;
+    private ImageView hintIconImageView;
 
     private RecyclerView drawerRecyclerView;
     private AppInfoAdapter appInfoAdapter;
@@ -58,12 +61,14 @@ public class LockScreenActivity extends AppCompatActivity implements LockManager
     private void initViews() {
         drawerLayout = (DrawerLayout) findViewById(R.id.lock_screen_drawer_layout);
         drawerLayout.setOnTouchListener(this);
+        hintIconImageView = (ImageView) findViewById(R.id.hint_icon_image);
         displayHeightPx = WindowUtil.getDisplayDimensionWithPx(this)[0];
         touchThreshold = (float) (displayHeightPx * 0.3);
 
         setupSystemViews();
         setupFragments();
         setupDrawerRecyclerView();
+        setupHintIcon();
     }
 
     private void setupDrawerRecyclerView() {
@@ -135,6 +140,26 @@ public class LockScreenActivity extends AppCompatActivity implements LockManager
         }
 
         showDrawer();
+    }
+
+    /**
+     * 设置显示在屏幕左上角的图标
+     */
+    private void setupHintIcon(){
+        EnvironmentInfo currentEnv = LockManager.getInstance().getCurrentEnvironment();
+        if(currentEnv!=null){
+            hintIconImageView.setImageResource(R.drawable.ic_lock_screen);
+            hintIconImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent startIntent = new Intent(LockScreenActivity.this, MainActivity.class);
+                    LockManager.getInstance().startUnlockView(
+                            LockScreenActivity.this
+                            ,getSupportFragmentManager()
+                            ,startIntent);
+                }
+            });
+        }
     }
 
     @Override

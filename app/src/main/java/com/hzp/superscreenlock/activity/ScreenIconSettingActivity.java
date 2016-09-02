@@ -48,6 +48,7 @@ public class ScreenIconSettingActivity extends AppCompatActivity implements AppI
                     return;
             }
             view.setBackgroundResource(R.drawable.bg_screenlock_blue);
+            view.findViewById(R.id.hint_icon_image).setVisibility(View.VISIBLE);
 
             setContentView(view);
             setupRecyclerView();

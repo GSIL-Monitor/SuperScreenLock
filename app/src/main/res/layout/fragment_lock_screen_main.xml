@@ -23,17 +23,7 @@
             android:layout_marginTop="15dp"
             android:layout_alignParentBottom="true" />
 
-        <ImageView
-            android:id="@+id/hint_icon_image"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:gravity="center"
-            android:layout_marginRight="24dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginTop="39dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+
 
         <TextView
             android:id="@+id/lock_screen_time"
@@ -42,9 +32,8 @@
             android:text="11:10"
             android:textSize="50sp"
             android:textColor="@android:color/white"
-            android:layout_below="@+id/hint_icon_image"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="76dp" />
+            android:layout_marginTop="100dp" />
 
         <TextView
             android:id="@+id/lock_screen_date"
@@ -55,7 +44,7 @@
             android:textColor="@android:color/white"
             android:layout_below="@+id/lock_screen_time"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="2dp" />
 
     </RelativeLayout>
 
