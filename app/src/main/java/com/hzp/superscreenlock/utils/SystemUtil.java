@@ -31,7 +31,7 @@ public class SystemUtil {
     public static final String TAG = "SystemUtil";
 
 
-    public static String[] weeks = {"星期六","星期日","星期一","星期二","星期三","星期四","星期五",};
+    public static String[] weeks = {"星期六", "星期日", "星期一", "星期二", "星期三", "星期四", "星期五",};
 
     /**
      * 获取系统内安装的应用信息
@@ -64,18 +64,18 @@ public class SystemUtil {
         }
     }
 
-    public static AppInfo queryAppInfo(Context context,String packageName){
+    public static AppInfo queryAppInfo(Context context, String packageName) {
 
         PackageManager pm = context.getPackageManager();
         AppInfo appInfo = null;
         try {
-             ApplicationInfo info = pm.getApplicationInfo(packageName,
-                            PackageManager.GET_META_DATA);
+            ApplicationInfo info = pm.getApplicationInfo(packageName,
+                    PackageManager.GET_META_DATA);
             String label = pm.getApplicationLabel(info).toString();
             Drawable icon = pm.getApplicationIcon(info);
             Intent launchIntent = pm.getLaunchIntentForPackage(packageName);
 
-            appInfo= new AppInfo();
+            appInfo = new AppInfo();
             appInfo.setPkgName(packageName)
                     .setAppLabel(label)
                     .setAppIcon(icon)
@@ -90,31 +90,37 @@ public class SystemUtil {
 
     /**
      * 获得当前连接wifi的SSID
+     *
      * @param context
      * @return SSID 可能为null
      */
     public static String getCurrentWifiSSID(Context context) {
         WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-        if(!wifiManager.isWifiEnabled()){
+        if (!wifiManager.isWifiEnabled()) {
             return null;
         }
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-        return wifiInfo.getSSID().replace('\"',' ').trim();//去除掉可能存在的双引号
+        return wifiInfo.getSSID().replace('\"', ' ').trim();//去除掉可能存在的双引号
     }
 
     /**
      * 获得已配置的wifi热点的SSID
+     *
      * @param context
      * @return SSID
      */
-    public static String[] getConfiguredWifiSSID(Context context){
+    public static String[] getConfiguredWifiSSID(Context context) {
         WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         List<WifiConfiguration> wifiList = wifiManager.getConfiguredNetworks();
-        String[] re = new String[wifiList.size()];
-        for(int i =0;i<wifiList.size();i++){
-            re[i] = wifiList.get(i).SSID.replace('\"',' ').trim();
+        if (wifiList != null) {
+            String[] re = new String[wifiList.size()];
+            for (int i = 0; i < wifiList.size(); i++) {
+                re[i] = wifiList.get(i).SSID.replace('\"', ' ').trim();
+            }
+            return re;
+        }else {
+            return null;
         }
-        return re;
     }
 
     public static String encryptString(String content) {
@@ -133,12 +139,12 @@ public class SystemUtil {
             }
 
             return strBuf.toString().toUpperCase();
-        } catch (NoSuchAlgorithmException|UnsupportedEncodingException e) {
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
             throw new RuntimeException(e.toString());
         }
     }
 
-    public static String getWeek(int dayOfWeek){
+    public static String getWeek(int dayOfWeek) {
         return weeks[dayOfWeek];
     }
 

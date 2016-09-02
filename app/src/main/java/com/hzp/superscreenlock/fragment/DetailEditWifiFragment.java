@@ -50,10 +50,13 @@ public class DetailEditWifiFragment extends Fragment  implements AdapterCallback
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         List<WifiInfo> wifiList  = new ArrayList<>();
-        for(String ssid :SystemUtil.getConfiguredWifiSSID(getContext())){
-            WifiInfo t = new WifiInfo();
-            t.setSSID(ssid);
-            wifiList.add(t);
+        String[] systemWifiSSIDList = SystemUtil.getConfiguredWifiSSID(getContext());
+        if(systemWifiSSIDList!=null){
+            for(String ssid :systemWifiSSIDList){
+                WifiInfo t = new WifiInfo();
+                t.setSSID(ssid);
+                wifiList.add(t);
+            }
         }
         wifiInfoAdapter = new WifiInfoAdapter(wifiList);
         wifiInfoAdapter.setCallback(this);
