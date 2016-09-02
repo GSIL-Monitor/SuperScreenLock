@@ -37,18 +37,17 @@ public class ScreenIconSettingActivity extends AppCompatActivity implements AppI
             switch (action) {
                 case "com.hzp.superscreenlock.activity.ScreenIconSettingActivity.bottom":
                     view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.fragment_lock_screen_main, null);
-                    view.findViewById(R.id.hint_icon_image).setVisibility(View.GONE);
                     showType = AppInfo.SCREEN_SHOW_TYPE_BOTTOM;
                     break;
                 case "com.hzp.superscreenlock.activity.ScreenIconSettingActivity.slide":
                     view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.drawer_layout_content, null);
+                    view.findViewById(R.id.hint_icon_image).setVisibility(View.GONE);
                     showType = AppInfo.SCREEN_SHOW_TYPE_SLIDE;
                     break;
                 default:
                     return;
             }
             view.setBackgroundResource(R.drawable.bg_screenlock_blue);
-            view.findViewById(R.id.hint_icon_image).setVisibility(View.VISIBLE);
 
             setContentView(view);
             setupRecyclerView();
