@@ -116,11 +116,28 @@ public static final String TAG = AppInfoAdapter.class.getSimpleName();
                 }
             }
         });
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                int position = holder.getLayoutPosition();
+                LogUtil.i(TAG,"app ={"+appInfo.getPkgName()+"} position = "+position+" is long click");
+
+                if(listener!=null){
+                    listener.onItemLongClick(appInfo,position);
+                }
+                return false;
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    public void removeItem(AppInfo info){
+        list.remove(info);
+        notifyDataSetChanged();
     }
 
     public void clear() {
@@ -159,5 +176,7 @@ public static final String TAG = AppInfoAdapter.class.getSimpleName();
          * @param appInfo
          */
         void onItemClick(AppInfo appInfo,int position);
+
+        void onItemLongClick(AppInfo appInfo,int position);
     }
 }

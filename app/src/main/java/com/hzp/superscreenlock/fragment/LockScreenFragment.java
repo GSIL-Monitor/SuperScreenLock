@@ -138,6 +138,11 @@ public class LockScreenFragment extends Fragment implements AppInfoAdapter.AppIn
                 appInfo.getIntent());
     }
 
+    @Override
+    public void onItemLongClick(AppInfo appInfo, int position) {
+
+    }
+
     private class TimeReceiver extends BroadcastReceiver{
 
         @Override

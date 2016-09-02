@@ -182,6 +182,7 @@ public class AppInfoManager {
 
     public void removeItemsAndSort(AppInfo info){
         List<AppInfo> listToSort = dao.queryItemsByShowType(info.getScreenShowType(),info.getShowPosition()+1);
+        //删除选定的
         dao.removeItem(info.getPkgName());
         //重新排序剩下的
         for (AppInfo i :

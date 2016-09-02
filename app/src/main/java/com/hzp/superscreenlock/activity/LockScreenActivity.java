@@ -224,4 +224,9 @@ public class LockScreenActivity extends AppCompatActivity implements LockManager
         LockManager.getInstance().startUnlockView(this, getSupportFragmentManager(), appInfo.getIntent());
     }
 
+    @Override
+    public void onItemLongClick(AppInfo appInfo, int position) {
+
+    }
+
 }

@@ -13,6 +13,7 @@ import android.view.View;
 
 import com.hzp.superscreenlock.R;
 import com.hzp.superscreenlock.entity.AppInfo;
+import com.hzp.superscreenlock.locker.LockManager;
 import com.hzp.superscreenlock.manager.AppInfoManager;
 import com.hzp.superscreenlock.utils.LogUtil;
 import com.hzp.superscreenlock.view.AppSelectDialog;
@@ -92,6 +93,13 @@ public class ScreenIconSettingActivity extends AppCompatActivity implements AppI
         AppSelectDialog.newInstance(position,showType)
                 .setSelectDialogListener(this)
                 .show(getFragmentManager(),"AppSelectDialog");
+    }
+
+    @Override
+    public void onItemLongClick(AppInfo appInfo, int position) {
+        //长按删除
+        AppInfoManager.getInstance().removeItemsAndSort(appInfo);
+        appInfoAdapter.removeItem(appInfo);
     }
 
 

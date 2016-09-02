@@ -105,6 +105,11 @@ public class AppSelectDialog extends DialogFragment implements AppInfoManager.Ap
         dismiss();
     }
 
+    @Override
+    public void onItemLongClick(AppInfo appInfo, int position) {
+
+    }
+
 
     public AppSelectDialog setSelectDialogListener(AppSelectDialogListener selectDialogListener) {
         this.selectDialogListener = selectDialogListener;
