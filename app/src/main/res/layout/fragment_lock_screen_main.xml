@@ -39,12 +39,23 @@
             android:id="@+id/lock_screen_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="00:00"
+            android:text="11:10"
             android:textSize="50sp"
             android:textColor="@android:color/white"
             android:layout_below="@+id/hint_icon_image"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="76dp" />
+
+        <TextView
+            android:id="@+id/lock_screen_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2016/9/2 星期五"
+            android:textSize="12sp"
+            android:textColor="@android:color/white"
+            android:layout_below="@+id/lock_screen_time"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp" />
 
     </RelativeLayout>
 

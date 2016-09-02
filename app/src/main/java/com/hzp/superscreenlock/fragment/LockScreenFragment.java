@@ -5,9 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -24,7 +21,7 @@ import com.hzp.superscreenlock.entity.AppInfo;
 import com.hzp.superscreenlock.entity.EnvironmentInfo;
 import com.hzp.superscreenlock.locker.LockManager;
 import com.hzp.superscreenlock.manager.AppInfoManager;
-import com.hzp.superscreenlock.utils.BlurUtil;
+import com.hzp.superscreenlock.utils.SystemUtil;
 import com.hzp.superscreenlock.view.adapter.AppInfoAdapter;
 
 import java.text.SimpleDateFormat;
@@ -37,10 +34,10 @@ public class LockScreenFragment extends Fragment implements AppInfoAdapter.AppIn
     private RecyclerView mainRecyclerView;
     private AppInfoAdapter appInfoAdapter;
     private ImageView hintIconImageView;
-    private TextView timeTv;
+    private TextView timeTv,dateTv;
 
     private TimeReceiver timeReceiver;
-    private SimpleDateFormat dateFormat;
+    private SimpleDateFormat timeFormat,dateFormat;
 
 
     public LockScreenFragment() {
@@ -54,7 +51,8 @@ public class LockScreenFragment extends Fragment implements AppInfoAdapter.AppIn
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        dateFormat = new SimpleDateFormat("yyyy/MM/dd",Locale.getDefault());
     }
 
     @Override
@@ -66,6 +64,8 @@ public class LockScreenFragment extends Fragment implements AppInfoAdapter.AppIn
         mainRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_main);
         timeTv = (TextView) view.findViewById(R.id.lock_screen_time);
         timeTv.setText(getFormatCurrentTime());
+        dateTv = (TextView) view.findViewById(R.id.lock_screen_date);
+        dateTv.setText(getFormatCurrentDate());
 
         setupMainRecyclerView();
 
@@ -73,6 +73,7 @@ public class LockScreenFragment extends Fragment implements AppInfoAdapter.AppIn
 
         return view;
     }
+
 
     @Override
     public void onResume() {
@@ -128,7 +129,13 @@ public class LockScreenFragment extends Fragment implements AppInfoAdapter.AppIn
     }
 
     private String getFormatCurrentTime(){
-       return  dateFormat.format(Calendar.getInstance().getTimeInMillis());
+       return  timeFormat.format(Calendar.getInstance().getTimeInMillis());
+    }
+
+    private String getFormatCurrentDate() {
+        String date = dateFormat.format(Calendar.getInstance().getTimeInMillis());
+        String week = SystemUtil.getWeek(Calendar.getInstance().get(Calendar.DAY_OF_WEEK));
+        return date +" "+week;
     }
 
     @Override

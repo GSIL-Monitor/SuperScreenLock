@@ -30,6 +30,9 @@ import java.util.List;
 public class SystemUtil {
     public static final String TAG = "SystemUtil";
 
+
+    public static String[] weeks = {"星期六","星期日","星期一","星期二","星期三","星期四","星期五",};
+
     /**
      * 获取系统内安装的应用信息
      *
@@ -133,6 +136,10 @@ public class SystemUtil {
         } catch (NoSuchAlgorithmException|UnsupportedEncodingException e) {
             throw new RuntimeException(e.toString());
         }
+    }
+
+    public static String getWeek(int dayOfWeek){
+        return weeks[dayOfWeek];
     }
 
     public interface AppsInfoQueryCallback {
